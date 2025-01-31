@@ -1,15 +1,64 @@
+"use client";
+
 import React, { useState } from "react";
-import { Box, Typography, IconButton, Stack } from "@mui/material";
-import { Star, StarOff, X as Close } from "lucide-react";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+  Box,
+  Stack,
+  Text,
+  Heading,
+  Button,
+  Input,
+  IconButton,
+  Flex,
+  createListCollection
+} from "@chakra-ui/react";
+
+import {
+  SelectContent,
+  SelectItem,
+  SelectLabel,
+  SelectRoot,
+  SelectTrigger,
+  SelectValueText,
+} from "@/components/chakra-snippets/select";
+
+import {
+  Star as StarIcon,
+  StarOff as StarOffIcon,
+  X as XIcon,
+} from "lucide-react";
 import { useListingCreationContext } from "@/context/ListingCreationContext";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { Textarea } from "@/components/ui/textarea"
+
+
+
+const tagOptions = createListCollection({
+  items: [
+    { label: "Other", value: "Other" },
+    { label: "Living Room", value: "Living Room" },
+    { label: "Bedroom", value: "Bedroom" },
+    { label: "Kitchen", value: "Kitchen" },
+    { label: "Bathroom", value: "Bathroom" },
+    { label: "Outdoor", value: "Outdoor" },
+  ],
+});
+
+
+
+
+// ✅ Correctly create a collection of select options
 
 const UploadPhotos = () => {
+  const listingContext = useListingCreationContext();
+  if (!listingContext) {
+    return (
+      <Text color="red.500">
+        Error: Context not available. Please check the provider.
+      </Text>
+    );
+  }
+
   const { uploadedFiles, setUploadedFiles, imageDetails, setImageDetails } =
-    useListingCreationContext();
+    listingContext;
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
@@ -20,7 +69,7 @@ const UploadPhotos = () => {
       tag: "Other",
       description: "",
       isFavorite: false,
-      order: imageDetails.length + index + 1, // Default order value
+      order: imageDetails.length + index + 1,
     }));
 
     setUploadedFiles((prev) => [...prev, ...files]);
@@ -32,10 +81,10 @@ const UploadPhotos = () => {
     setImageDetails((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleSetCover = (index: number) => {
+  const handleOrderChange = (index: number, newOrder: number) => {
     setImageDetails((prev) =>
       prev.map((item, i) =>
-        i === index ? { ...item, isFavorite: !item.isFavorite } : item,
+        i === index ? { ...item, order: newOrder } : item,
       ),
     );
   };
@@ -54,208 +103,158 @@ const UploadPhotos = () => {
     );
   };
 
-  const handleOrderChange = (index: number, newOrder: number) => {
-    setImageDetails((prev) =>
-      prev.map((item, i) =>
-        i === index ? { ...item, order: newOrder } : item,
-      ),
-    );
-  };
-
-  const handleLogAllDetails = () => {
-    console.log("All Image Details:", imageDetails);
-  };
-
   return (
     <>
-      <Box sx={{ mb: "32px" }} className={"animate__animated animate__fadeIn"}>
-        <Typography variant="h4" sx={{ mb: "8px", fontWeight: 600 }}>
-          Upload Photos
-        </Typography>
-
-        <Typography variant="body1" color="black">
+      <Box mb="32px" className="animate__animated animate__fadeIn">
+        <Heading fontWeight="600">Upload Photos</Heading>
+        <Text color="gray.600">
           Upload at least 5 photos, maximum 50. Categorize each photo and add
           optional descriptions. Click the star icon to set a photo as the cover
           image.
-        </Typography>
+        </Text>
       </Box>
 
       <Box
-        sx={{
-          border: "1px solid #ddd",
-          borderRadius: "8px",
-          padding: "1.5rem",
-          maxWidth: "800px",
-          margin: "2rem auto",
-          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-        }}
+        p="1.5rem"
+    
+        margin="2rem auto"
+        backgroundColor="white"
+        borderRadius="lg"
+        boxShadow="md"
       >
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-        >
+        <Flex justify="space-between" align="center">
           <label htmlFor="file-upload">
-            <Box
-              component="span"
-              sx={{
-                display: "inline-block",
-                padding: "0.5rem 1rem",
-                backgroundColor: "white",
-                border: "1px solid lightgrey",
-                borderRadius: "8px",
-                cursor: "pointer",
-                fontWeight: "bold",
-                transition: "all 0.3s ease-in-out",
-                "&:hover": {
-                  transform: "translateY(-1px) scale(1.05)",
-                },
-              }}
+            <Button
+              as="span"
+              variant="outline"
+              colorScheme="blue"
+              fontWeight="bold"
+              cursor="pointer"
+              transition="all 0.3s ease-in-out"
+              _hover={{ transform: "translateY(-1px) scale(1.05)" }}
             >
               Upload Photos
-            </Box>
+            </Button>
           </label>
-          <input
+          <Input
             id="file-upload"
             type="file"
             accept="image/*"
             multiple
             onChange={handleFileUpload}
-            style={{ display: "none" }}
+            display="none"
           />
-          <Typography variant="body2" color="textSecondary">
+          <Text color="gray.600">
             {uploadedFiles.length} / 50 photos uploaded
-          </Typography>
-        </Stack>
+          </Text>
+        </Flex>
 
-        <Stack direction="row" flexWrap="wrap" gap={2} mt={3}>
-          {uploadedFiles.map((file, index) => (
-            <Box
-              key={index}
-              sx={{
-                border: "1px solid lightgrey",
-                borderRadius: "8px",
-                overflow: "hidden",
-                width: "200px",
-                position: "relative",
-              }}
-            >
+        {/* Uploaded Images */}
+        <Stack direction="row" flexWrap="wrap" gap={2} mt={3} overflow="auto">
+          {uploadedFiles.map((file, index) =>
+            file instanceof File ? (
               <Box
-                sx={{
-                  width: "100%",
-                  height: "150px",
-                  overflow: "hidden",
-                  position: "relative",
-                }}
+                key={index}
+                backgroundColor="white"
+                borderRadius="lg"
+                overflow="hidden"
+                width="200px"
+                position="relative"
               >
-                <img
-                  src={URL.createObjectURL(file)}
-                  alt="Uploaded"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
-                />
-                <IconButton
-                  onClick={() => handleSetCover(index)}
-                  sx={{
-                    position: "absolute",
-                    top: "8px",
-                    left: "8px",
-                    color: imageDetails[index]?.isFavorite ? "gold" : "white",
-                    backgroundColor: "rgba(0,0,0,0.5)",
-                  }}
+                <Box
+                  backgroundColor="gray.100"
+                  width="100%"
+                  height="150px"
+                  overflow="hidden"
+                  position="relative"
                 >
-                  {imageDetails[index]?.isFavorite ? <Star /> : <StarOff />}
-                </IconButton>
-                <IconButton
-                  onClick={() => handleRemoveImage(index)}
-                  sx={{
-                    position: "absolute",
-                    top: "8px",
-                    right: "8px",
-                    color: "white",
-                    backgroundColor: "rgba(0,0,0,0.5)",
-                  }}
-                >
-                  <Close />
-                </IconButton>
+                  <img
+                    src={URL.createObjectURL(file)}
+                    alt="Uploaded"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+
+                  <IconButton
+                    onClick={() => handleRemoveImage(index)}
+                    variant="ghost"
+                    size="sm"
+                    position="absolute"
+                    top="8px"
+                    right="8px"
+                  >
+                    <XIcon />
+                  </IconButton>
+                </Box>
+
+                <Box p={4}>
+                  <Text fontWeight="bold" mb={2}>
+                    Select Tag
+                  </Text>
+                  {/* ✅ FIXED Chakra UI Select Component */}
+
+                  <SelectRoot
+                   size="sm" width="320px"
+          
+                    variant="outline"
+                    collection={tagOptions}
+                    value={[imageDetails[index]?.tag]}
+                    onValueChange={(selected) =>
+                      handleTagChange(index, selected.value[0])
+                    }
+                 
+                  >
+                    <SelectLabel>Select Tag</SelectLabel>
+                    <SelectTrigger>
+                      <SelectValueText placeholder="Select tag" />
+                    </SelectTrigger>
+                    <SelectContent >
+                      {tagOptions.items.map((tag) => (
+                        <SelectItem key={tag.value} item={tag}>
+                          {tag.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </SelectRoot>
+
+
+                  <Text fontWeight="bold" mt={2}>
+                    Add Description
+                  </Text>
+                  <Input
+                    value={imageDetails[index]?.description || ""}
+                    onChange={(e) =>
+                      handleDescriptionChange(index, e.target.value)
+                    }
+                    placeholder="Add description (max 50 characters)"
+                    maxLength={50}
+                  />
+                  <Text fontWeight="bold" mt={2}>
+                    Set Order
+                  </Text>
+                  <Input
+                    type="number"
+                    value={imageDetails[index]?.order || ""}
+                    onChange={(e) =>
+                      handleOrderChange(index, parseInt(e.target.value, 10))
+                    }
+                    placeholder="Order"
+                  />
+                </Box>
               </Box>
-
-              <Box sx={{ padding: "8px" }}>
-                <Typography variant="subtitle2" sx={{ marginBottom: "8px" }}>
-                  Select Tag
-                </Typography>
-
-                <Select
-                  value={imageDetails[index]?.tag || "Other"}
-                  onValueChange={(newValue) => handleTagChange(index, newValue)}
-       
-                >
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Select a fruit" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-        
-                      <SelectItem value="Other">Other</SelectItem>
-                      <SelectItem value="Exterior">Exterior</SelectItem>
-                      <SelectItem value="Living Room">Living Room</SelectItem>
-                      <SelectItem value="Kitchen">Kitchen</SelectItem>
-                      <SelectItem value="Bedroom">Bedroom</SelectItem>
-                      <SelectItem value="Bathroom">Bathroom</SelectItem>
-                      <SelectItem value="Dining Room">Dining Room</SelectItem>
-                      <SelectItem value="Office">Office</SelectItem>
-                      <SelectItem value="Outdoor Space">
-                        Outdoor Space
-                      </SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-               
-
-                <Typography variant="subtitle2" sx={{ marginBottom: "4px" }}>
-                  Add Description
-                </Typography>
-                <Input
-                  value={imageDetails[index]?.description || ""}
-                  onChange={(e) =>
-                    handleDescriptionChange(index, e.target.value)
-                  }
-                  placeholder="Add description (max 50 characters)"
-                  multiple={true}
-                />
-                <Typography
-                  variant="caption"
-                  color="textSecondary"
-                  sx={{
-                    textAlign: "right",
-                    display: "block",
-                    marginTop: "4px",
-                  }}
-                >
-                  {imageDetails[index]?.description.length || 0}/50
-                </Typography>
-
-                {/* Order Input */}
-                <Typography variant="subtitle2" sx={{ marginBottom: "4px" }}>
-                  Set Order
-                </Typography>
-                <Input
-                  type="number"
-                  value={imageDetails[index]?.order || ""}
-                  onChange={(e) =>
-                    handleOrderChange(index, parseInt(e.target.value, 10))
-                  }
-                  placeholder="Order"
-                />
-              </Box>
-            </Box>
-          ))}
+            ) : null,
+          )}
         </Stack>
 
-        <Button variant="default" onClick={handleLogAllDetails}>
+        <Button
+          variant="solid"
+          colorScheme="blue"
+          mt={4}
+          onClick={() => console.log(imageDetails)}
+        >
           Save
         </Button>
       </Box>

@@ -1,8 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Box, Typography } from "@mui/material";
-import { Input } from "../ui/input";
-
+import { Box, Text, Input } from "@chakra-ui/react";
 import { useListingCreationContext } from "@/context/ListingCreationContext";
 
 const AddressOfProperty = () => {
@@ -16,40 +14,63 @@ const AddressOfProperty = () => {
         `https://maps.google.com/maps?q=${encodedAddress}&t=&z=13&ie=UTF8&iwloc=&output=embed`,
       );
     }
-  }, [address]); // Update the map URL when the address changes
+  }, [address]);
 
   return (
     <>
       <Box
-        sx={{ mb: "32px" }}
-        className={"animate__animated animate__fadeInDown"}
+        mb={8}
+        className="animate__animated animate__fadeIn"
+        textAlign={{
+          base: "center",
+          sm: "center",
+          md: "center",
+          lg: "start",
+          xl: "start",
+        }}
       >
-        <Typography variant="h4" sx={{ mb: "8px", fontWeight: 600 }}>
+        <Text fontSize="2xl" fontWeight="bold" mb={2}>
           Location
-        </Typography>
-        <Typography variant="body1" color="black">
+        </Text>
+        <Text fontSize="md" color="gray.600">
           Enter the address of your property.
-        </Typography>
+        </Text>
       </Box>
 
-      {/* Address Input */}
-      <Box px={{ xs: "5%", sm: "5%", md: "5%", lg: "10%", xl: "15%" }}>
+      <Box>
         <Input
           type="text"
           placeholder="Enter your address"
-          width={"100%"}
-          style={{ height: "50px" }}
+          width="100%"
+          height="50px"
           value={address}
-          onChange={(e) => setAddress(e.target.value)} // Update the address state on input change
+          onChange={(e) => setAddress(e.target.value)}
         />
 
-        {/* Map iframe */}
-
-        <Box sx={{ mt: "16px" }} bgcolor={"grey.200"} borderRadius={"15px"}>
+        <Box
+          mt={4}
+          bg="gray.200"
+          borderRadius="15px"
+          display="flex"
+          alignItems={{
+            base: "center",
+            sm: "center",
+            md: "center",
+            lg: "center",
+            xl: "center",
+          }}
+          justifyContent={{
+            base: "center",
+            sm: "center",
+            md: "center",
+            lg: "center",
+            xl: "center",
+          }}
+        >
           <iframe
             src={mapUrl}
             width="100%"
-            height="400px" // Set a fixed height for the map
+            height="400px"
             style={{ border: 0, borderRadius: "15px" }}
             allowFullScreen
             loading="lazy"

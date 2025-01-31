@@ -1,6 +1,17 @@
-"use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useListingCreationContext } from "@/context/ListingCreationContext";
+import {
+  Box,
+  Stack,
+  Button,
+  Input,
+  Heading,
+  Text,
+  Badge,
+  SimpleGrid,
+  Icon,
+  Flex,
+} from "@chakra-ui/react";
 import {
   ChefHat,
   Briefcase,
@@ -30,10 +41,6 @@ import {
   Search,
   Plus,
 } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Box, Typography, Stack } from "@mui/material";
 
 const Amenities = () => {
   const {
@@ -53,13 +60,21 @@ const Amenities = () => {
         { value: "Smart TV", label: "Smart TV", icon: Tv },
         { value: "Streaming services", label: "Streaming services", icon: Tv },
         { value: "Work space", label: "Work space", icon: Briefcase },
-        { value: "Charging station", label: "Charging station", icon: BatteryCharging },
+        {
+          value: "Charging station",
+          label: "Charging station",
+          icon: BatteryCharging,
+        },
       ],
     },
     {
       name: "Climate Control",
       amenities: [
-        { value: "Air conditioning", label: "Air conditioning", icon: Snowflake },
+        {
+          value: "Air conditioning",
+          label: "Air conditioning",
+          icon: Snowflake,
+        },
         { value: "Heating", label: "Heating", icon: Shirt },
         { value: "Ceiling fan", label: "Ceiling fan", icon: Fan },
       ],
@@ -116,7 +131,9 @@ const Amenities = () => {
 
   const handleAmenityClick = (value: string) => {
     setSelectedAmenities((prev) =>
-      prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]
+      prev.includes(value)
+        ? prev.filter((item) => item !== value)
+        : [...prev, value],
     );
   };
 
@@ -130,120 +147,130 @@ const Amenities = () => {
   const filteredCategories = categories.map((category) => ({
     ...category,
     amenities: category.amenities.filter((amenity) =>
-      amenity.label.toLowerCase().includes(searchQuery.toLowerCase())
+      amenity.label.toLowerCase().includes(searchQuery.toLowerCase()),
     ),
   }));
 
   return (
     <>
-  <Box sx={{ mb: "32px" }} className={"animate__animated animate__fadeIn"}>
-          <Typography variant="h4" sx={{ mb: "8px", fontWeight: 600 }}>
-            What type of Amenities do you have?
-          </Typography>
-          <Typography variant="body1" color="black">
-            Select all that apply to your property.
-          </Typography>
-        </Box>
+      <Box
+        mb={8}
+        className="animate__animated animate__fadeIn"
+        textAlign={{
+          base: "center",
+          sm: "center",
+          md: "center",
+          lg: "start",
+          xl: "start",
+        }}
+      >
+        <Heading as="h2" size="lg" mb={2}>
+          What type of Amenities do you have?
+        </Heading>
+        <Text color="gray.600">Select all that apply to your property.</Text>
+      </Box>
 
-      <Box sx={{ px: { xs: "5%", sm: "5%", md: "5%", lg: "10%", xl: "15%" } }}>
+      <Box >
         <Input
           placeholder="Search amenities"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          mb={4}
         />
 
-        <Box sx={{ maxHeight: "350px", overflowY: "auto"}}>
-        {filteredCategories.map((category) =>
-  category.amenities.length > 0 ? (
-    <Box key={category.name}>
-      <Typography variant="h6" sx={{ fontWeight: "bold", textAlign: "left", p: "10px" }}>
-        {category.name}
-      </Typography>
+        {/* Container for amenity options */}
+        <Box
+          maxHeight="350px"
+          overflow="auto"
+          display="flex"
+          flexWrap="wrap"
+          gap="16px"
+          mt="24px"
+          alignItems={{
+            base: "center",
+            sm: "center",
+            md: "center",
+            lg: "start",
+            xl: "start",
+          }}
+          justifyContent={{
+            base: "center",
+            sm: "center",
+            md: "center",
+            lg: "start",
+            xl: "start",
+          }}
+        >
+          {filteredCategories.map((category) =>
+            category.amenities.length > 0 ? (
+              <Box key={category.name} mb={4} width="100%">
+                <Heading as="h3" size="md" mb={2}>
+                  {category.name}
+                </Heading>
 
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "1rem",
-          p: "10px",
-        }}
-      >
-        {category.amenities.map((amenity) => {
-          const Icon = amenity.icon;
-          const isSelected = selectedAmenities.includes(amenity.value);
+                <Box
+                  display="flex"
+                  flexWrap="wrap"
+                  gap="16px"
+                  justifyContent="start"
+                >
+                  {category.amenities.map((amenity) => {
+                    const isSelected = selectedAmenities.includes(
+                      amenity.value,
+                    );
 
-          return (
-            <Box
-              key={amenity.value}
-              component="button"
-              onClick={() => handleAmenityClick(amenity.value)}
-              sx={{
-                p: 2,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 2,
-                backgroundColor: isSelected ? "#f1f1f1" : "white",
-                width: { xs: "125px", sm: "155px", md: "175px" },
-                height: "100%",
-                border: "1px solid lightgrey",
-                transition: "all 0.3s ease-in-out",
-                "&:hover": {
-                  transform: "translateY(-1px) scale(1.1)",
-                  bgcolor: "#f1f1f1",
-                },
-              }}
-            >
-              <Icon
-                style={{
-                  width: "24px",
-                  height: "24px",
-                  marginBottom: "12px",
-                  color: "black",
-                }}
-              />
-              <Typography
-                variant="body2"
-                align="center"
-                sx={{
-                  textTransform: "none",
-                  color: "black",
-                }}
-              >
-                {amenity.label}
-              </Typography>
-            </Box>
-          );
-        })}
-      </Box>
-    </Box>
-  ) : null
-)}
-
+                    return (
+                      <Box
+                        key={amenity.value}
+                        as="button"
+                        onClick={() => handleAmenityClick(amenity.value)}
+                        p="18px"
+                        display="flex"
+                        flexDirection="column"
+                        alignItems="center"
+                        justifyContent="center"
+                        borderRadius="8px"
+                        width={{ base: "125px", sm: "155px", lg: "175px" }}
+                        height="120px"
+                        border="1px solid"
+                        borderColor={isSelected ? "blue.400" : "gray.300"}
+                        bg={isSelected ? "blue.50" : "white"}
+                        transition="all 0.3s ease-in-out"
+                        _hover={{ transform: "scale(1.05)", bg: "gray.100" }}
+                      >
+                        <Icon as={amenity.icon} boxSize={6} color="black" />
+                        <Text fontSize="sm" mt="8px" fontWeight="medium">
+                          {amenity.label}
+                        </Text>
+                      </Box>
+                    );
+                  })}
+                </Box>
+              </Box>
+            ) : null,
+          )}
         </Box>
 
-        <Box sx={{ mt: 4 }}>
-    
-          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+        <Box mt={4}>
+          <Flex flexWrap="wrap" gap={2}>
             {selectedAmenities.map((amenity) => (
-              <Badge key={amenity} variant="outline" color="primary">
+              <Badge key={amenity} colorScheme="blue" variant="solid">
                 {amenity}
               </Badge>
             ))}
-          </Box>
+          </Flex>
         </Box>
 
-        <Box sx={{ mt: 4, display: "flex", gap: 2 }}>
+        <Stack direction="row" mt={4} spacing={4}>
           <Input
             placeholder="Add custom amenity"
             value={customAmenity}
             onChange={(e) => setCustomAmenity(e.target.value)}
           />
-          <Button variant="contained" onClick={handleAddCustomAmenity}>
+          <Button colorScheme="blue" onClick={handleAddCustomAmenity}>
             Add
           </Button>
-        </Box>
+        </Stack>
       </Box>
     </>
   );

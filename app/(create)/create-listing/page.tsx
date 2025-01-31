@@ -3,8 +3,18 @@ import React, { useState } from "react";
 import { Box, Stack, Button, Text, Flex } from "@chakra-ui/react";
 import { Progress } from "@/components/ui/progress";
 import {
-  Home, Lock, MapPin, Bed, Grid, Image, Camera, Package, FileText,
-  DollarSign, Calendar, ClipboardList
+  Home,
+  Lock,
+  MapPin,
+  Bed,
+  Grid,
+  Image,
+  Camera,
+  Package,
+  FileText,
+  DollarSign,
+  Calendar,
+  ClipboardList,
 } from "lucide-react";
 
 import { useListingCreationContext } from "@/context/ListingCreationContext";
@@ -32,27 +42,27 @@ const Page = () => {
     switch (progress) {
       case 10:
         return <TypeOfProperty />;
-      // case 20:
-      //   return <TypeOfSpace />;
-      // case 30:
-      //   return <AddressOfProperty />;
-      // case 40:
-      //   return <AddRooms />;
-      // case 50:
-      //   return <Amenities />;
-      // case 60:
-      //   return <UploadPhotos />;
-      // case 70:
-      //   return <ValueAddedPacks />;
-      // case 80:
-      //   return <ListingDetails />;
+      case 20:
+        return <TypeOfSpace />;
+      case 30:
+        return <AddressOfProperty />;
+      case 40:
+        return <AddRooms />;
+      case 50:
+        return <Amenities />;
+      case 60:
+        return <UploadPhotos />;
+      case 80:
+        return <ValueAddedPacks />;
       // case 90:
-      //   return <CreateRules />;
+      //   return <ListingDetails />;
       // case 100:
-      //   return <Pricing />;
+      //   return <CreateRules />;
       // case 110:
-      //   return <AvailabilityCalendar />;
+      //   return <Pricing />;
       // case 120:
+      //   return <AvailabilityCalendar />;
+      // case 130:
       //   return <Summary />;
       default:
         return null;
@@ -102,7 +112,11 @@ const Page = () => {
               >
                 <Icon size={24} color={isActive ? "blue" : "gray"} />
               </Box>
-              <Text fontSize="sm" mt={2} color={isActive ? "blue.500" : "gray.500"}>
+              <Text
+                fontSize="sm"
+                mt={2}
+                color={isActive ? "blue.500" : "gray.500"}
+              >
                 {item.label}
               </Text>
             </Flex>
@@ -111,9 +125,7 @@ const Page = () => {
       </Flex>
 
       {/* Dynamic Content */}
-      <Flex justify="center" mb={8}>
-        {renderComponent()}
-      </Flex>
+      <Box px={{ base: "5%", lg: "10%", xl: "10%" }}> {renderComponent()}</Box>
 
       {/* Navigation Buttons */}
       <Flex justify="space-between" maxW="600px" mx="auto">

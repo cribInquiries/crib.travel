@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
-import { Input } from "@/components/ui/input"; // ShadCN Input
+import { Box, Text, Input } from "@chakra-ui/react";
+
 
 interface GeneratedRoomNameProps {
   generatedRoomName: string | null;
@@ -18,16 +18,16 @@ const GeneratedRoomName = ({
   return (
     <Box>
       <Box
-        sx={{ mb: "32px" }}
+       
         className={"animate__animated animate__fadeInDown"}
       >
-        <Typography variant="h4" sx={{ mb: "8px", fontWeight: 600 }}>
+        <Text >
           Generated Room Name
-        </Typography>
-        <Typography variant="body1" color="black">
+        </Text>
+        <Text  color="black">
           This name is automatically generated based on the room type and
           amenities.
-        </Typography>
+        </Text>
       </Box>
 
       {/* Room Type Input */}
