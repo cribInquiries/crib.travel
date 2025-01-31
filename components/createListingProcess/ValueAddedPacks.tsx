@@ -2,11 +2,30 @@
 
 import React, { useState } from "react";
 import { useListingCreationContext } from "@/context/ListingCreationContext";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  Box,
+  Heading,
+  Text,
+  SimpleGrid,
+  Card,
+  Button,
+  Input,
+  Textarea,
+  Flex,
+  Spacer,
+} from "@chakra-ui/react";
+
+import {
+  DialogActionTrigger,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/chakra-snippets/dialog";
 
 interface ValueAddedPack {
   id: number;
@@ -18,8 +37,7 @@ interface ValueAddedPack {
 
 const ValueAddedPacks = () => {
   const { packs, setPacks } = useListingCreationContext();
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [currentPack, setCurrentPack] = useState<ValueAddedPack | null>(null);
   const [newPack, setNewPack] = useState({
     title: "",
@@ -28,13 +46,13 @@ const ValueAddedPacks = () => {
     items: "",
   });
 
-  const handleOpenAddModal = () => {
+  const handleOpenAddDialog = () => {
     setCurrentPack(null);
     setNewPack({ title: "", price: "", description: "", items: "" });
-    setIsModalOpen(true);
+    setIsDialogOpen(true);
   };
 
-  const handleOpenEditModal = (pack: ValueAddedPack) => {
+  const handleOpenEditDialog = (pack: ValueAddedPack) => {
     setCurrentPack(pack);
     setNewPack({
       title: pack.title,
@@ -42,7 +60,7 @@ const ValueAddedPacks = () => {
       description: pack.description,
       items: pack.items.join(", "),
     });
-    setIsModalOpen(true);
+    setIsDialogOpen(true);
   };
 
   const handleSavePack = () => {
@@ -57,8 +75,8 @@ const ValueAddedPacks = () => {
                 description: newPack.description,
                 items: newPack.items.split(",").map((item) => item.trim()),
               }
-            : pack
-        )
+            : pack,
+        ),
       );
     } else {
       setPacks([
@@ -72,89 +90,162 @@ const ValueAddedPacks = () => {
         },
       ]);
     }
-
-    setIsModalOpen(false);
+    setIsDialogOpen(false);
     setNewPack({ title: "", price: "", description: "", items: "" });
   };
 
   return (
-    <div className="p-6 max-w-3xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Value-Added Packs</h2>
+    <>
+      <Box
+        mb={8}
+        className="animate__animated animate__fadeIn"
+        textAlign={{
+          base: "center",
+          sm: "center",
+          md: "center",
+          lg: "start",
+          xl: "start",
+        }}
+      >
+        <Text fontSize="2xl" fontWeight="bold" mb={2}>
+          Location
+        </Text>
+        <Text fontSize="md" color="gray.600">
+          Enter the address of your property.
+        </Text>
+      </Box>
 
-      <div className="grid md:grid-cols-2 gap-4">
-        {packs.map((pack) => (
-          <Card key={pack.id} className="shadow-md">
-            <CardHeader>
-              <h3 className="text-lg font-semibold">{pack.title}</h3>
-              <span className="text-gray-600">${pack.price}</span>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-500 text-sm">{pack.description}</p>
-              <p className="text-gray-700 text-sm mt-2">
-                <strong>Items:</strong> {pack.items.slice(0, 3).join(", ")}
-                {pack.items.length > 3 && " ..."}
-              </p>
-            </CardContent>
-            <CardFooter className="flex justify-between">
-              <Button variant="outline" size="sm" onClick={() => handleOpenEditModal(pack)}>
-                Edit
-              </Button>
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={() => setPacks((prevPacks) => prevPacks.filter((p) => p.id !== pack.id))}
-              >
-                Delete
-              </Button>
-            </CardFooter>
-          </Card>
-        ))}
-      </div>
+      <Box p={6} mx="auto">
+        <Heading size="lg" mb={4}>
+          Value-Added Packs
+        </Heading>
 
-      <div className="text-center mt-6">
-        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-          <DialogTrigger asChild>
-            <Button onClick={handleOpenAddModal}>+ Add New Pack</Button>
-          </DialogTrigger>
-          <DialogContent className="bg-white shadow-lg rounded-lg p-6 max-w-md w-full">
+        <SimpleGrid columns={{ base: 1, md: 2 }} gap={4}>
+          {packs.map((pack) => (
+            <Card.Root key={pack.id} shadow="md">
+              <Card.Header>
+                <Flex justify="space-between">
+                  <Box>
+                    <Heading size="md">{pack.title}</Heading>
+                    <Text color="gray.600">${pack.price}</Text>
+                  </Box>
+                </Flex>
+              </Card.Header>
+              <Card.Body>
+                <Text fontSize="sm" color="gray.500">
+                  {pack.description}
+                </Text>
+                <Text fontSize="sm" color="gray.700" mt={2}>
+                  <strong>Items:</strong> {pack.items.slice(0, 3).join(", ")}
+                  {pack.items.length > 3 && " ..."}
+                </Text>
+              </Card.Body>
+              <Card.Footer>
+                <DialogRoot
+                  open={isDialogOpen}
+                  onOpenChange={(details) => setIsDialogOpen(details.open)}
+                >
+                  <DialogTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleOpenEditDialog(pack)}
+                    >
+                      Edit
+                    </Button>
+                  </DialogTrigger>
+                </DialogRoot>
+                <Spacer />
+                <Button
+                  colorScheme="red"
+                  size="sm"
+                  onClick={() =>
+                    setPacks((prevPacks) =>
+                      prevPacks.filter((p) => p.id !== pack.id),
+                    )
+                  }
+                >
+                  Delete
+                </Button>
+              </Card.Footer>
+            </Card.Root>
+          ))}
+        </SimpleGrid>
+
+        {/* Add New Pack Button */}
+        <Box textAlign="center" mt={6}>
+          <DialogRoot
+            open={isDialogOpen}
+            onOpenChange={(details) => setIsDialogOpen(details.open)}
+          >
+            <DialogTrigger asChild>
+              <Button onClick={handleOpenAddDialog}>+ Add New Pack</Button>
+            </DialogTrigger>
+          </DialogRoot>
+        </Box>
+
+        {/* New Dialog Component */}
+        <DialogRoot
+          open={isDialogOpen}
+          onOpenChange={(details) => setIsDialogOpen(details.open)}
+        >
+          <DialogContent>
             <DialogHeader>
-              <DialogTitle className="text-lg font-semibold">
+              <DialogTitle>
                 {currentPack ? "Edit Pack" : "Add New Pack"}
               </DialogTitle>
             </DialogHeader>
-            <div className="space-y-3">
-              <Input
-                placeholder="Pack Title"
-                value={newPack.title}
-                onChange={(e) => setNewPack({ ...newPack, title: e.target.value })}
-              />
-              <Input
-                type="number"
-                placeholder="Price"
-                value={newPack.price}
-                onChange={(e) => setNewPack({ ...newPack, price: e.target.value })}
-              />
-              <Textarea
-                placeholder="Description"
-                value={newPack.description}
-                onChange={(e) => setNewPack({ ...newPack, description: e.target.value })}
-              />
-              <Input
-                placeholder="Items (comma-separated)"
-                value={newPack.items}
-                onChange={(e) => setNewPack({ ...newPack, items: e.target.value })}
-              />
-            </div>
-            <div className="flex justify-between mt-4">
-              <Button variant="outline" onClick={() => setIsModalOpen(false)}>
-                Cancel
+            <DialogBody>
+              <Box display="flex" flexDirection="column" gap={3}>
+                <Input
+                  placeholder="Pack Title"
+                  value={newPack.title}
+                  onChange={(e) =>
+                    setNewPack({ ...newPack, title: e.target.value })
+                  }
+                />
+                <Input
+                  type="number"
+                  placeholder="Price"
+                  value={newPack.price}
+                  onChange={(e) =>
+                    setNewPack({ ...newPack, price: e.target.value })
+                  }
+                />
+                <Textarea
+                  placeholder="Description"
+                  value={newPack.description}
+                  onChange={(e) =>
+                    setNewPack({ ...newPack, description: e.target.value })
+                  }
+                />
+                <Input
+                  placeholder="Items (comma-separated)"
+                  value={newPack.items}
+                  onChange={(e) =>
+                    setNewPack({ ...newPack, items: e.target.value })
+                  }
+                />
+              </Box>
+            </DialogBody>
+            <DialogFooter>
+              <DialogActionTrigger asChild>
+                <Button
+                  variant="outline"
+                  onClick={() => setIsDialogOpen(false)}
+                >
+                  Cancel
+                </Button>
+              </DialogActionTrigger>
+              <Button colorScheme="blue" onClick={handleSavePack}>
+                Save Pack
               </Button>
-              <Button onClick={handleSavePack}>Save Pack</Button>
-            </div>
+            </DialogFooter>
+            <DialogCloseTrigger />
           </DialogContent>
-        </Dialog>
-      </div>
-    </div>
+        </DialogRoot>
+      </Box>
+    </>
   );
 };
 

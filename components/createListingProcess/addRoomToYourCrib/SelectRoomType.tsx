@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Progress } from "@/components/ui/progress";
-import { Box, Stack, Typography, Button } from "@mui/material";
+import { Box, Stack, Text, Button } from "@chakra-ui/react";
 import {
   Home,
   Building2,
@@ -59,67 +59,62 @@ interface SelectRoomTypeProps {
 const SelectRoomType = ({ roomType, setRoomType }: SelectRoomTypeProps) => {
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "start",
-          justifyContent: "start",
-          gap: "16px",
-        }}
-      >
-        {propertyTypes.map((property) => (
-          <Box
-            className={"animate__animated animate__fadeIn"}
-            component={"button"}
-            key={property.value}
-            onClick={() => setRoomType(property.value)}
-            sx={{
-              p: "18px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "8px",
-              bgcolor: property.value === roomType ? "#f1f1f1" : "white",
-              component: "button",
-              width: {
-                xs: "125px",
-                sm: "155px",
-                md: "155px",
-                lg: "175px",
-                xl: "175px",
-              },
+    <Box 
+  display="flex" 
+  flexWrap="wrap" 
+  alignItems="start" 
+  justifyContent="start" 
+  gap="16px"
+>
 
-              height: "100%",
-              border: "1px solid lightgrey",
-              transition: "all 0.3s ease-in-out",
-              "&:hover": {
-                transform: "translateY(-1px) scale(1.1)",
-                bgcolor: "#f1f1f1",
-              },
-            }}
-          >
-            <property.icon
-              style={{
-                width: "24px",
-                height: "24px",
-                marginBottom: "12px",
-                color: "black",
-              }}
-            />
-            <Typography
-              variant="body2"
-              align="center"
-              sx={{
-                textTransform: "none",
-                color: "black",
-              }}
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          gap="16px"
+          mt="24px"
+          alignItems={{
+            base: "center",
+            sm: "center",
+            md: "center",
+            lg: "start",
+            xl: "start",
+          }}
+          justifyContent={{
+            base: "center",
+            sm: "center",
+            md: "center",
+            lg: "start",
+            xl: "start",
+          }}
+        >
+          {propertyTypes.map((property) => (
+            <Box
+              key={property.value}
+              as="button"
+              onClick={() => setRoomType(property.value)}
+              p="18px"
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+              borderRadius="8px"
+              width={{ base: "125px", sm: "155px", lg: "175px" }}
+              height="120px"
+              border="1px solid"
+              borderColor={
+                property.value === roomType ? "blue.400" : "gray.300"
+              }
+              bg={property.value === roomType ? "blue.50" : "white"}
+              transition="all 0.3s ease-in-out"
+              _hover={{ transform: "scale(1.05)", bg: "gray.100" }}
             >
-              {property.label}
-            </Typography>
-          </Box>
-        ))}
+              <property.icon size={28} color="black" />
+              <Text fontSize="sm" mt="8px" fontWeight="medium">
+                {property.label}
+              </Text>
+            </Box>
+          ))}
+        </Box>
       </Box>
     </>
   );

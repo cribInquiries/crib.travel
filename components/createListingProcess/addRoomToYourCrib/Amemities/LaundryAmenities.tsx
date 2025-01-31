@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import {
   Box,
-  Typography,
-
-} from "@mui/material";
+  Text,
+  Badge,
+  Stack,
+  AccordionItem,
+  AccordionItemContent,
+  AccordionItemTrigger,
+  AccordionRoot,
+} from "@chakra-ui/react";
 
 import {
   Bed,
@@ -19,20 +24,12 @@ import {
   Dices,
   ChefHat,
 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from "@/components/ui/accordion";
+
 interface SelectRoomTypeProps {
   chooseAmenities: string[];
   setChooseAmenities: React.Dispatch<React.SetStateAction<string[]>>;
   chooseAmenitiesEnsuite: string[];
-  setChooseAmenitiesEnsuite: React.Dispatch<
-    React.SetStateAction<string[]>
-  >;
+  setChooseAmenitiesEnsuite: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const LaundryAmenities = ({
@@ -79,189 +76,139 @@ const LaundryAmenities = ({
     );
   };
   return (
-     <>
-          <Box
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              alignItems: {
-                xs: "center",
-                sm: "center",
-                md: "center",
-                lg: "start",
-                xl: "start",
-              },
-              justifyContent: {
-                xs: "center",
-                sm: "center",
-                md: "center",
-                lg: "start",
-                xl: "start",
-              },
-              gap: "16px",
-            }}
-          >
-            {propertyTypes.map((property) => (
-              <Box
-                className="animate__animated animate__fadeIn"
-                component="button"
-                key={property.value}
-                onClick={() => togglePropertySelection(property.value)}
-                sx={{
-                  p: "18px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "8px",
-                  bgcolor: chooseAmenities.includes(property.value)
-                    ? "#f1f1f1"
-                    : "white",
-                  width: {
-                    xs: "125px",
-                    sm: "155px",
-                    md: "155px",
-                    lg: "175px",
-                    xl: "175px",
-                  },
-    
-                  height: "100%",
-                  border: "1px solid lightgrey",
-                  transition: "all 0.3s ease-in-out",
-                  "&:hover": {
-                    transform: "translateY(-1px) scale(1.1)",
-                    bgcolor: "#f1f1f1",
-                  },
-                }}
-              >
-                <property.icon
-                  style={{
-                    width: "24px",
-                    height: "24px",
-                    marginBottom: "12px",
-                    color: "black",
-                  }}
-                />
-                <Typography variant="body2" align="center" sx={{ color: "black" }}>
-                  {property.label}
-                </Typography>
-              </Box>
-            ))}
-          </Box>
-    
-          {/* ShadCN Accordion */}
-          <Accordion type="single" collapsible className="w-full h-full">
-            <AccordionItem value="ensuite">
-              <AccordionTrigger className="text-lg font-semibold">
+    <>
+      <>
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          alignItems={{ base: "center", lg: "start" }}
+          justifyContent={{ base: "center", lg: "start" }}
+          gap="16px"
+        >
+          {propertyTypes.map((property) => (
+            <Box
+              key={property.value}
+              as="button"
+              onClick={() => togglePropertySelection(property.value)}
+              className="animate__animated animate__fadeIn"
+              p="18px"
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+              borderRadius="8px"
+              bg={
+                chooseAmenities.includes(property.value) ? "gray.100" : "white"
+              }
+              width={{ base: "125px", sm: "155px", lg: "175px" }}
+              height="100%"
+              border="1px solid lightgrey"
+              transition="all 0.3s ease-in-out"
+              _hover={{
+                transform: "translateY(-1px) scale(1.1)",
+                bg: "gray.100",
+              }}
+            >
+              <property.icon
+                size={24}
+                style={{ marginBottom: "12px", color: "black" }}
+              />
+              <Text fontSize="sm" textAlign="center" color="black">
+                {property.label}
+              </Text>
+            </Box>
+          ))}
+        </Box>
+
+        {/* Chakra UI Accordion */}
+        <AccordionRoot collapsible>
+          <AccordionItem value="ensuite">
+            <AccordionItemTrigger>
+              <Text fontSize="lg" fontWeight="semibold">
                 Ensuite
-              </AccordionTrigger>
-              <AccordionContent>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    alignItems: {
-                      xs: "center",
-                      sm: "center",
-                      md: "center",
-                      lg: "start",
-                      xl: "start",
-                    },
-                    justifyContent: {
-                      xs: "center",
-                      sm: "center",
-                      md: "center",
-                      lg: "start",
-                      xl: "start",
-                    },
-                    gap: "16px",
-                    p: "12px",
-                  }}
-                >
-                  {ensuites.map((ensuite) => (
-                    <Box
-                      className="animate__animated animate__fadeIn"
-                      component="button"
-                      key={ensuite.value}
-                      onClick={() => toggleEnsuiteSelection(ensuite.value)}
-                      sx={{
-                        p: "16px",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderRadius: "8px",
-                        bgcolor: chooseAmenitiesEnsuite.includes(ensuite.value)
-                          ? "#f1f1f1"
-                          : "white",
-                        width: {
-                          xs: "125px",
-                          sm: "155px",
-                          md: "155px",
-                          lg: "175px",
-                          xl: "175px",
-                        },
-                        height: "100%",
-                        border: "1px solid lightgrey",
-                        transition: "all 0.3s ease-in-out",
-                        "&:hover": {
-                          transform: "translateY(-1px) scale(1.1)",
-                        },
-                      }}
-                    >
-                      <ensuite.icon
-                        style={{
-                          width: "24px",
-                          height: "24px",
-                          marginBottom: "12px",
-                          color: "black",
-                        }}
-                      />
-                      <Typography
-                        variant="body2"
-                        align="center"
-                        sx={{ color: "black" }}
-                      >
-                        {ensuite.label}
-                      </Typography>
-                    </Box>
-                  ))}
-                </Box>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-          <Box sx={{ mt: 4 }}>
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 2 }}>
-              {chooseAmenities.length > 0 ? (
-                chooseAmenities.map((item, index) => (
-                  <Badge key={index} variant="secondary">
-                    {propertyTypes.find((prop) => prop.value === item)?.label ||
-                      item}
-                  </Badge>
-                ))
-              ) : (
-                <Typography variant="body2" color="text.secondary">
-                  No amenities selected.
-                </Typography>
-              )}
-            </Box>
-    
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-              {chooseAmenitiesEnsuite.length > 0 ? (
-                chooseAmenitiesEnsuite.map((item, index) => (
-                  <Badge key={index} variant="secondary">
-                    {ensuites.find((ensuite) => ensuite.value === item)?.label ||
-                      item}
-                  </Badge>
-                ))
-              ) : (
-                <Typography mt={"10px"} variant="body2" color="text.secondary">
-                  No ensuite amenities selected.
-                </Typography>
-              )}
-            </Box>
+              </Text>
+            </AccordionItemTrigger>
+            <AccordionItemContent>
+              <Box
+                display="flex"
+                flexWrap="wrap"
+                alignItems={{ base: "center", lg: "start" }}
+                justifyContent={{ base: "center", lg: "start" }}
+                gap="16px"
+                p="12px"
+              >
+                {ensuites.map((ensuite) => (
+                  <Box
+                    key={ensuite.value}
+                    as="button"
+                    onClick={() => toggleEnsuiteSelection(ensuite.value)}
+                    className="animate__animated animate__fadeIn"
+                    p="16px"
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    justifyContent="center"
+                    borderRadius="8px"
+                    bg={
+                      chooseAmenitiesEnsuite.includes(ensuite.value)
+                        ? "gray.100"
+                        : "white"
+                    }
+                    width={{ base: "125px", sm: "155px", lg: "175px" }}
+                    height="100%"
+                    border="1px solid lightgrey"
+                    transition="all 0.3s ease-in-out"
+                    _hover={{ transform: "translateY(-1px) scale(1.1)" }}
+                  >
+                    <ensuite.icon
+                      size={24}
+                      style={{ marginBottom: "12px", color: "black" }}
+                    />
+                    <Text fontSize="sm" textAlign="center" color="black">
+                      {ensuite.label}
+                    </Text>
+                  </Box>
+                ))}
+              </Box>
+            </AccordionItemContent>
+          </AccordionItem>
+        </AccordionRoot>
+
+        <Box mt={4}>
+          {/* Selected Laundry Amenities */}
+          <Box display="flex" flexWrap="wrap" gap={1} mb={2}>
+            {chooseAmenities.length > 0 ? (
+              chooseAmenities.map((item, index) => (
+                <Badge key={index} variant="outline">
+                  {propertyTypes.find((prop) => prop.value === item)?.label ||
+                    item}
+                </Badge>
+              ))
+            ) : (
+              <Text fontSize="sm" color="gray.500">
+                No amenities selected.
+              </Text>
+            )}
           </Box>
-        </>
+
+          {/* Selected Ensuite Amenities */}
+          <Box display="flex" flexWrap="wrap" gap={1}>
+            {chooseAmenitiesEnsuite.length > 0 ? (
+              chooseAmenitiesEnsuite.map((item, index) => (
+                <Badge key={index} variant="subtle">
+                  {ensuites.find((ensuite) => ensuite.value === item)?.label ||
+                    item}
+                </Badge>
+              ))
+            ) : (
+              <Text mt={2} fontSize="sm" color="gray.500">
+                No ensuite amenities selected.
+              </Text>
+            )}
+          </Box>
+        </Box>
+      </>
+    </>
   );
 };
 

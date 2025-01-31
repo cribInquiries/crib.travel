@@ -2,21 +2,44 @@
 import React from "react";
 import { Box, Stack, Text } from "@chakra-ui/react";
 import {
-  Home, Building2, Hotel, Warehouse, Tent, TreePine, Sailboat,
-  Caravan, Castle, TreePalm as PalmTree, Mountain, Building, LandPlot,
-  Building as Barn, Building as Bungalow, Umbrella, Cone as Condo,
-  Castle as Cottage, BedDouble, Home as Farmhouse, Space as Loft,
-  Home as MobileHome, Ribbon as Ranch, Space as Studio,
-  Building as Townhouse, Hotel as Villa
+  Home,
+  Building2,
+  Hotel,
+  Warehouse,
+  Tent,
+  TreePine,
+  Sailboat,
+  Caravan,
+  Castle,
+  TreePalm as PalmTree,
+  Mountain,
+  Building,
+  LandPlot,
+  Building as Barn,
+  Building as Bungalow,
+  Umbrella,
+  Cone as Condo,
+  Castle as Cottage,
+  BedDouble,
+  Home as Farmhouse,
+  Space as Loft,
+  Home as MobileHome,
+  Ribbon as Ranch,
+  Space as Studio,
+  Building as Townhouse,
+  Hotel as Villa,
 } from "lucide-react";
 
 import { useListingCreationContext } from "@/context/ListingCreationContext";
-import { ColorModeButton, useColorModeValue } from "../chakra-snippets/color-mode";
+import {
+  ColorModeButton,
+  useColorModeValue,
+} from "../chakra-snippets/color-mode";
 
 const TypeOfProperty = () => {
   const { selectedProperty, setSelectedProperty } = useListingCreationContext();
-  const result = useColorModeValue("<light-mode-value>", "<dark-mode-value>")
-  console.log(result)
+  const result = useColorModeValue("<light-mode-value>", "<dark-mode-value>");
+  console.log(result);
   const propertyTypes = [
     { value: "house", label: "House", icon: Home },
     { value: "apartment", label: "Apartment", icon: Building2 },
@@ -48,7 +71,17 @@ const TypeOfProperty = () => {
   ];
 
   return (
-    <Box mb="32px">
+    <Box
+      mb={8}
+      className="animate__animated animate__fadeIn"
+      textAlign={{
+        base: "center",
+        sm: "center",
+        md: "center",
+        lg: "start",
+        xl: "start",
+      }}
+    >
       <Text fontSize="2xl" fontWeight="bold" mb="8px">
         What type of property are you listing?
       </Text>
@@ -57,40 +90,58 @@ const TypeOfProperty = () => {
       </Text>
 
       {/* Property Type Selection */}
+
       <Box
         display="flex"
         flexWrap="wrap"
         gap="16px"
         mt="24px"
-        px={{ base: "5%", lg: "10%" }}
+        alignItems={{
+          base: "center",
+          sm: "center",
+          md: "center",
+          lg: "start",
+          xl: "start",
+        }}
+        justifyContent={{
+          base: "center",
+          sm: "center",
+          md: "center",
+          lg: "start",
+          xl: "start",
+        }}
       >
-        {propertyTypes.map((property) => (
-          <Box
-            key={property.value}
-            as="button"
-            onClick={() => setSelectedProperty(property.value)}
-            p="18px"
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-            borderRadius="8px"
-            width={{ base: "125px", sm: "155px", lg: "175px" }}
-            height="120px"
-            border="1px solid"
-            borderColor={property.value === selectedProperty ? "blue.400" : "gray.300"}
-            bg={property.value === selectedProperty ? "blue.50" : "white"}
-            transition="all 0.3s ease-in-out"
-            _hover={{ transform: "scale(1.05)", bg: "gray.100" }}
-          >
-            <property.icon size={28} color="black" />
-            <Text fontSize="sm" mt="8px" fontWeight="medium">
-              {property.label}
-            </Text>
-          </Box>
-        ))}
+        
+          {propertyTypes.map((property) => (
+            <Box
+              key={property.value}
+              as="button"
+              onClick={() => setSelectedProperty(property.value)}
+              p="18px"
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+              borderRadius="8px"
+              width={{ base: "125px", sm: "155px", lg: "175px" }}
+              height="120px"
+              border="1px solid"
+              borderColor={
+                property.value === selectedProperty ? "blue.400" : "gray.300"
+              }
+              bg={property.value === selectedProperty ? "blue.50" : "white"}
+              transition="all 0.3s ease-in-out"
+              _hover={{ transform: "scale(1.05)", bg: "gray.100" }}
+            >
+              <property.icon size={28} color="black" />
+              <Text fontSize="sm" mt="8px" fontWeight="medium">
+                {property.label}
+              </Text>
+            </Box>
+          ))}
+        </Box>
       </Box>
-    </Box>
+ 
   );
 };
 
