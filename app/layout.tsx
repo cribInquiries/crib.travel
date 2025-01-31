@@ -19,6 +19,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-theme="light"
+      
       style={{ scrollBehavior: "smooth" }}
       suppressHydrationWarning
     >
