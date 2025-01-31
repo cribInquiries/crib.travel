@@ -1,0 +1,212 @@
+"use client"
+
+import React, { useState } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Slider } from "@/components/ui/slider"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { X } from "lucide-react"
+
+// Define types for package discounts and advanced discounts
+interface PackageDiscount {
+  packs: number | ""
+  discount: number | ""
+}
+
+interface AdvancedDiscount {
+  rule: string
+  discount: number | ""
+  daysBefore?: number | ""
+}
+
+export default function Pricing() {
+  const [basePrice, setBasePrice] = useState<number>(100)
+  const [priceRange, setPriceRange] = useState<[number, number]>([50, 200])
+  const [weekendAdjustment, setWeekendAdjustment] = useState<number>(20)
+  const [seasonalAdjustment, setSeasonalAdjustment] = useState<number>(30)
+  const [season, setSeason] = useState<string>("Summer")
+  const [packageDiscounts, setPackageDiscounts] = useState<PackageDiscount[]>([
+    { packs: 1, discount: 3 },
+    { packs: 2, discount: 5 },
+  ])
+  const [advancedDiscounts, setAdvancedDiscounts] = useState<AdvancedDiscount[]>([])
+
+  const discountTypes = [
+    { label: "Last Minute Booking", value: "lastMinute" },
+    { label: "Early Bird", value: "earlyBird" },
+  ]
+
+  const seasonOptions = ["Summer", "Winter", "Spring", "Fall"]
+
+  const addPackageDiscount = () => {
+    setPackageDiscounts([...packageDiscounts, { packs: "", discount: "" }])
+  }
+
+  const updatePackageDiscount = (index: number, field: keyof PackageDiscount, value: number | "") => {
+    const updatedDiscounts = [...packageDiscounts]
+    updatedDiscounts[index][field] = value
+    setPackageDiscounts(updatedDiscounts)
+  }
+
+  const addAdvancedDiscount = () => {
+    setAdvancedDiscounts([...advancedDiscounts, { rule: "lastMinute", discount: "", daysBefore: "" }])
+  }
+
+  const updateAdvancedDiscount = (index: number, field: keyof AdvancedDiscount, value: string | number | "") => {
+    const updatedDiscounts = [...advancedDiscounts]
+    updatedDiscounts[index][field] = value
+    setAdvancedDiscounts(updatedDiscounts)
+  }
+
+  const removeAdvancedDiscount = (index: number) => {
+    const updatedDiscounts = [...advancedDiscounts]
+    updatedDiscounts.splice(index, 1)
+    setAdvancedDiscounts(updatedDiscounts)
+  }
+
+  return (
+    <div className="container mx-auto p-4">
+      <div className="space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Base Price</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Input
+              type="number"
+              value={basePrice}
+              onChange={(e) => setBasePrice(Number(e.target.value))}
+              className="mb-4"
+            />
+            <Slider
+              value={priceRange}
+              min={0}
+              max={500}
+              step={1}
+              onValueChange={(value) => setPriceRange(value as [number, number])}
+            />
+            <div className="flex justify-between mt-2">
+              <span>Minimum Price: ${priceRange[0]}</span>
+              <span>Maximum Price: ${priceRange[1]}</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Weekend Pricing</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Input
+              type="number"
+              value={weekendAdjustment}
+              onChange={(e) => setWeekendAdjustment(Number(e.target.value))}
+            />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Seasonal Pricing</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Input
+              type="number"
+              value={seasonalAdjustment}
+              onChange={(e) => setSeasonalAdjustment(Number(e.target.value))}
+              className="mb-4"
+            />
+            <Select value={season} onValueChange={setSeason}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select a season" />
+              </SelectTrigger>
+              <SelectContent>
+                {seasonOptions.map((option) => (
+                  <SelectItem key={option} value={option}>
+                    {option}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Package Discounts</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {packageDiscounts.map((discount, index) => (
+              <div key={index} className="flex space-x-2 mb-2">
+                <Input
+                  type="number"
+                  value={discount.packs}
+                  onChange={(e) => updatePackageDiscount(index, "packs", Number(e.target.value) || "")}
+                  placeholder="Packs"
+                />
+                <Input
+                  type="number"
+                  value={discount.discount}
+                  onChange={(e) => updatePackageDiscount(index, "discount", Number(e.target.value) || "")}
+                  placeholder="Discount (%)"
+                />
+              </div>
+            ))}
+            <Button onClick={addPackageDiscount} variant="outline">
+              Add Package Discount
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Advanced Discounts</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {advancedDiscounts.map((discount, index) => (
+              <div key={index} className="border p-4 rounded-md mb-4">
+                <div className="flex justify-between items-center mb-2">
+                  <Select value={discount.rule} onValueChange={(value) => updateAdvancedDiscount(index, "rule", value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select discount type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {discountTypes.map((type) => (
+                        <SelectItem key={type.value} value={type.value}>
+                          {type.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Button variant="ghost" size="icon" onClick={() => removeAdvancedDiscount(index)}>
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+                <Input
+                  type="number"
+                  value={discount.discount}
+                  onChange={(e) => updateAdvancedDiscount(index, "discount", Number(e.target.value) || "")}
+                  placeholder="Discount (%)"
+                  className="mb-2"
+                />
+                {discount.rule === "lastMinute" && (
+                  <Input
+                    type="number"
+                    value={discount.daysBefore}
+                    onChange={(e) => updateAdvancedDiscount(index, "daysBefore", Number(e.target.value) || "")}
+                    placeholder="Days Before Check-in"
+                  />
+                )}
+              </div>
+            ))}
+            <Button onClick={addAdvancedDiscount} variant="outline">
+              Add Discount Rule
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  )
+}
+
