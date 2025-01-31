@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack } from "@chakra-ui/react";
 import {
   Home,
   Building2,

@@ -1,41 +1,22 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { Progress } from "@/components/ui/progress";
-import { Box, Stack, Typography, Button } from "@mui/material";
+import React from "react";
+import { Box, Stack, Text } from "@chakra-ui/react";
 import {
-  Home,
-  Building2,
-  Hotel,
-  Warehouse,
-  Tent,
-  TreePine,
-  Sailboat,
-  Caravan,
-  Castle,
-  TreePalmIcon as PalmTree,
-  Mountain,
-  Building,
-  LandPlot,
-  BuildingIcon as Barn,
-  BuildingIcon as Bungalow,
-  Umbrella,
-  ConeIcon as Condo,
-  CastleIcon as Cottage,
-  BedDouble,
-  HomeIcon as Farmhouse,
-  SpaceIcon as Loft,
-  HomeIcon as MobileHome,
-  RibbonIcon as Ranch,
-  SpaceIcon as Studio,
-  BuildingIcon as Townhouse,
-  HotelIcon as Villa,
+  Home, Building2, Hotel, Warehouse, Tent, TreePine, Sailboat,
+  Caravan, Castle, TreePalm as PalmTree, Mountain, Building, LandPlot,
+  Building as Barn, Building as Bungalow, Umbrella, Cone as Condo,
+  Castle as Cottage, BedDouble, Home as Farmhouse, Space as Loft,
+  Home as MobileHome, Ribbon as Ranch, Space as Studio,
+  Building as Townhouse, Hotel as Villa
 } from "lucide-react";
 
 import { useListingCreationContext } from "@/context/ListingCreationContext";
+import { ColorModeButton, useColorModeValue } from "../chakra-snippets/color-mode";
 
 const TypeOfProperty = () => {
   const { selectedProperty, setSelectedProperty } = useListingCreationContext();
-
+  const result = useColorModeValue("<light-mode-value>", "<dark-mode-value>")
+  console.log(result)
   const propertyTypes = [
     { value: "house", label: "House", icon: Home },
     { value: "apartment", label: "Apartment", icon: Building2 },
@@ -67,81 +48,49 @@ const TypeOfProperty = () => {
   ];
 
   return (
-    <>
-      <Box sx={{ mb: "32px" }} className={"animate__animated animate__fadeIn"}>
-        <Typography variant="h4" sx={{ mb: "8px", fontWeight: 600 }}>
-          What type of property are you listing?
-        </Typography>
-        <Typography variant="body1" color="black">
-          Choose the category that best describes your property.
-        </Typography>
-      </Box>
+    <Box mb="32px">
+      <Text fontSize="2xl" fontWeight="bold" mb="8px">
+        What type of property are you listing?
+      </Text>
+      <Text fontSize="md" color="gray.600">
+        Choose the category that best describes your property.
+      </Text>
 
+      {/* Property Type Selection */}
       <Box
-        sx={{
-          px: { xs: "5%", sm: "5%", md: "5%", lg: "10%", xl: "15%" },
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "start",
-          justifyContent: "start",
-          gap: "16px",
-        }}
+        display="flex"
+        flexWrap="wrap"
+        gap="16px"
+        mt="24px"
+        px={{ base: "5%", lg: "10%" }}
       >
         {propertyTypes.map((property) => (
           <Box
-            className={"animate__animated animate__fadeIn"}
-            component={"button"}
             key={property.value}
+            as="button"
             onClick={() => setSelectedProperty(property.value)}
-            sx={{
-              p: "18px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "8px",
-              bgcolor:
-                property.value === selectedProperty ? "#f1f1f1" : "white",
-              component: "button",
-              width: {
-                xs: "125px",
-                sm: "155px",
-                md: "155px",
-                lg: "175px",
-                xl: "175px",
-              },
-
-              height: "100%",
-              border: "1px solid lightgrey",
-              transition: "all 0.3s ease-in-out",
-              "&:hover": {
-                transform: "translateY(-1px) scale(1.1)",
-                bgcolor: "#f1f1f1",
-              },
-            }}
+            p="18px"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            borderRadius="8px"
+            width={{ base: "125px", sm: "155px", lg: "175px" }}
+            height="120px"
+            border="1px solid"
+            borderColor={property.value === selectedProperty ? "blue.400" : "gray.300"}
+            bg={property.value === selectedProperty ? "blue.50" : "white"}
+            transition="all 0.3s ease-in-out"
+            _hover={{ transform: "scale(1.05)", bg: "gray.100" }}
           >
-            <property.icon
-              style={{
-                width: "24px",
-                height: "24px",
-                marginBottom: "12px",
-                color: "black",
-              }}
-            />
-            <Typography
-              variant="body2"
-              align="center"
-              sx={{
-                textTransform: "none",
-                color: "black",
-              }}
-            >
+            <property.icon size={28} color="black" />
+            <Text fontSize="sm" mt="8px" fontWeight="medium">
               {property.label}
-            </Typography>
+            </Text>
           </Box>
         ))}
       </Box>
-    </>
+    </Box>
   );
 };
 
