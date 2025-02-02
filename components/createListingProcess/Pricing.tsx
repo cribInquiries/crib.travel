@@ -2,29 +2,45 @@
 
 import React, { useState } from "react";
 import { useListingCreationContext } from "@/context/ListingCreationContext";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider";
 import {
-  Select,
-  SelectTrigger,
-  SelectValue,
+  Box,
+  Stack,
+  Button,
+  Input,
+  Heading,
+  Text,
+  Flex,
+  Grid,
+  HStack,
+  VStack,
+  createListCollection,
+  Card,
+  IconButton,
+} from "@chakra-ui/react";
+
+import { X } from "lucide-react";
+
+import {
   SelectContent,
   SelectItem,
-} from "@/components/ui/select";
-import { X } from "lucide-react";
-import Box from "@mui/material/Box";
+  SelectLabel,
+  SelectRoot,
+  SelectTrigger,
+  SelectValueText,
+} from "@/components/chakra-snippets/select";
 
+import { Slider } from "@/components/chakra-snippets/slider";
 interface PackageDiscount {
-  packs: number | "";
-  discount: number | "";
+  packs: string | number;
+  discount: string | number;
 }
 
 interface AdvancedDiscount {
-  rule: string;
-  discount: number | "";
-  daysBefore?: number | "";
+  rule: string;              // Must be a string
+  discount: string | number; // Can be string or number
+  daysBefore?: string | number;
 }
+
 
 const Pricing: React.FC = () => {
   const {
@@ -48,12 +64,21 @@ const Pricing: React.FC = () => {
     AdvancedDiscount[]
   >([]);
 
-  const discountTypes = [
-    { label: "Last Minute Booking", value: "lastMinute" },
-    { label: "Early Bird", value: "earlyBird" },
-  ];
+  const discountTypes = createListCollection({
+    items: [
+      { label: "Last Minute Booking", value: "lastMinute" },
+      { label: "Early Bird", value: "earlyBird" },
+    ],
+  });
 
-  const seasonOptions = ["Summer", "Winter", "Spring", "Fall"];
+  const seasonOptions = createListCollection({
+    items: [
+      { value: "Summer" },
+      { value: "Winter" },
+      { value: "Spring" },
+      { value: "Fall" },
+    ],
+  });
 
   const addPackageDiscount = () => {
     setPackageDiscounts([...packageDiscounts, { packs: "", discount: "" }]);
@@ -62,39 +87,45 @@ const Pricing: React.FC = () => {
   const updatePackageDiscount = (
     index: number,
     field: keyof PackageDiscount,
-    value: number | "",
+    value: number | string
   ) => {
     const updatedDiscounts = [...packageDiscounts];
-    updatedDiscounts[index][field] = value;
+    updatedDiscounts[index][field] = value === "" ? "" : Number(value);
     setPackageDiscounts(updatedDiscounts);
   };
+  
 
   const addAdvancedDiscount = () => {
     setAdvancedDiscounts([
       ...advancedDiscounts,
-      { rule: "", discount: "", daysBefore: "" },
+      { rule: "", discount: 0, daysBefore: "" }
     ]);
   };
 
   const updateAdvancedDiscount = (
     index: number,
     field: keyof AdvancedDiscount,
-    value: string | number | "",
+    value: string | number | ""
   ) => {
     const updatedDiscounts = [...advancedDiscounts];
-    updatedDiscounts[index][field] = value;
+  
+    // If the field is "rule", we only allow a string.
+    if (field === "rule") {
+      // Cast it to string to silence type errors, or ensure
+      // you're actually passing a string if it's "rule".
+      updatedDiscounts[index].rule = value as string;
+    } else {
+      // For "discount" or "daysBefore", we assign number or ""
+      updatedDiscounts[index][field] = value === "" ? "" : Number(value);
+    }
+  
     setAdvancedDiscounts(updatedDiscounts);
   };
-
-  const removeAdvancedDiscount = (index: number) => {
-    setAdvancedDiscounts(advancedDiscounts.filter((_, i) => i !== index));
-  };
-
+  
+  
   return (
     <Box
-      sx={{
-        px: { xs: "5%", sm: "5%", md: "5%", lg: "10%", xl: "15%" },
-      }}
+   
     >
       <div className=" mx-auto p-6 bg-white shadow-md rounded-lg">
         <h1 className="text-2xl font-semibold mb-6">Pricing Configuration</h1>
@@ -114,9 +145,10 @@ const Pricing: React.FC = () => {
             min={0}
             max={500}
             step={5}
-            onValueChange={(newValue) => {
-              setMinPrice(newValue[0]);
-              setMaxPrice(newValue[1]);
+            defaultValue={[30, 60]}
+            onValueChange={(details: { value: [number, number] }) => {
+              setMinPrice(details.value[0]);
+              setMaxPrice(details.value[1]);
             }}
             className="mt-4"
           />
@@ -148,18 +180,25 @@ const Pricing: React.FC = () => {
             onChange={(e) => setSeasonalAdjustment(Number(e.target.value))}
             className="mt-2"
           />
-          <Select value={season} onValueChange={setSeason} className="mt-2">
+          <SelectRoot
+            collection={seasonOptions}
+            value={season ? [season] : []}
+            onValueChange={(selected) => setSeason(selected.value[0])}
+            className="mt-2"
+          >
             <SelectTrigger>
-              <SelectValue placeholder="Select Season" />
+              <SelectValueText placeholder="Select Season" />
             </SelectTrigger>
             <SelectContent>
-              {seasonOptions.map((option) => (
-                <SelectItem key={option} value={option}>
-                  {option}
+              {seasonOptions.items.map((option: { value: string }) => (
+                <SelectItem key={option.value} item={option}>
+                  <HStack gap={2}>
+                    <Text>{option.value}</Text>
+                  </HStack>
                 </SelectItem>
               ))}
             </SelectContent>
-          </Select>
+          </SelectRoot>
         </div>
 
         {/* Package Discounts */}
@@ -207,23 +246,26 @@ const Pricing: React.FC = () => {
             {advancedDiscounts.map((discount, index) => (
               <div key={index} className="p-4 bg-gray-100 rounded-md shadow-sm">
                 <div className="flex items-center justify-between">
-                  <Select
-                    value={discount.rule}
-                    onValueChange={(value) =>
-                      updateAdvancedDiscount(index, "rule", value)
+                  <SelectRoot
+                    collection={discountTypes}
+                    value={discount.rule ? [discount.rule] : []}
+                    onValueChange={(selected) =>
+                      updateAdvancedDiscount(index, "rule", selected.value[0])
                     }
+                    className="mt-2"
+                 
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Select Discount Type" />
+                      <SelectValueText placeholder="Select  Discount Type" />
                     </SelectTrigger>
                     <SelectContent>
-                      {discountTypes.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
+                      {discountTypes.items.map((option) => (
+                        <SelectItem key={option.value} item={option}>
                           {option.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
-                  </Select>
+                  </SelectRoot>
                   <Button
                     variant="ghost"
                     size="sm"

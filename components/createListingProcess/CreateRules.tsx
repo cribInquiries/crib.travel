@@ -2,16 +2,33 @@
 
 import React, { useState } from "react";
 import { useListingCreationContext } from "@/context/ListingCreationContext";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
-  Select,
-  SelectTrigger,
-  SelectValue,
+  Box,
+  Stack,
+  Button,
+  Input,
+  Heading,
+  Text,
+  Flex,
+  Grid,
+  HStack,
+  VStack,
+  createListCollection,
+  Card,
+  IconButton,
+} from "@chakra-ui/react";
+
+import {
   SelectContent,
   SelectItem,
-} from "@/components/ui/select";
-import { Card, CardContent } from "@/components/ui/card";
+  SelectLabel,
+  SelectRoot,
+  SelectTrigger,
+  SelectValueText,
+} from "@/components/chakra-snippets/select";
+
+import { toaster, Toaster } from "@/components/chakra-snippets/toaster"
+
 import {
   Trash,
   Cigarette,
@@ -21,7 +38,6 @@ import {
   PartyPopper,
   Brush,
 } from "lucide-react";
-import Box from "@mui/material/Box";
 
 const predefinedRules = [
   {
@@ -52,27 +68,36 @@ const predefinedRules = [
   },
 ];
 
-const availableIcons = [
-  { value: "Cigarette", icon: <Cigarette className="w-5 h-5" /> },
-  { value: "Dog", icon: <Dog className="w-5 h-5" /> },
-  { value: "AlertTriangle", icon: <AlertTriangle className="w-5 h-5" /> },
-  { value: "Volume2", icon: <Volume2 className="w-5 h-5" /> },
-  { value: "PartyPopper", icon: <PartyPopper className="w-5 h-5" /> },
-  { value: "Brush", icon: <Brush className="w-5 h-5" /> },
-];
+const availableIcons = createListCollection({
+  items: [
+    { value: "Cigarette", icon: <Cigarette className="w-5 h-5" /> },
+    { value: "Dog", icon: <Dog className="w-5 h-5" /> },
+    { value: "AlertTriangle", icon: <AlertTriangle className="w-5 h-5" /> },
+    { value: "Volume2", icon: <Volume2 className="w-5 h-5" /> },
+    { value: "PartyPopper", icon: <PartyPopper className="w-5 h-5" /> },
+    { value: "Brush", icon: <Brush className="w-5 h-5" /> },
+  ],
+});
 
 const CreateRules = () => {
   const { rules, setRules } = useListingCreationContext();
   const [customRule, setCustomRule] = useState<string>("");
   const [selectedIcon, setSelectedIcon] = useState<string>("");
 
+
   const addPredefinedRule = (rule: { title: string; icon: JSX.Element }) => {
     setRules((prev) => [...prev, rule]);
+    toaster.create({
+      title: "Rule added.",
+      description: `${rule.title} has been added to the rules.`,
+      type: "success",
+      duration: 3000,
+    });
   };
 
   const addCustomRule = () => {
-    const selectedIconData = availableIcons.find(
-      (icon) => icon.value === selectedIcon,
+    const selectedIconData = availableIcons.items.find(
+      (icon: { value: string }) => icon.value === selectedIcon,
     );
     if (customRule && selectedIconData) {
       setRules((prev) => [
@@ -81,104 +106,142 @@ const CreateRules = () => {
       ]);
       setCustomRule("");
       setSelectedIcon("");
+      toaster.create({
+        title: "Custom rule added.",
+        description: `${customRule} has been added to the rules.`,
+        type: "success",
+        duration: 3000,
+
+      });
     }
   };
 
   return (
-    <Box
-      sx={{
-      
-        px: { xs: "5%", sm: "5%", md: "5%", lg: "10%", xl: "15%" },
-      }}
-    >
-      <div className="p-6  mx-auto">
-        <h2 className="text-2xl font-semibold mb-6">Create House Rules</h2>
+    <Box p={6}>
+      <Heading as="h2" size="xl" mb={6}>
+        Create House Rules
+      </Heading>
+      <Toaster />
 
-        {/* Predefined Rules */}
-        <div className="mb-6">
-          <h3 className="text-lg font-medium mb-3">Select Predefined Rules</h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {predefinedRules.map((rule) => (
-              <Card
-                key={rule.id}
-                className="p-4 flex flex-col items-center justify-center hover:bg-gray-100 transition cursor-pointer"
-                onClick={() => addPredefinedRule(rule)}
-              >
-                <div className="mb-2">{rule.icon}</div>
-                <p className="text-sm font-medium text-gray-700">
-                  {rule.title}
-                </p>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Custom Rule Section */}
-        <div className="mb-6">
-          <h3 className="text-lg font-medium mb-3">Add a Custom Rule</h3>
-          <div className="flex flex-col md:flex-row gap-3">
-            <Input
-              placeholder="Enter custom rule"
-              value={customRule}
-              onChange={(e) => setCustomRule(e.target.value)}
-              className="w-full"
-            />
-
-            <Select value={selectedIcon} onValueChange={setSelectedIcon}>
-              <SelectTrigger className="w-28">
-                <SelectValue placeholder="Icon" />
-              </SelectTrigger>
-              <SelectContent>
-                {availableIcons.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    <div className="flex items-center gap-2">
-                      {option.icon} {option.value}
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-
-            <Button
-              className="bg-blue-600 hover:bg-blue-700 text-white"
-              onClick={addCustomRule}
-              disabled={!customRule || !selectedIcon}
+      {/* Predefined Rules */}
+      <Box mb={6}>
+        <Heading as="h3" size="lg" mb={3}>
+          Select Predefined Rules
+        </Heading>
+        <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+          {predefinedRules.map((rule) => (
+            <Card.Root
+              key={rule.id}
+              variant="elevated"
+              cursor="pointer"
+              _hover={{ bg: "gray.100" }}
+              transition="background 0.2s"
+              onClick={() => addPredefinedRule(rule)}
             >
-              Add Rule
-            </Button>
-          </div>
-        </div>
+              <Card.Body
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+              >
+                <Box mb={2}>{rule.icon}</Box>
+                <Text fontSize="sm" fontWeight="medium" color="gray.700">
+                  {rule.title}
+                </Text>
+              </Card.Body>
+            </Card.Root>
+          ))}
+        </Grid>
+      </Box>
 
-        {/* Added Rules */}
-        <div>
-  <h3 className="text-lg font-medium mb-3">Added Rules</h3>
-  {rules.length === 0 ? (
-    <p className="text-gray-500">No rules added yet.</p>
-  ) : (
-    <div className="flex flex-wrap gap-3">
-      {rules.map((rule, index) => (
-        <div
-          key={index}
-          className="flex items-center gap-3 bg-gray-100 px-4 py-2 rounded-md shadow-sm"
-        >
-          <div className="flex items-center gap-2">
-            <div>{rule.icon}</div>
-            <p className="text-sm font-medium">{rule.title}</p>
-          </div>
-          <Button
-            variant="ghost"
+      {/* Custom Rule Section */}
+      <Box mb={6}>
+        <Heading as="h3" size="lg" mb={3}>
+          Add a Custom Rule
+        </Heading>
+        <HStack gap={3}>
+          <Input
+            placeholder="Enter custom rule"
+            value={customRule}
+            onChange={(e) => setCustomRule(e.target.value)}
+            flex={1}
+          />
+
+          <SelectRoot
             size="sm"
-            onClick={() => setRules((prev) => prev.filter((_, i) => i !== index))}
+            width="320px"
+            variant="outline"
+            collection={availableIcons}
+            value={[selectedIcon]}
+            onValueChange={(selected) => setSelectedIcon(selected.value[0])}
           >
-            <Trash className="w-5 h-5 text-red-600" />
-          </Button>
-        </div>
-      ))}
-    </div>
-  )}
-</div>
+            <SelectTrigger>
+              <SelectValueText placeholder="Select Icon" />
+            </SelectTrigger>
+            <SelectContent>
+              {availableIcons.items.map(
+                (option: { value: string; icon: JSX.Element }) => (
+                  <SelectItem key={option.value} item={option}>
+                    <HStack gap={2}>
+                      {option.icon} <Text>{option.value}</Text>
+                    </HStack>
+                  </SelectItem>
+                ),
+              )}
+            </SelectContent>
+          </SelectRoot>
 
-      </div>
+          <Button
+            colorScheme="blue"
+            onClick={addCustomRule}
+            disabled={!customRule || !selectedIcon}
+          >
+            Add Rule
+          </Button>
+        </HStack>
+      </Box>
+
+      {/* Added Rules */}
+      <Box>
+        <Heading as="h3" size="lg" mb={3}>
+          Added Rules
+        </Heading>
+        {rules.length === 0 ? (
+          <Text color="gray.500">No rules added yet.</Text>
+        ) : (
+          <VStack gap={3} align="stretch">
+            {rules.map((rule, index) => (
+              <Flex
+                key={index}
+                alignItems="center"
+                justifyContent="space-between"
+                bg="gray.100"
+                px={4}
+                py={2}
+                borderRadius="md"
+                boxShadow="sm"
+              >
+                <HStack gap={2}>
+                  <Box>{rule.icon}</Box>
+                  <Text fontSize="sm" fontWeight="medium">
+                    {rule.title}
+                  </Text>
+                </HStack>
+                <IconButton
+                  aria-label="Delete rule"
+                  variant="ghost"
+                  size="sm"
+                  colorScheme="red"
+                  onClick={() =>
+                    setRules((prev) => prev.filter((_, i) => i !== index))
+                  }
+                >
+                  <Trash className="w-5 h-5" />
+                </IconButton>
+              </Flex>
+            ))}
+          </VStack>
+        )}
+      </Box>
     </Box>
   );
 };
