@@ -60,8 +60,8 @@ const Page = () => {
         return <CreateRules />;
       case 110:
         return <Pricing />;
-      // case 120:
-      //   return <AvailabilityCalendar />;
+      case 120:
+        return <AvailabilityCalendar />;
       // case 130:
       //   return <Summary />;
       default:
