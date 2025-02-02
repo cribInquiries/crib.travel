@@ -54,12 +54,12 @@ const Page = () => {
         return <UploadPhotos />;
       case 80:
         return <ValueAddedPacks />;
-      // case 90:
-      //   return <ListingDetails />;
-      // case 100:
-      //   return <CreateRules />;
-      // case 110:
-      //   return <Pricing />;
+      case 90:
+        return <ListingDetails />;
+      case 100:
+        return <CreateRules />;
+      case 110:
+        return <Pricing />;
       // case 120:
       //   return <AvailabilityCalendar />;
       // case 130:

@@ -2,16 +2,29 @@
 
 import React from "react";
 import { useListingCreationContext } from "@/context/ListingCreationContext";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import {
+  Box,
+  Stack,
+  Button,
+  Input,
+  Heading,
+  Text,
+  Badge,
+  SimpleGrid,
+  Icon,
+  Flex,
+  Textarea,
+} from "@chakra-ui/react";
 
 const ListingDetails = () => {
-  const { title, setTitle, description, setDescription } = useListingCreationContext();
+  const { title, setTitle, description, setDescription } =
+    useListingCreationContext();
 
   return (
     <div className="max-w-xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-4">Create Listing</h2>
+      <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+        Create Listing
+      </h2>
 
       <div className="space-y-4">
         {/* Title Input */}
@@ -28,7 +41,9 @@ const ListingDetails = () => {
 
         {/* Description Input */}
         <div>
-          <label className="text-sm font-medium text-gray-700">Description</label>
+          <label className="text-sm font-medium text-gray-700">
+            Description
+          </label>
           <Textarea
             placeholder="Enter listing description"
             value={description}
@@ -39,7 +54,7 @@ const ListingDetails = () => {
         </div>
 
         {/* AI Generate Button */}
-        <Button className="w-full text-white font-medium rounded-md">
+        <Button >
           Generate with AI
         </Button>
       </div>
