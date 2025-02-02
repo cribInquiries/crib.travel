@@ -21,16 +21,50 @@ const ListingDetails = () => {
     useListingCreationContext();
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-        Create Listing
-      </h2>
+    <Box
+      shadow={"md"}
+      rounded={"lg"}
+      p={8}
+      mb={8}
+      className="animate__animated animate__fadeIn"
+      textAlign={{
+        base: "center",
+        sm: "center",
+        md: "center",
+        lg: "start",
+        xl: "start",
+      }}
+    >
+      <Text
+        fontSize={["24px", "24px", "24px", "30px", "36px"]}
+        fontWeight="bold"
+        mb="8px"
+      >
+        Listing Details
+      </Text>
+      <Text
+        fontSize={["16px", "16px", "16px", "16px", "20px"]}
+        color="gray.600"
+      >
+        Enter the details of your property here.
+      </Text>
 
       <div className="space-y-4">
         {/* Title Input */}
         <div>
           <label className="text-sm font-medium text-gray-700">Title</label>
           <Input
+            variant="subtle"
+            textIndent={2}
+            autoFocus
+            width="100%"
+            height="50px"
+            border="1px solid #E2E8F0"
+            _focus={{
+              border: "1px solid #E2E8F0", // Keeps the border color unchanged
+              boxShadow: "none", // Removes the default blue glow
+              outline: "none", // Ensures no additional focus outline
+            }}
             type="text"
             placeholder="Enter listing title"
             value={title}
@@ -45,6 +79,17 @@ const ListingDetails = () => {
             Description
           </label>
           <Textarea
+            variant="subtle"
+            textIndent={2}
+            autoFocus
+            width="100%"
+            height="50px"
+            border="1px solid #E2E8F0"
+            _focus={{
+              border: "1px solid #E2E8F0", // Keeps the border color unchanged
+              boxShadow: "none", // Removes the default blue glow
+              outline: "none", // Ensures no additional focus outline
+            }}
             placeholder="Enter listing description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -54,11 +99,27 @@ const ListingDetails = () => {
         </div>
 
         {/* AI Generate Button */}
-        <Button >
-          Generate with AI
-        </Button>
+        <Button mt={5}
+            transition="all 0.3s"
+            as="button"
+            w={"300px"}
+            h={"50px"}
+            bg={"white"}
+            p={4}
+            color={"black"}
+            border="1px solid"
+            borderRadius="8px"
+            borderColor={"gray.300"}
+        
+            _hover={{
+              bg: "black",
+              color: "white",
+
+              transition: "all 0.3s",
+            }}
+              >Generate with AI</Button>
       </div>
-    </div>
+    </Box>
   );
 };
 

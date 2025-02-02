@@ -15,11 +15,7 @@ import {
   Legend,
 } from "chart.js";
 
-import {
-  Box,
-  Button,
-  Input,
-} from "@chakra-ui/react";
+import { Box, Button, Input, Text } from "@chakra-ui/react";
 
 import {
   DialogContent,
@@ -36,7 +32,7 @@ ChartJS.register(
   LinearScale,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 // NEW import from Chakra’s updated Tabs API
@@ -61,78 +57,110 @@ const AvailabilityCalendar: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   // Generate random prices on mount
-// Generate prices for the Calendar once
-useEffect(() => {
-  const generatedPrices = [...Array(31)].map(() =>
-    Math.floor(Math.random() * (500 - 100) + 100)
-  );
-  setPrices(generatedPrices);
-}, [setPrices]);
+  // Generate prices for the Calendar once
+  useEffect(() => {
+    const generatedPrices = [...Array(31)].map(() =>
+      Math.floor(Math.random() * (500 - 100) + 100),
+    );
+    setPrices(generatedPrices);
+  }, [setPrices]);
 
-// EXAMPLE: Simulate loading insights data whenever "insights" tab is selected
-useEffect(() => {
-  if (value === "insights") {
-    setLoadingInsights(true);
-    // Simulate a 2-second async fetch
-    const timeoutId = setTimeout(() => {
-      // Example data
-      setInsights({
-        labels: ["January", "February", "March", "April"],
-        revenue: [1500, 2000, 2200, 1800],
-        occupancy: [70, 75, 80, 65], // Example occupancy data
-      });
-      setLoadingInsights(false);
-    }, 2000);
+  // EXAMPLE: Simulate loading insights data whenever "insights" tab is selected
+  useEffect(() => {
+    if (value === "insights") {
+      setLoadingInsights(true);
+      // Simulate a 2-second async fetch
+      const timeoutId = setTimeout(() => {
+        // Example data
+        setInsights({
+          labels: ["January", "February", "March", "April"],
+          revenue: [1500, 2000, 2200, 1800],
+          occupancy: [70, 75, 80, 65], // Example occupancy data
+        });
+        setLoadingInsights(false);
+      }, 2000);
 
-    // Clean up if the component unmounts or the tab changes
-    return () => clearTimeout(timeoutId);
-  }
-}, [value, setLoadingInsights, setInsights]);
+      // Clean up if the component unmounts or the tab changes
+      return () => clearTimeout(timeoutId);
+    }
+  }, [value, setLoadingInsights, setInsights]);
 
-// Toggle selected day
-const toggleDateSelection = (day: number) => {
-  setSelectedDates((prev) =>
-    prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
-  );
-};
+  // Toggle selected day
+  const toggleDateSelection = (day: number) => {
+    setSelectedDates((prev) =>
+      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day],
+    );
+  };
 
-// Clear all selected days
-const clearSelection = () => {
-  setSelectedDates([]);
-};
-
-// Save rates for selected days
-const saveEditedRates = () => {
-  if (editRate !== "") {
-    const updatedPrices = [...prices];
-    selectedDates.forEach((date) => {
-      updatedPrices[date - 1] = Number(editRate);
-    });
-    setPrices(updatedPrices);
+  // Clear all selected days
+  const clearSelection = () => {
     setSelectedDates([]);
-  }
-};
+  };
+
+  // Save rates for selected days
+  const saveEditedRates = () => {
+    if (editRate !== "") {
+      const updatedPrices = [...prices];
+      selectedDates.forEach((date) => {
+        updatedPrices[date - 1] = Number(editRate);
+      });
+      setPrices(updatedPrices);
+      setSelectedDates([]);
+    }
+  };
 
   return (
-    <Box>
-      <div className="max-w-5xl mx-auto p-6 bg-white shadow-md rounded-lg">
-        <h1 className="text-2xl font-semibold mb-6">Availability &amp; Pricing</h1>
-
+   <Box
+           shadow={"md"}
+           rounded={"lg"}
+           p={8}
+           mb={8}
+           className="animate__animated animate__fadeIn"
+           textAlign={{
+             base: "center",
+             sm: "center",
+             md: "center",
+             lg: "start",
+             xl: "start",
+           }}
+         >
+           <Text
+             fontSize={["24px", "24px", "24px", "30px", "36px"]}
+             fontWeight="bold"
+             mb="8px"
+           >
+             The Location of Your Property
+           </Text>
+           <Text
+             fontSize={["16px", "16px", "16px", "16px", "20px"]}
+             color="gray.600"
+           >
+             Enter the address of your property to show it on the map.
+           </Text>
         {/* New Chakra Tabs */}
         <Tabs.Root
           value={value}
           onValueChange={(details) => setValue(details.value)}
-          className="w-full"
+          defaultValue={"calendar"}
         >
-          <Tabs.List className="grid grid-cols-3 w-full bg-gray-200 rounded-lg">
+          <Tabs.List
+            display={"flex"}
+            alignItems={"center"}
+            justifyContent={"center"}
+            w={"100%"}
+            gap={"50px"}
+            
+          >
             <Tabs.Trigger value="calendar">Calendar</Tabs.Trigger>
             <Tabs.Trigger value="insights">Insights</Tabs.Trigger>
             <Tabs.Trigger value="settings">Settings</Tabs.Trigger>
           </Tabs.List>
 
           {/* CALENDAR TAB */}
-          <Tabs.Content value="calendar" className="mt-4">
-            <h3 className="text-lg font-medium text-center mb-4">January 2025</h3>
+          <Tabs.Content value="calendar"   >
+            <h3 className="text-lg font-medium text-center mb-4">
+              January 2025
+            </h3>
             <div className="flex items-center justify-center">
               <Button variant="ghost">
                 <ChevronLeft />
@@ -170,6 +198,21 @@ const saveEditedRates = () => {
               <DialogRoot open={isDialogOpen}>
                 <DialogTrigger asChild>
                   <Button
+                    transition="all 0.3s"
+                    as="button"
+                    bg={"white"}
+                    p={2}
+                    color={"black"}
+                    border="1px solid"
+                    borderRadius="8px"
+                    borderColor={"gray.300"}
+                    _hover={{
+                      bg: "black",
+                      color: "white",
+
+                      transition: "all 0.3s",
+                    }}
+                    w={"300px"}
                     disabled={selectedDates.length === 0}
                     onClick={() => setIsDialogOpen(true)}
                   >
@@ -211,6 +254,21 @@ const saveEditedRates = () => {
               </DialogRoot>
 
               <Button
+                transition="all 0.3s"
+                as="button"
+                w={"300px"}
+                bg={"white"}
+                p={2}
+                color={"black"}
+                border="1px solid"
+                borderRadius="8px"
+                borderColor={"gray.300"}
+                _hover={{
+                  bg: "black",
+                  color: "white",
+
+                  transition: "all 0.3s",
+                }}
                 variant="outline"
                 disabled={selectedDates.length === 0}
                 onClick={clearSelection}
@@ -261,8 +319,9 @@ const saveEditedRates = () => {
             </div>
           </Tabs.Content>
         </Tabs.Root>
-      </div>
+  
     </Box>
+  
   );
 };
 

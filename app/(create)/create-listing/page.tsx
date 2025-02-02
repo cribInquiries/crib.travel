@@ -31,15 +31,7 @@ import AvailabilityCalendar from "@/components/createListingProcess/Availability
 import CreateRules from "@/components/createListingProcess/CreateRules";
 import Summary from "@/components/createListingProcess/Summary";
 
-import {
-  StepsCompletedContent,
-  StepsContent,
-  StepsItem,
-  StepsList,
-  StepsNextTrigger,
-  StepsPrevTrigger,
-  StepsRoot,
-} from "@/components/chakra-snippets/steps";
+
 const Page = () => {
   const { addedRooms } = useListingCreationContext();
   const [progress, setProgress] = useState<number>(10);

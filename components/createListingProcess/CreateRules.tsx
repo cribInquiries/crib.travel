@@ -27,7 +27,7 @@ import {
   SelectValueText,
 } from "@/components/chakra-snippets/select";
 
-import { toaster, Toaster } from "@/components/chakra-snippets/toaster"
+import { toaster, Toaster } from "@/components/chakra-snippets/toaster";
 
 import {
   Trash,
@@ -84,7 +84,6 @@ const CreateRules = () => {
   const [customRule, setCustomRule] = useState<string>("");
   const [selectedIcon, setSelectedIcon] = useState<string>("");
 
-
   const addPredefinedRule = (rule: { title: string; icon: JSX.Element }) => {
     setRules((prev) => [...prev, rule]);
     toaster.create({
@@ -111,55 +110,89 @@ const CreateRules = () => {
         description: `${customRule} has been added to the rules.`,
         type: "success",
         duration: 3000,
-
       });
     }
   };
 
   return (
-    <Box p={6}>
-      <Heading as="h2" size="xl" mb={6}>
-        Create House Rules
-      </Heading>
-      <Toaster />
+    <Box
+      shadow={"md"}
+      rounded={"lg"}
+      p={8}
+      mb={8}
+      className="animate__animated animate__fadeIn"
+      textAlign={{
+        base: "center",
+        sm: "center",
+        md: "center",
+        lg: "start",
+        xl: "start",
+      }}
+    >
+      <Text
+        fontSize={["24px", "24px", "24px", "30px", "36px"]}
+        fontWeight="bold"
+        mb="8px"
+      >
+        Add Rules
+      </Text>
+      <Text
+        fontSize={["16px", "16px", "16px", "16px", "20px"]}
+        color="gray.600"
+      >
+        Rules help guests know what is allowed and what is not allowed in
+      </Text>
+      {/* <Toaster /> */}
 
       {/* Predefined Rules */}
-      <Box mb={6}>
-        <Heading as="h3" size="lg" mb={3}>
-          Select Predefined Rules
-        </Heading>
-        <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+      <Box mb={6} mt={6}>
+        <Flex wrap="wrap" gap={4}>
           {predefinedRules.map((rule) => (
-            <Card.Root
+            <Box
+              shadow={"none"}
+              border="1px solid"
+              borderColor={"gray.300"}
+              p={4}
+              w={"200px"}
               key={rule.id}
-              variant="elevated"
+              borderRadius="md"
               cursor="pointer"
-              _hover={{ bg: "gray.100" }}
+              _hover={{
+               
+                color: "white",
+
+                transition: "all 0.3s",
+              }}
               transition="background 0.2s"
               onClick={() => addPredefinedRule(rule)}
             >
-              <Card.Body
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-              >
+              <Box display="flex" flexDirection="column" alignItems="center">
                 <Box mb={2}>{rule.icon}</Box>
                 <Text fontSize="sm" fontWeight="medium" color="gray.700">
                   {rule.title}
                 </Text>
-              </Card.Body>
-            </Card.Root>
+              </Box>
+            </Box>
           ))}
-        </Grid>
+        </Flex>
       </Box>
 
       {/* Custom Rule Section */}
       <Box mb={6}>
-        <Heading as="h3" size="lg" mb={3}>
-          Add a Custom Rule
-        </Heading>
         <HStack gap={3}>
           <Input
+            variant="subtle"
+            textIndent={2}
+            autoFocus
+            type="text"
+            width="100%"
+            height="50px"
+            border="1px solid #E2E8F0"
+            _focus={{
+              border: "1px solid #E2E8F0", // Keeps the border color unchanged
+              boxShadow: "none", // Removes the default blue glow
+              outline: "none", // Ensures no additional focus outline
+            }}
             placeholder="Enter custom rule"
             value={customRule}
             onChange={(e) => setCustomRule(e.target.value)}
@@ -174,8 +207,14 @@ const CreateRules = () => {
             value={[selectedIcon]}
             onValueChange={(selected) => setSelectedIcon(selected.value[0])}
           >
-            <SelectTrigger>
-              <SelectValueText placeholder="Select Icon" />
+            <SelectTrigger
+              height="50px"
+              w={"100%"}
+              rounded={"md"}
+              textAlign={"center"}
+              border="1px solid #E2E8F0"
+            >
+              <SelectValueText placeholder="Select Icon" textAlign={"center"} />
             </SelectTrigger>
             <SelectContent>
               {availableIcons.items.map(
@@ -208,38 +247,34 @@ const CreateRules = () => {
         {rules.length === 0 ? (
           <Text color="gray.500">No rules added yet.</Text>
         ) : (
-          <VStack gap={3} align="stretch">
+          <HStack flexWrap={"wrap"} gap={3} align="stretch">
             {rules.map((rule, index) => (
-              <Flex
-                key={index}
-                alignItems="center"
-                justifyContent="space-between"
-                bg="gray.100"
-                px={4}
-                py={2}
-                borderRadius="md"
-                boxShadow="sm"
+              <Box
+              shadow={"none"}
+              border="1px solid"
+              borderColor={"gray.300"}
+              p={4}
+              w={"200px"}
+              key={index}
+              borderRadius="md"
+              cursor="pointer"
+              _hover={{
+               
+                color: "white",
+
+                transition: "all 0.3s",
+              }}
+              transition="background 0.2s"
               >
-                <HStack gap={2}>
-                  <Box>{rule.icon}</Box>
-                  <Text fontSize="sm" fontWeight="medium">
+                <Box display="flex" flexDirection="column" alignItems="center">
+                  <Box mb={2}>{rule.icon}</Box>
+                  <Text fontSize="sm" fontWeight="medium" color="gray.700">
                     {rule.title}
                   </Text>
-                </HStack>
-                <IconButton
-                  aria-label="Delete rule"
-                  variant="ghost"
-                  size="sm"
-                  colorScheme="red"
-                  onClick={() =>
-                    setRules((prev) => prev.filter((_, i) => i !== index))
-                  }
-                >
-                  <Trash className="w-5 h-5" />
-                </IconButton>
-              </Flex>
+                </Box>
+              </Box>
             ))}
-          </VStack>
+          </HStack>
         )}
       </Box>
     </Box>
