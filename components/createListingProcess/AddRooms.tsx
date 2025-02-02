@@ -1,18 +1,28 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Box, Stack, Button, Text, Heading, Badge, Card } from "@chakra-ui/react";
-import Image from 'next/image';
 import {
- 
-  X,
-} from "lucide-react";
+  Box,
+  Stack,
+  Button,
+  Text,
+  Heading,
+  Badge,
+  Card,
+  Flex,
+  AccordionItem,
+  AccordionItemContent,
+  AccordionItemTrigger,
+  AccordionRoot,
+  HStack,
+} from "@chakra-ui/react";
+import Image from "next/image";
+import { X } from "lucide-react";
 import SelectRoomType from "./addRoomToYourCrib/SelectRoomType";
 import ChooseAmenities from "./addRoomToYourCrib/ChooseAmenities";
 import GeneratedRoomName from "./addRoomToYourCrib/GeneratedRoomName";
 
 import { useListingCreationContext } from "@/context/ListingCreationContext";
 import { Progress } from "../ui/progress";
-
 
 interface RoomCardProps {
   roomType: string;
@@ -151,154 +161,379 @@ const AddRooms = () => {
     if (addRoomProgress === 100) {
       return (
         <>
-    <Box width="100%" display="flex" justifyContent="center" alignItems="center">
-  <Card.Root maxW="sm" overflow="hidden" shadow="lg" _hover={{ shadow: "xl" }} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-    
-    <Image src="https://via.placeholder.com/300" alt="Room Preview" width={300} height={200} />
+          <Box
+            width="100%"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Text fontSize="xl" fontWeight={"semibold"}>
+              {" "}
+              {roomType} - {generatedRoomName}
+            </Text>
+            <Card.Root
+              maxW="sm"
+              overflow="hidden"
+              _hover={{ shadow: "xl" }}
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+            >
+              <Card.Body gap="4">
+                {/* Room Amenities */}
+                <Box>
+                  <Heading as="h4" size="sm" mb={2}>
+                    Room Amenities
+                  </Heading>
+                  <Stack direction="row" flexWrap="wrap" gap={2}>
+                    {chooseAmenities.length > 0 ? (
+                      chooseAmenities.map((amenity, index) => (
+                        <Badge key={index} colorScheme="gray" variant="solid">
+                          {amenity}
+                        </Badge>
+                      ))
+                    ) : (
+                      <Text fontSize="sm" color="gray.500">
+                        No amenities selected.
+                      </Text>
+                    )}
+                  </Stack>
+                </Box>
 
+                {/* Ensuite Amenities */}
+                <Box>
+                  <Heading as="h4" size="sm" mb={2}>
+                    Ensuite Amenities
+                  </Heading>
+                  <Stack direction="row" flexWrap="wrap" gap={2}>
+                    {chooseAmenitiesEnsuite.length > 0 ? (
+                      chooseAmenitiesEnsuite.map((ensuite, index) => (
+                        <Badge key={index} colorScheme="gray" variant="solid">
+                          {ensuite}
+                        </Badge>
+                      ))
+                    ) : (
+                      <Text fontSize="sm" color="gray.500">
+                        No ensuite amenities selected.
+                      </Text>
+                    )}
+                  </Stack>
+                </Box>
+              </Card.Body>
 
-    <Card.Body gap="4">
-      <Card.Title fontSize="md">{roomType}</Card.Title>
-      <Heading as="h3" size="md">{generatedRoomName}</Heading>
+              <Card.Footer gap="2">
+                <Box
+                  transition="all 0.3s"
+                  as="button"
+                  w={"100%"}
+                  bg={"white"}
+                  p={2}
+                  color={"black"}
+                  border="1px solid"
+                  borderRadius="8px"
+                  borderColor={"gray.300"}
+                  onClick={addRoom}
+                  _hover={{
+                    bg: "black",
+                    color: "white",
 
-      {/* Room Amenities */}
-      <Box>
-        <Heading as="h4" size="sm" mb={2}>Room Amenities</Heading>
-        <Stack direction="row" flexWrap="wrap" gap={2}>
-          {chooseAmenities.length > 0 ? (
-            chooseAmenities.map((amenity, index) => (
-              <Badge key={index} colorScheme="gray" variant="solid">{amenity}</Badge>
-            ))
-          ) : (
-            <Text fontSize="sm" color="gray.500">No amenities selected.</Text>
-          )}
-        </Stack>
-      </Box>
-
-      {/* Ensuite Amenities */}
-      <Box>
-        <Heading as="h4" size="sm" mb={2}>Ensuite Amenities</Heading>
-        <Stack direction="row" flexWrap="wrap" gap={2}>
-          {chooseAmenitiesEnsuite.length > 0 ? (
-            chooseAmenitiesEnsuite.map((ensuite, index) => (
-              <Badge key={index} colorScheme="gray" variant="solid">{ensuite}</Badge>
-            ))
-          ) : (
-            <Text fontSize="sm" color="gray.500">No ensuite amenities selected.</Text>
-          )}
-        </Stack>
-      </Box>
-    </Card.Body>
-
-    <Card.Footer gap="2">
-      <Button colorScheme="blue" variant="solid" width="100%" onClick={addRoom}>
-        Add Room
-      </Button>
-    </Card.Footer>
-  </Card.Root>
-</Box>
-
+                    transition: "all 0.3s",
+                  }}
+                >
+                  Add Room
+                </Box>
+              </Card.Footer>
+            </Card.Root>
+          </Box>
         </>
       );
     }
   };
 
   return (
- 
     <>
-      <Box className="animate__animated animate__fadeInDown">
-        <Heading as="h2" size="lg" mb={2}>
-          Add Rooms to Your Crib
-        </Heading>
-        <Text color="gray.600">Choose the category that best describes your property.</Text>
-      </Box>
-    
-      <Box>
-        <Stack justifyContent="center" alignItems="center" width="100%" height="100%" direction="column">
+      <Box
+        shadow={"md"}
+        rounded={"lg"}
+        p={8}
+        mb={8}
+        className="animate__animated animate__fadeIn"
+        textAlign={{
+          base: "center",
+          sm: "center",
+          md: "center",
+          lg: "start",
+          xl: "start",
+        }}
+      >
+        <Text
+          fontSize={["24px", "24px", "24px", "30px", "36px"]}
+          fontWeight="bold"
+          mb="8px"
+        >
+          What type of property are you listing?
+        </Text>
+        <Text
+          fontSize={["16px", "16px", "16px", "16px", "20px"]}
+          color="gray.600"
+        >
+          Choose the category that best describes your property.
+        </Text>
+
+        <Box
+          display="flex"
+          flexWrap="wrap"
+          gap="16px"
+          mt="50px"
+          alignItems={{
+            base: "center",
+            sm: "center",
+            md: "center",
+            lg: "start",
+            xl: "start",
+          }}
+          justifyContent={{
+            base: "center",
+            sm: "center",
+            md: "center",
+            lg: "start",
+            xl: "start",
+          }}
+        >
           <Stack
             justifyContent="center"
             alignItems="center"
-            direction="column"
-            width={{ base: "100%", sm: "75%", md: "75%", lg: "50%", xl: "100%" }}
+            width="100%"
             height="100%"
-            mb={6}
+            direction="column"
           >
-            <Progress value={addRoomProgress}  />
-    
-            <Stack justifyContent="space-between" alignItems="start" direction="row" width="100%" height="100%" mb={6}>
-              <Text fontSize="sm">Select Room Type</Text>
-              <Text fontSize="sm">Choose Amenities</Text>
-              <Text fontSize="sm">Review Generated Name</Text>
-              <Text fontSize="sm">Review and Add</Text>
+            <Stack
+              justifyContent="center"
+              alignItems="center"
+              direction="column"
+              width={{
+                base: "100%",
+                sm: "75%",
+                md: "75%",
+                lg: "50%",
+                xl: "100%",
+              }}
+              height="100%"
+            >
+              <Stack
+                justifyContent="space-between"
+                alignItems="start"
+                direction="row"
+                width="100%"
+                height="100%"
+              >
+                <Text fontSize="sm">Select Room Type</Text>
+                <Text fontSize="sm">Choose Amenities</Text>
+                <Text fontSize="sm">Review Generated Name</Text>
+                <Text fontSize="sm">Review and Add</Text>
+              </Stack>
+
+              <Progress value={addRoomProgress} />
             </Stack>
           </Stack>
-        </Stack>
-    
-        {render()}
-    
-        <Box width="100%" mt={8} display="flex" alignItems="center" justifyContent="space-between" px={{ base: "5px", sm: "5px", md: "50px", lg: "200px", xl: "100" }}>
-          <Button colorScheme="blue" variant="solid" onClick={Previous}>
-            Previous
-          </Button>
-          <Button colorScheme="blue" variant="solid" onClick={next}>
-            Next
-          </Button>
+
+          {render()}
+
+          <Box
+            width="100%"
+            mt={8}
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Box
+              transition="all 0.3s"
+              as="button"
+              w={"300px"}
+              p={4}
+              bg={"white"}
+              color={"black"}
+              border="1px solid"
+              borderRadius="8px"
+              borderColor={"gray.300"}
+              onClick={Previous}
+              _hover={{
+                bg: "black",
+                color: "white",
+              }}
+            >
+              Previous
+            </Box>
+            <Box
+              transition="all 0.3s"
+              as="button"
+              w={"300px"}
+              bg={"white"}
+              p={4}
+              color={"black"}
+              border="1px solid"
+              borderRadius="8px"
+              borderColor={"gray.300"}
+              onClick={next}
+              _hover={{
+                bg: "black",
+                color: "white",
+
+                transition: "all 0.3s",
+              }}
+            >
+              Next
+            </Box>
+          </Box>
+
+          {/* <Heading as="h2" size="lg" mt={8} mb={4}>
+            Added Rooms
+          </Heading> */}
+
+          <HStack
+     
+            direction="row"
+            gap={6}
+            justifyContent="start"
+            alignItems="start"
+            flexWrap="wrap"
+          >
+            {" "}
+            <HStack
+            
+              direction="row"
+              gap={6}
+              justifyContent="start"
+              alignItems="start"
+              flexWrap="wrap"
+            >
+              {addedRooms.map((room, index) => (
+                <AccordionRoot collapsible key={index} w={"400px"}>
+                  <AccordionItem value={`item-${index}`} >
+                    <AccordionItemTrigger mb={1} >
+                      <Text
+                    
+                        transition="all 0.3s"
+                        w={"400px"}
+                        p={4}
+                        bg={"white"}
+                        color={"black"}
+                        border="1px solid"
+                        borderRadius="8px"
+                        borderColor={"gray.300"}
+                        _hover={{
+                          bg: "black",
+                          color: "white",
+                        }}
+                      >
+                        {room.roomType} : {room.generatedRoomName}
+                      </Text>
+                    </AccordionItemTrigger>
+                    <AccordionItemContent>
+                      <Card.Root
+                        w={"400px"}
+                        border={"1px solid lightgray"}
+                        overflow="hidden"
+                      >
+                        {/* Optional Image Placeholder */}
+
+                        <Card.Body gap={4}>
+                          <Text fontSize="xl" fontWeight="semibold">
+                            {room.roomType} : {room.generatedRoomName}
+                          </Text>
+
+                          {/* Room Amenities */}
+                          <Box>
+                            <Heading as="h4" size="sm" mb={2}>
+                              {room.roomType} Amenities
+                            </Heading>
+                            <Stack direction="row" flexWrap="wrap" gap={2}>
+                              {room.chooseAmenities.length > 0 ? (
+                                room.chooseAmenities.map((amenity, i) => (
+                                  <Box
+                                    key={i}
+                                    border={"1px solid lightgray"}
+                                    bg={"gray.50"}
+                                    p={1}
+                                    px={2}
+                                    fontSize={"sm"}
+                                    rounded={"xl"}
+                                    color={"gray.600"}
+                                  >
+                                    {amenity}
+                                  </Box>
+                                ))
+                              ) : (
+                                <Text fontSize="sm" color="gray.500">
+                                  No amenities selected.
+                                </Text>
+                              )}
+                            </Stack>
+                          </Box>
+
+                          {/* Ensuite Amenities */}
+                          <Box>
+                            <Heading as="h4" size="sm" mb={2}>
+                              Ensuite Amenities
+                            </Heading>
+                            <Stack direction="row" flexWrap="wrap" gap={2}>
+                              {room.chooseAmenitiesEnsuite.length > 0 ? (
+                                room.chooseAmenitiesEnsuite.map(
+                                  (ensuite, i) => (
+                                    <Box
+                                      key={i}
+                                      border={"1px solid lightgray"}
+                                      bg={"gray.50"}
+                                      p={1}
+                                      px={2}
+                                      fontSize={"sm"}
+                                      rounded={"xl"}
+                                      color={"gray.600"}
+                                    >
+                                      {ensuite}
+                                    </Box>
+                                  ),
+                                )
+                              ) : (
+                                <Text fontSize="sm" color="gray.500">
+                                  No ensuite amenities selected.
+                                </Text>
+                              )}
+                            </Stack>
+                          </Box>
+                        </Card.Body>
+
+                        <Card.Footer>
+                          <Box
+                            transition="all 0.3s"
+                            as="button"
+                            w={"100%"}
+                            bg={"white"}
+                            p={2}
+                            color={"black"}
+                            border="1px solid"
+                            borderRadius="8px"
+                            borderColor={"gray.300"}
+                            onClick={() => deleteRoom(index)}
+                            _hover={{
+                              bg: "black",
+                              color: "white",
+
+                              transition: "all 0.3s",
+                            }}
+                          >
+                            Remove Room
+                          </Box>
+                        </Card.Footer>
+                      </Card.Root>
+                    </AccordionItemContent>
+                  </AccordionItem>
+                </AccordionRoot>
+              ))}
+            </HStack>
+          </HStack>
         </Box>
-    
-        <Heading as="h2" size="lg" mt={8} mb={4}>
-          Added Rooms
-        </Heading>
-        <Stack direction="row" gap={6} justifyContent="center" alignItems="center" flexWrap="wrap">
-          {addedRooms.map((room, index) => (
-            <Card.Root key={index} maxW="sm" shadow="lg" overflow="hidden">
-              
-              {/* Optional Image Placeholder */}
-              <Image src="https://via.placeholder.com/300" alt="Room Preview" width={300} height={200} />
-    
-              <Card.Body gap={4}>
-                <Text fontSize="sm" fontWeight="semibold">{room.roomType}</Text>
-                <Heading as="h3" size="md">{room.generatedRoomName || "Unnamed Room"}</Heading>
-    
-                {/* Room Amenities */}
-                <Box>
-                  <Heading as="h4" size="sm" mb={2}>Room Amenities</Heading>
-                  <Stack direction="row" flexWrap="wrap" gap={2}>
-                    {room.chooseAmenities.length > 0 ? (
-                      room.chooseAmenities.map((amenity, i) => (
-                        <Badge key={i} colorScheme="gray" variant="solid">{amenity}</Badge>
-                      ))
-                    ) : (
-                      <Text fontSize="sm" color="gray.500">No amenities selected.</Text>
-                    )}
-                  </Stack>
-                </Box>
-    
-                {/* Ensuite Amenities */}
-                <Box>
-                  <Heading as="h4" size="sm" mb={2}>Ensuite Amenities</Heading>
-                  <Stack direction="row" flexWrap="wrap" gap={2}>
-                    {room.chooseAmenitiesEnsuite.length > 0 ? (
-                      room.chooseAmenitiesEnsuite.map((ensuite, i) => (
-                        <Badge key={i} colorScheme="gray" variant="solid">{ensuite}</Badge>
-                      ))
-                    ) : (
-                      <Text fontSize="sm" color="gray.500">No ensuite amenities selected.</Text>
-                    )}
-                  </Stack>
-                </Box>
-              </Card.Body>
-    
-              <Card.Footer>
-                <Button onClick={() => deleteRoom(index)} colorScheme="red" variant="ghost" size="sm" leftIcon={<X size={18} />}>
-                  Remove Room
-                </Button>
-              </Card.Footer>
-            </Card.Root>
-          ))}
-        </Stack>
       </Box>
     </>
-    
   );
 };
 

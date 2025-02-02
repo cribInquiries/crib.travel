@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Box, Stack, Button, Text, Flex } from "@chakra-ui/react";
+import { Box, Stack, Text, Flex, Group } from "@chakra-ui/react";
 import { Progress } from "@/components/ui/progress";
 import {
   Home,
@@ -31,6 +31,15 @@ import AvailabilityCalendar from "@/components/createListingProcess/Availability
 import CreateRules from "@/components/createListingProcess/CreateRules";
 import Summary from "@/components/createListingProcess/Summary";
 
+import {
+  StepsCompletedContent,
+  StepsContent,
+  StepsItem,
+  StepsList,
+  StepsNextTrigger,
+  StepsPrevTrigger,
+  StepsRoot,
+} from "@/components/chakra-snippets/steps";
 const Page = () => {
   const { addedRooms } = useListingCreationContext();
   const [progress, setProgress] = useState<number>(10);
@@ -88,66 +97,103 @@ const Page = () => {
   return (
     <Box px={4} py={6}>
       {/* Progress Bar */}
-      <Flex justify="center" mb={6}>
-        <Progress value={progress} color="blue" />
-      </Flex>
 
-      {/* Navigation Items */}
-      <Flex wrap="wrap" justify="center" gap={4} mb={6}>
-        {navItems.map((item, index) => {
-          const Icon = item.icon;
-          const isActive = progress >= item.progress;
-          return (
-            <Flex key={index} direction="column" align="center">
-              <Box
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                w="48px"
-                h="48px"
-                borderRadius="full"
-                bg={isActive ? "blue.100" : "gray.200"}
-                shadow={isActive ? "md" : "none"}
-                transition="all 0.3s"
-              >
-                <Icon size={24} color={isActive ? "blue" : "gray"} />
-              </Box>
-              <Text
-                fontSize="sm"
-                mt={2}
-                color={isActive ? "blue.500" : "gray.500"}
-              >
-                {item.label}
-              </Text>
+      <Flex justify="center" px={{ base: "5%", lg: "10%", xl: "10%" }}>
+        <Box p={4} px={10} borderRadius="md" mb={6} shadow={"md"} w={"100%"}>
+          {/* Navigation Items */}
+          <Box position="relative">
+            <Flex wrap="wrap" justify="space-between">
+              {navItems.map((item, index) => {
+                const Icon = item.icon;
+                const isActive = progress >= item.progress;
+                return (
+                  <Flex
+                    key={index}
+                    direction="column"
+                    align="center"
+                    zIndex={1}
+                  >
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      w="48px"
+                      h="48px"
+                      borderRadius="full"
+                      bg={isActive ? "white" : "gray.200"}
+                      shadow={isActive ? "md" : "none"}
+                      transition="all 0.3s"
+                    >
+                      <Icon size={24} color={isActive ? "black" : "gray"} />
+                    </Box>
+                    <Text
+                      fontSize="sm"
+                      mt={2}
+                      color={isActive ? "black" : "gray.500"}
+                    >
+                      {item.label}
+                    </Text>
+                  </Flex>
+                );
+              })}
             </Flex>
-          );
-        })}
+          </Box>
+        </Box>
       </Flex>
 
-      {/* Dynamic Content */}
       <Box px={{ base: "5%", lg: "10%", xl: "10%" }}> {renderComponent()}</Box>
 
       {/* Navigation Buttons */}
-      <Flex justify="space-between" maxW="600px" mx="auto">
-        <Button
-          colorScheme="gray"
-          size="lg"
+      <Flex
+        justify="space-between"
+        mx="auto"
+        px={{ base: "5%", lg: "10%", xl: "10%" }}
+        gap={{ base: "4%", md: "50%" }}
+        transition="all 0.3s"
+      >
+        <Box
+          transition="all 0.3s"
+          as="button"
+          w={"100%"}
+          p={4}
+          bg={"white"}
+          color={"black"}
+          border="1px solid"
+          borderRadius="8px"
+          borderColor={"gray.300"}
           onClick={previous}
-          disabled={progress === 10}
+          _hover={{
+            bg: "black",
+            color: "white",
+          }}
         >
           Previous
-        </Button>
-        <Button
-          colorScheme="blue"
-          size="lg"
+        </Box>
+        <Box
+          transition="all 0.3s"
+          as="button"
+          w={"100%"}
+          bg={"white"}
+          p={4}
+          color={"black"}
+          border="1px solid"
+          borderRadius="8px"
+          borderColor={"gray.300"}
           onClick={next}
-          disabled={progress === 130}
+          _hover={{
+            bg: "black",
+            color: "white",
+
+            transition: "all 0.3s",
+          }}
         >
           Next
-        </Button>
+        </Box>
       </Flex>
     </Box>
   );
 };
 
 export default Page;
+
+
