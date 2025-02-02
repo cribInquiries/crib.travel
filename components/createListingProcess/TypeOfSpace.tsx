@@ -38,6 +38,9 @@ const TypeOfSpace = () => {
   return (
     <>
       <Box
+        shadow={"md"}
+        rounded={"lg"}
+        p={8}
         mb={8}
         className="animate__animated animate__fadeIn"
         textAlign={{
@@ -48,95 +51,106 @@ const TypeOfSpace = () => {
           xl: "start",
         }}
       >
-        <Text fontSize="2xl" fontWeight="bold" mb={2}>
+        <Text
+          fontSize={["24px", "24px", "24px", "30px", "36px"]}
+          fontWeight="bold"
+          mb="8px"
+        >
           What type of space will guests have?
         </Text>
-        <Text fontSize="md" color="gray.600">
+        <Text
+          fontSize={["16px", "16px", "16px", "16px", "20px"]}
+          color="gray.600"
+        >
           Choose the option that best describes your place
         </Text>
-      </Box>
 
-      <Box
-        display="flex"
-        alignItems={{
-          base: "center",
-          sm: "center",
-          md: "center",
-          lg: "start",
-          xl: "start",
-        }}
-        justifyContent={{
-          base: "center",
-          sm: "center",
-          md: "center",
-          lg: "start",
-          xl: "start",
-        }}
-        gap={4}
-      >
-        <HStack
+        <Box
+         mt="50px"
           display="flex"
-          flexWrap={{
-            base: "wrap",
-            sm: "wrap",
-            md: "wrap",
-            lg: "nowrap",
-            xl: "nowrap",
+          alignItems={{
+            base: "center",
+            sm: "center",
+            md: "center",
+            lg: "start",
+            xl: "start",
           }}
-          gap={4}
+          justifyContent={{
+            base: "center",
+            sm: "center",
+            md: "center",
+            lg: "start",
+            xl: "start",
+          }}
         >
-          {propertyTypes.map((property) => (
-            <Box
-              key={property.value}
-              onClick={() => setSelectedProperty(property.value)}
-              className="animate__animated animate__fadeIn"
-              display="flex"
-              flexDirection="column"
-              alignItems="center"
-              justifyContent="start"
-              borderRadius="md"
-              bg={selectedProperty === property.value ? "gray.200" : "white"}
-              width={{
-                base: "100%",
-                sm: "100%",
-                md: "100%",
-                lg: "100%",
-                xl: "100%",
-              }}
-              height="200px"
-              borderWidth="1px"
-              borderColor="gray.300"
-              transition="all 0.3s ease-in-out"
-              _hover={{
-                bg: "gray.200",
-                transform: " scale(1.05)",
-              }}
-              p={4}
-            >
-              <property.icon
-                size={34}
-                color="black"
-                style={{ marginBottom: "12px" }}
-              />
-              <Text
-                fontWeight="semibold"
-                fontSize="lg"
-                textAlign="center"
-                color="black"
+          <HStack
+            display="flex"
+            flexWrap={{
+              base: "wrap",
+              sm: "wrap",
+              md: "wrap",
+              lg: "nowrap",
+              xl: "nowrap",
+            }}
+            gap={8}
+          >
+            {propertyTypes.map((property) => (
+              <Box
+              as={"button"}
+                p={4}
+                key={property.value}
+                onClick={() => setSelectedProperty(property.value)}
+                className="animate__animated animate__fadeIn"
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="center"
+                borderRadius="md"
+                bg={selectedProperty === property.value ? "blue.50" : "white"}
+                width={{
+                  base: "125px",
+                  sm: "155px",
+                  md: "155px",
+                  lg: "155px",
+                  xl: "100%",
+                }}
+                height="200px"
+                borderWidth="1px"
+                borderColor={
+                  property.value === selectedProperty ? "blue.400" : "gray.300"
+                }
+                transition="all 0.3s ease-in-out"
+                _hover={{
+                  transform: "scale(1.05)",
+                  bg: "blue.50",
+                  borderColor: "blue.400",
+                }}
               >
-                {property.label}
-              </Text>
-              <Text
-                fontSize="sm"
-                color="gray.500"
-                textAlign="center"
-                textWrap={"wrap"}
-              >
-                {property.desc}
-              </Text>
-            </Box>
-          ))}
-        </HStack>
+                <property.icon
+                  size={34}
+                  color="black"
+                  style={{ marginBottom: "12px" }}
+                />
+                <Text
+                  fontWeight="semibold"
+                  fontSize="lg"
+                  textAlign="center"
+                  color="black"
+                >
+                  {property.label}
+                </Text>
+                <Text
+                  fontSize="sm"
+                  color="gray.500"
+                  textAlign="center"
+                  textWrap={"wrap"}
+                >
+                  {property.desc}
+                </Text>
+              </Box>
+            ))}
+          </HStack>
+        </Box>
       </Box>
     </>
   );

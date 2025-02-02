@@ -59,19 +59,26 @@ interface SelectRoomTypeProps {
 const SelectRoomType = ({ roomType, setRoomType }: SelectRoomTypeProps) => {
   return (
     <>
-    <Box 
-  display="flex" 
-  flexWrap="wrap" 
-  alignItems="start" 
-  justifyContent="start" 
-  gap="16px"
->
-
+      <Box
+        display="flex"
+        flexWrap="wrap"
+        alignItems="start"
+        justifyContent="start"
+        gap="16px"
+        mt={"16px"}
+      >
+        {" "}
+        <Text
+          fontSize={["16px", "16px", "16px", "16px", "20px"]}
+          color="gray.600"
+        >
+         Select Room Type
+        </Text>
         <Box
           display="flex"
           flexWrap="wrap"
           gap="16px"
-          mt="24px"
+          mt={"16px"}
           alignItems={{
             base: "center",
             sm: "center",
@@ -92,13 +99,18 @@ const SelectRoomType = ({ roomType, setRoomType }: SelectRoomTypeProps) => {
               key={property.value}
               as="button"
               onClick={() => setRoomType(property.value)}
-              p="18px"
               display="flex"
               flexDirection="column"
               alignItems="center"
               justifyContent="center"
               borderRadius="8px"
-              width={{ base: "125px", sm: "155px", lg: "175px" }}
+              width={{
+                base: "125px",
+                sm: "155px",
+                md: "155px",
+                lg: "155px",
+                xl: "155px",
+              }}
               height="120px"
               border="1px solid"
               borderColor={
@@ -106,10 +118,15 @@ const SelectRoomType = ({ roomType, setRoomType }: SelectRoomTypeProps) => {
               }
               bg={property.value === roomType ? "blue.50" : "white"}
               transition="all 0.3s ease-in-out"
-              _hover={{ transform: "scale(1.05)", bg: "gray.100" }}
+              _hover={{
+                transform: "scale(1.05)",
+                bg: "blue.50",
+                borderColor: "blue.400",
+              }}
+              fontWeight={property.value === roomType ? "semibold" : "normal"}
             >
               <property.icon size={28} color="black" />
-              <Text fontSize="sm" mt="8px" fontWeight="medium">
+              <Text fontSize="sm" mt="8px">
                 {property.label}
               </Text>
             </Box>

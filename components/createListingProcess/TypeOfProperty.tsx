@@ -72,6 +72,9 @@ const TypeOfProperty = () => {
 
   return (
     <Box
+      shadow={"md"}
+      rounded={"lg"}
+      p={8}
       mb={8}
       className="animate__animated animate__fadeIn"
       textAlign={{
@@ -82,10 +85,14 @@ const TypeOfProperty = () => {
         xl: "start",
       }}
     >
-      <Text fontSize="2xl" fontWeight="bold" mb="8px">
+      <Text
+        fontSize={["24px", "24px", "24px", "30px", "36px"]}
+        fontWeight="bold"
+        mb="8px"
+      >
         What type of property are you listing?
       </Text>
-      <Text fontSize="md" color="gray.600">
+      <Text fontSize={["16px", "16px", "16px", "16px", "20px"]} color="gray.600">
         Choose the category that best describes your property.
       </Text>
 
@@ -95,7 +102,7 @@ const TypeOfProperty = () => {
         display="flex"
         flexWrap="wrap"
         gap="16px"
-        mt="24px"
+        mt="50px"
         alignItems={{
           base: "center",
           sm: "center",
@@ -111,37 +118,48 @@ const TypeOfProperty = () => {
           xl: "start",
         }}
       >
-        
-          {propertyTypes.map((property) => (
-            <Box
-              key={property.value}
-              as="button"
-              onClick={() => setSelectedProperty(property.value)}
-              p="18px"
-              display="flex"
-              flexDirection="column"
-              alignItems="center"
-              justifyContent="center"
-              borderRadius="8px"
-              width={{ base: "125px", sm: "155px", lg: "175px" }}
-              height="120px"
-              border="1px solid"
-              borderColor={
-                property.value === selectedProperty ? "blue.400" : "gray.300"
-              }
-              bg={property.value === selectedProperty ? "blue.50" : "white"}
-              transition="all 0.3s ease-in-out"
-              _hover={{ transform: "scale(1.05)", bg: "gray.100" }}
-            >
-              <property.icon size={28} color="black" />
-              <Text fontSize="sm" mt="8px" fontWeight="medium">
-                {property.label}
-              </Text>
-            </Box>
-          ))}
-        </Box>
+        {propertyTypes.map((property) => (
+          <Box
+            key={property.value}
+            as="button"
+            onClick={() => setSelectedProperty(property.value)}
+            p="18px"
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="center"
+            borderRadius="8px"
+            width={{
+              base: "125px",
+              sm: "155px",
+              md: "155px",
+              lg: "155px",
+              xl: "155px",
+            }}
+            height="120px"
+                border="1px solid"
+            borderColor={
+              property.value === selectedProperty ? "blue.400" : "gray.300"
+            }
+            bg={property.value === selectedProperty ? "blue.50" : "white"}
+            transition="all 0.3s ease-in-out"
+            _hover={{
+              transform: "scale(1.05)",
+              bg: "blue.50",
+              borderColor: "blue.400",
+            }}
+            fontWeight={
+              property.value === selectedProperty ? "semibold" : "normal"
+            }
+          >
+            <property.icon size={28} color="black" />
+            <Text fontSize="sm" mt="8px">
+              {property.label}
+            </Text>
+          </Box>
+        ))}
       </Box>
- 
+    </Box>
   );
 };
 
