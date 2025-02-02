@@ -3,8 +3,19 @@
 import React from "react";
 import Image from "next/image";
 import { useListingCreationContext } from "@/context/ListingCreationContext";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import {
+  Box,
+  Flex,
+  Grid,
+  GridItem,
+  Button,
+  Heading,
+  Text,
+  Card,
+  IconButton,
+  VStack,
+  HStack,
+} from "@chakra-ui/react";
 import { Star, Users, Bed, Bath, Share, Heart } from "lucide-react";
 
 const Summary = () => {
@@ -21,176 +32,204 @@ const Summary = () => {
     imageDetails,
     rules,
   } = useListingCreationContext();
-  console.log(imageDetails);
+
   return (
-    <div className="max-w-6xl mx-auto p-4">
-      {/* Progress Bar */}
-      <h1>Preview</h1>
+    <Box maxW="6xl" mx="auto" p={4}>
+      {/* Heading */}
+      <Heading mb={4}>Preview</Heading>
 
       {/* Image Gallery */}
-      <div className="grid grid-cols-4 grid-rows-2 gap-2 h-[400px] mb-8">
+      <Grid
+        templateColumns="repeat(4, 1fr)"
+        templateRows="repeat(2, 1fr)"
+        gap={2}
+        h="400px"
+        mb={8}
+      >
         {uploadedFiles.length > 0 ? (
           <>
             {/* Main Image */}
-            <div className="col-span-2 row-span-2 relative rounded-l-xl overflow-hidden">
+            <GridItem
+              colSpan={2}
+              rowSpan={2}
+              position="relative"
+              borderRadius="xl"
+              overflow="hidden"
+            >
               <Image
                 src={URL.createObjectURL(imageDetails[0].file)}
                 alt="Main property view"
-                className="object-cover"
                 fill
+                style={{ objectFit: "cover" }}
                 sizes="(max-width: 768px) 100vw, 50vw"
                 priority
               />
-            </div>
+            </GridItem>
 
             {/* Additional Images */}
             {imageDetails.slice(1, 5).map((image, index) => (
-              <div
+              <GridItem
                 key={index}
-                className={`relative overflow-hidden ${
-                  index === 3 ? "rounded-br-xl" : ""
-                }`}
+                position="relative"
+                overflow="hidden"
+                borderRadius={index === 3 ? "0 0.75rem 0.75rem 0" : "md"}
               >
                 <Image
                   src={URL.createObjectURL(image.file)}
-                  alt={image.file}
-                  className="object-cover"
+                  alt={image.file.name}
                   fill
+                  style={{ objectFit: "cover" }}
                 />
-              </div>
+              </GridItem>
             ))}
           </>
         ) : (
-          <div className="col-span-4 flex items-center justify-center bg-gray-100 h-full rounded-xl">
-            <p>No images uploaded</p>
-          </div>
+          <GridItem
+            colSpan={4}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            bg="gray.100"
+            borderRadius="xl"
+          >
+            <Text>No images uploaded</Text>
+          </GridItem>
         )}
-      </div>
+      </Grid>
 
-      {/* Property Details */}
-      <div className="grid md:grid-cols-3 gap-8">
-        <div className="md:col-span-2">
-          <div className="mb-8">
-            <div className="flex justify-between items-start mb-4">
-              <h1 className="text-2xl font-semibold">
-                {title || "Default Title"}
-              </h1>
-              <div className="flex gap-2">
-                <Button variant="outline" size="icon">
-                  <Share className="h-4 w-4" />
-                </Button>
-                <Button variant="outline" size="icon">
-                  <Heart className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
+      {/* Main Content Grid */}
+      <Grid templateColumns={{ base: "1fr", md: "2fr 1fr" }} gap={8}>
+        {/* Left Column */}
+        <Box>
+          {/* Property Header */}
+          <Box mb={8}>
+            <Flex justifyContent="space-between" alignItems="flex-start" mb={4}>
+              <Heading size="lg">{title || "Default Title"}</Heading>
+              <HStack gap={2}>
+                <IconButton variant="outline" aria-label="Share">
+                  <Share size="1rem" />
+                </IconButton>
+                <IconButton variant="outline" aria-label="Like">
+                  {" "}
+                  <Heart size="1rem" />
+                </IconButton>
+              </HStack>
+            </Flex>
 
-            <div className="flex gap-4 mb-4">
-              <div className="flex items-center gap-1">
-                <Users className="h-4 w-4" />
-                <span>{addedRooms.length || 0} guests</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Bed className="h-4 w-4" />
-                <span>{addedRooms.length} bedrooms</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Bath className="h-4 w-4" />
-                <span>
+            {/* Guests / Rooms */}
+            <HStack gap={4} mb={4}>
+              <HStack gap={1}>
+                <Box as={Users} boxSize={4} />
+                <Text>{addedRooms.length || 0} guests</Text>
+              </HStack>
+              <HStack gap={1}>
+                <Box as={Bed} boxSize={4} />
+                <Text>{addedRooms.length} bedrooms</Text>
+              </HStack>
+              <HStack gap={1}>
+                <Box as={Bath} boxSize={4} />
+                <Text>
                   {addedRooms.filter(
                     (room) => room.chooseAmenitiesEnsuite.length > 0,
                   ).length || 0}{" "}
                   bathrooms
-                </span>
-              </div>
-            </div>
+                </Text>
+              </HStack>
+            </HStack>
 
-            <p className="text-muted-foreground">
+            <Text color="gray.600">
               {description || "No description provided."}
-            </p>
-          </div>
+            </Text>
+          </Box>
 
           {/* Location */}
-          <div className="mb-8">
-            <h2 className="text-lg font-semibold mb-2">Location</h2>
-            <p>{address || "No address provided"}</p>
+          <Box mb={8}>
+            <Heading size="md" mb={2}>
+              Location
+            </Heading>
+            <Text>{address || "No address provided"}</Text>
             {mapUrl ? (
-              <iframe
-                src={mapUrl}
-                className="w-full h-64 rounded-xl mt-2"
-                allowFullScreen
-                loading="lazy"
-              />
+              <Box mt={2} borderRadius="xl" overflow="hidden">
+                <iframe
+                  src={mapUrl}
+                  width="100%"
+                  height="250"
+                  allowFullScreen
+                  loading="lazy"
+                  style={{ border: 0 }}
+                />
+              </Box>
             ) : (
-              <p>No map available</p>
+              <Text>No map available</Text>
             )}
-          </div>
+          </Box>
 
           {/* Packs */}
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">
+          <Box mb={8}>
+            <Heading size="md" mb={4}>
               Enhance Your Stay with Packs
-            </h2>
-            <div className="grid sm:grid-cols-2 gap-4">
+            </Heading>
+            <Grid
+              templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)" }}
+              gap={4}
+            >
               {packs.map((pack) => (
-                <Card key={pack.id} className="p-4">
-                  <h3 className="font-semibold">{pack.title}</h3>
-                  <p className="text-sm text-muted-foreground mb-2">
+                <Card.Root key={pack.id} p={4}>
+                  <Card.Header size="sm" mb={2}>
+                    {pack.title}
+                  </Card.Header>
+                  <Card.Body fontSize="sm" color="gray.600" mb={2}>
                     {pack.description}
-                  </p>
-                  <div className="flex justify-between items-center">
-                    <span className="font-semibold">${pack.price}</span>
+                  </Card.Body>
+                  <Flex justifyContent="space-between" alignItems="center">
+                    <Text fontWeight="semibold">${pack.price}</Text>
                     <Button variant="outline" size="sm">
                       Add
                     </Button>
-                  </div>
-                </Card>
+                  </Flex>
+                </Card.Root>
               ))}
-            </div>
-          </div>
+            </Grid>
+          </Box>
 
           {/* Rules */}
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">House Rules</h2>
-            <div className="grid gap-4">
+          <Box mb={8}>
+            <Heading size="md" mb={4}>
+              House Rules
+            </Heading>
+            <VStack align="start" gap={3}>
               {rules.map((rule, index) => (
-                <div key={index} className="flex items-center gap-2">
+                <HStack key={index} gap={2}>
+                  {/* If `rule.icon` is a Lucide icon, you can wrap it similarly: */}
+                  {/* <Box as={SomeLucideIcon} boxSize={4} /> */}
                   {rule.icon}
-                  <span>{rule.title}</span>
-                </div>
+                  <Text>{rule.title}</Text>
+                </HStack>
               ))}
-            </div>
-          </div>
-        </div>
+            </VStack>
+          </Box>
+        </Box>
 
-        {/* Pricing */}
-        <div className="md:col-span-1">
-          <Card className="p-6 sticky top-4">
-            <div className="text-2xl font-semibold mb-4">${basePrice}</div>
-            <Button
-              className="w-full mb-4"
-              onClick={() => {
-                console.log(imageDetails);
-              }}
-            >
-              Reserve Now
-            </Button>
-            <p className="text-sm text-center text-muted-foreground">
-              You won't be charged yet.
-            </p>
-          </Card>
-        </div>
-      </div>
-      {/* 
-      <Image
-        src={URL.createObjectURL(imageDetails[0].file)}
-        alt="Property view"
-width={100}
-height={100}
-        sizes="(max-width: 768px) 100vw, 50vw"
-
-      /> */}
-    </div>
+        {/* Right Column: Pricing / Reserve */}
+        <Card.Root p={6} position="sticky" top={4}>
+          <Card.Header fontSize="2xl" fontWeight="semibold" mb={4}>
+            ${basePrice}
+          </Card.Header>
+          <Button
+            width="full"
+            mb={4}
+            onClick={() => {
+              console.log(imageDetails);
+            }}
+          >
+            Reserve Now
+          </Button>
+          <Text fontSize="sm" textAlign="center" color="gray.500">
+            You won't be charged yet.
+          </Text>
+        </Card.Root>
+      </Grid>
+    </Box>
   );
 };
 
