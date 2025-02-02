@@ -161,35 +161,57 @@ const AddRooms = () => {
     if (addRoomProgress === 100) {
       return (
         <>
+
+
+   <Text
+        fontSize={["16px", "16px", "16px", "16px", "20px"]}
+        color="gray.600"
+        mt={"16px"}
+ textAlign={"center"}
+ w={"100%"}
+      >
+    Review your and confirm your rooms
+      </Text>
+
           <Box
             width="100%"
             display="flex"
             justifyContent="center"
             alignItems="center"
           >
-            <Text fontSize="xl" fontWeight={"semibold"}>
-              {" "}
-              {roomType} - {generatedRoomName}
-            </Text>
+        
             <Card.Root
-              maxW="sm"
+              w={"400px"}
+              border={"1px solid lightgray"}
               overflow="hidden"
-              _hover={{ shadow: "xl" }}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
             >
-              <Card.Body gap="4">
+              {/* Optional Image Placeholder */}
+
+              <Card.Body gap={4}>
+                <Text fontSize="xl" fontWeight="semibold">
+                  {roomType} : {generatedRoomName}
+                </Text>
+
                 {/* Room Amenities */}
                 <Box>
                   <Heading as="h4" size="sm" mb={2}>
-                    Room Amenities
+                    {roomType} Amenities
                   </Heading>
                   <Stack direction="row" flexWrap="wrap" gap={2}>
                     {chooseAmenities.length > 0 ? (
-                      chooseAmenities.map((amenity, index) => (
-                        <Badge key={index} colorScheme="gray" variant="solid">
+                      chooseAmenities.map((amenity, i) => (
+                        <Box
+                          key={i}
+                          border={"1px solid lightgray"}
+                          bg={"gray.50"}
+                          p={1}
+                          px={2}
+                          fontSize={"sm"}
+                          rounded={"xl"}
+                          color={"gray.600"}
+                        >
                           {amenity}
-                        </Badge>
+                        </Box>
                       ))
                     ) : (
                       <Text fontSize="sm" color="gray.500">
@@ -206,10 +228,19 @@ const AddRooms = () => {
                   </Heading>
                   <Stack direction="row" flexWrap="wrap" gap={2}>
                     {chooseAmenitiesEnsuite.length > 0 ? (
-                      chooseAmenitiesEnsuite.map((ensuite, index) => (
-                        <Badge key={index} colorScheme="gray" variant="solid">
+                      chooseAmenitiesEnsuite.map((ensuite, i) => (
+                        <Box
+                          key={i}
+                          border={"1px solid lightgray"}
+                          bg={"gray.50"}
+                          p={1}
+                          px={2}
+                          fontSize={"sm"}
+                          rounded={"xl"}
+                          color={"gray.600"}
+                        >
                           {ensuite}
-                        </Badge>
+                        </Box>
                       ))
                     ) : (
                       <Text fontSize="sm" color="gray.500">
@@ -220,7 +251,7 @@ const AddRooms = () => {
                 </Box>
               </Card.Body>
 
-              <Card.Footer gap="2">
+              <Card.Footer>
                 <Box
                   transition="all 0.3s"
                   as="button"
@@ -239,7 +270,7 @@ const AddRooms = () => {
                     transition: "all 0.3s",
                   }}
                 >
-                  Add Room
+                  Remove Room
                 </Box>
               </Card.Footer>
             </Card.Root>
@@ -390,7 +421,6 @@ const AddRooms = () => {
           </Heading> */}
 
           <HStack
-     
             direction="row"
             gap={6}
             justifyContent="start"
@@ -399,7 +429,6 @@ const AddRooms = () => {
           >
             {" "}
             <HStack
-            
               direction="row"
               gap={6}
               justifyContent="start"
@@ -408,10 +437,9 @@ const AddRooms = () => {
             >
               {addedRooms.map((room, index) => (
                 <AccordionRoot collapsible key={index} w={"400px"}>
-                  <AccordionItem value={`item-${index}`} >
-                    <AccordionItemTrigger mb={1} >
+                  <AccordionItem value={`item-${index}`}>
+                    <AccordionItemTrigger mb={1}>
                       <Text
-                    
                         transition="all 0.3s"
                         w={"400px"}
                         p={4}

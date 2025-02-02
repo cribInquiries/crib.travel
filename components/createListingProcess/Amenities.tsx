@@ -154,123 +154,176 @@ const Amenities = () => {
   return (
     <>
       <Box
-        mb={8}
-        className="animate__animated animate__fadeIn"
-        textAlign={{
-          base: "center",
-          sm: "center",
-          md: "center",
-          lg: "start",
-          xl: "start",
-        }}
-      >
-        <Heading as="h2" size="lg" mb={2}>
-          What type of Amenities do you have?
-        </Heading>
-        <Text color="gray.600">Select all that apply to your property.</Text>
-      </Box>
+             shadow={"md"}
+             rounded={"lg"}
+             p={8}
+             mb={8}
+             className="animate__animated animate__fadeIn"
+             textAlign={{
+               base: "center",
+               sm: "center",
+               md: "center",
+               lg: "start",
+               xl: "start",
+             }}
+           >
+             <Text
+               fontSize={["24px", "24px", "24px", "30px", "36px"]}
+               fontWeight="bold"
+               mb="8px"
+             >
+               The Location of Your Property
+             </Text>
+             <Text
+               fontSize={["16px", "16px", "16px", "16px", "20px"]}
+               color="gray.600"
+             >
+               Enter the address of your property to show it on the map.
+             </Text>
 
-      <Box >
-        <Input
-          placeholder="Search amenities"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          mb={4}
-        />
-
-        {/* Container for amenity options */}
-        <Box
-          maxHeight="350px"
-          overflow="auto"
-          display="flex"
-          flexWrap="wrap"
-          gap="16px"
-          mt="24px"
-          alignItems={{
-            base: "center",
-            sm: "center",
-            md: "center",
-            lg: "start",
-            xl: "start",
-          }}
-          justifyContent={{
-            base: "center",
-            sm: "center",
-            md: "center",
-            lg: "start",
-            xl: "start",
-          }}
-        >
-          {filteredCategories.map((category) =>
-            category.amenities.length > 0 ? (
-              <Box key={category.name} mb={4} width="100%">
-                <Heading as="h3" size="md" mb={2}>
-                  {category.name}
-                </Heading>
-
-                <Box
-                  display="flex"
-                  flexWrap="wrap"
-                  gap="16px"
-                  justifyContent="start"
-                >
-                  {category.amenities.map((amenity) => {
-                    const isSelected = selectedAmenities.includes(
-                      amenity.value,
-                    );
-
-                    return (
-                      <Box
-                        key={amenity.value}
-                        as="button"
-                        onClick={() => handleAmenityClick(amenity.value)}
-                        p="18px"
-                        display="flex"
-                        flexDirection="column"
-                        alignItems="center"
-                        justifyContent="center"
-                        borderRadius="8px"
-                        width={{ base: "125px", sm: "155px", lg: "175px" }}
-                        height="120px"
-                        border="1px solid"
-                        borderColor={isSelected ? "blue.400" : "gray.300"}
-                        bg={isSelected ? "blue.50" : "white"}
-                        transition="all 0.3s ease-in-out"
-                        _hover={{ transform: "scale(1.05)", bg: "gray.100" }}
-                      >
-                        <Icon as={amenity.icon} boxSize={6} color="black" />
-                        <Text fontSize="sm" mt="8px" fontWeight="medium">
-                          {amenity.label}
-                        </Text>
-                      </Box>
-                    );
-                  })}
-                </Box>
-              </Box>
-            ) : null,
-          )}
-        </Box>
-
-        <Box mt={4}>
-          <Flex flexWrap="wrap" gap={2}>
-            {selectedAmenities.map((amenity) => (
-              <Badge key={amenity} colorScheme="blue" variant="solid">
-                {amenity}
-              </Badge>
-            ))}
-          </Flex>
-        </Box>
-
-        <Stack direction="row" mt={4} spacing={4}>
+        <Box flexWrap="wrap" gap="16px" mt="50px">
           <Input
-            placeholder="Add custom amenity"
-            value={customAmenity}
-            onChange={(e) => setCustomAmenity(e.target.value)}
+            placeholder="Search amenities"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            mb={4}
+            variant="subtle"
+            textIndent={2}
+            autoFocus
+            type="text"
+            width="100%"
+            height="50px"
+            border="1px solid #E2E8F0"
+            _focus={{
+              border: "1px solid #E2E8F0", // Keeps the border color unchanged
+              boxShadow: "none", // Removes the default blue glow
+              outline: "none", // Ensures no additional focus outline
+            }}
           />
-          <Button colorScheme="blue" onClick={handleAddCustomAmenity}>
-            Add
-          </Button>
-        </Stack>
+
+          {/* Container for amenity options */}
+          <Box
+            maxHeight="350px"
+            overflow="auto"
+            display="flex"
+            flexWrap="wrap"
+            gap="16px"
+            alignItems={{
+              base: "center",
+              sm: "center",
+              md: "center",
+              lg: "start",
+              xl: "start",
+            }}
+            justifyContent={{
+              base: "center",
+              sm: "center",
+              md: "center",
+              lg: "start",
+              xl: "start",
+            }}
+          >
+            {filteredCategories.map((category) =>
+              category.amenities.length > 0 ? (
+                <Box key={category.name} mb={4} width="100%">
+                  <Heading as="h3" size="md" mb={2}>
+                    {category.name}
+                  </Heading>
+
+                  <Box
+                    display="flex"
+                    flexWrap="wrap"
+                    gap="16px"
+                    justifyContent="start"
+                  >
+                    {category.amenities.map((amenity) => {
+                      const isSelected = selectedAmenities.includes(
+                        amenity.value,
+                      );
+
+                      return (
+                        <Box
+                          key={amenity.value}
+                          as="button"
+                          onClick={() => handleAmenityClick(amenity.value)}
+                          p="18px"
+                          display="flex"
+                          flexDirection="column"
+                          alignItems="center"
+                          justifyContent="center"
+                          borderRadius="8px"
+                          width={{
+                            base: "125px",
+                            sm: "155px",
+                            md: "155px",
+                            lg: "155px",
+                            xl: "155px",
+                          }}
+                          height="120px"
+                          border="1px solid"
+                          borderColor={isSelected ? "blue.400" : "gray.300"}
+                          bg={isSelected ? "blue.50" : "white"}
+                          transition="all 0.3s ease-in-out"
+                          _hover={{
+                            transform: "scale(1.05)",
+                            bg: "blue.50",
+                            borderColor: "blue.400",
+                          }}
+                        >
+                          <Icon as={amenity.icon} boxSize={6} color="black" />
+                          <Text fontSize="sm" mt="8px" fontWeight="medium">
+                            {amenity.label}
+                          </Text>
+                        </Box>
+                      );
+                    })}
+                  </Box>
+                </Box>
+              ) : null,
+            )}
+          </Box>
+
+          <Box mt={4}>
+            <Flex flexWrap="wrap" gap={2}>
+              {selectedAmenities.map((amenity) => (
+                <Box
+                  key={amenity}
+                  border={"1px solid lightgray"}
+                  bg={"gray.50"}
+                  p={2}
+                  px={3}
+                  rounded={"xl"}
+                >
+                  {amenity}
+                </Box>
+              ))}
+            </Flex>
+          </Box>
+
+          <Stack direction="row" mt={4} gap={4}>
+            <Input
+              placeholder="Add custom amenity"
+              value={customAmenity}
+              onChange={(e) => setCustomAmenity(e.target.value)}
+              mb={4}
+              variant="subtle"
+              textIndent={2}
+              autoFocus
+              type="text"
+              width="100%"
+              height="50px"
+              border="1px solid #E2E8F0"
+              _focus={{
+                border: "1px solid #E2E8F0", // Keeps the border color unchanged
+                boxShadow: "none", // Removes the default blue glow
+                outline: "none", // Ensures no additional focus outline
+              }}
+            />
+            <Button colorScheme="blue" onClick={handleAddCustomAmenity}>
+              Add
+            </Button>
+          </Stack>
+        </Box>
       </Box>
     </>
   );

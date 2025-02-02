@@ -48,25 +48,23 @@ const AddressOfProperty = () => {
         </Text>
 
         <Box flexWrap="wrap" gap="16px" mt="50px">
-        <Input
-  variant="subtle"
-  textIndent={2}
-  autoFocus
-  type="text"
-  placeholder="Enter your address"
-  width="100%"
-  height="50px"
-  value={address}
-  onChange={(e) => setAddress(e.target.value)}
-  border="1px solid #E2E8F0"
-  _focus={{
-    border: "1px solid #E2E8F0", // Keeps the border color unchanged
-    boxShadow: "none", // Removes the default blue glow
-    outline: "none", // Ensures no additional focus outline
-  }}
-/>
-
-
+          <Input
+            variant="subtle"
+            textIndent={2}
+            autoFocus
+            type="text"
+            placeholder="Enter your address"
+            width="100%"
+            height="50px"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            border="1px solid #E2E8F0"
+            _focus={{
+              border: "1px solid #E2E8F0", // Keeps the border color unchanged
+              boxShadow: "none", // Removes the default blue glow
+              outline: "none", // Ensures no additional focus outline
+            }}
+          />
 
           <Box
             mt={4}
