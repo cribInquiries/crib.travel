@@ -35,7 +35,7 @@ const Page = () => {
   const { addedRooms } = useListingCreationContext();
   const [progress, setProgress] = useState<number>(10);
 
-  const next = () => setProgress((prev) => Math.min(prev + 10, 120));
+  const next = () => setProgress((prev) => Math.min(prev + 10, 130));
   const previous = () => setProgress((prev) => Math.max(prev - 10, 10));
 
   const renderComponent = () => {
@@ -62,8 +62,8 @@ const Page = () => {
         return <Pricing />;
       case 120:
         return <AvailabilityCalendar />;
-      // case 130:
-      //   return <Summary />;
+      case 130:
+        return <Summary />;
       default:
         return null;
     }
@@ -82,7 +82,7 @@ const Page = () => {
     { icon: FileText, label: "Rules", progress: 100 },
     { icon: DollarSign, label: "Pricing", progress: 110 },
     { icon: Calendar, label: "Availability", progress: 120 },
-    { icon: ClipboardList, label: "Summary", progress: 120 },
+    { icon: ClipboardList, label: "Summary", progress: 130 },
   ];
 
   return (
@@ -141,7 +141,7 @@ const Page = () => {
           colorScheme="blue"
           size="lg"
           onClick={next}
-          disabled={progress === 120}
+          disabled={progress === 130}
         >
           Next
         </Button>
