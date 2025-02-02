@@ -119,13 +119,13 @@ const UploadPhotos = () => {
           fontWeight="bold"
           mb="8px"
         >
-          The Location of Your Property
+         Upload Photos
         </Text>
         <Text
           fontSize={["16px", "16px", "16px", "16px", "20px"]}
           color="gray.600"
         >
-          Enter the address of your property to show it on the map.
+          Upload up to 50 photos of your property.
         </Text>
 
         <Box

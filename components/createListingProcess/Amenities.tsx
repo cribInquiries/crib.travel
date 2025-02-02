@@ -172,13 +172,13 @@ const Amenities = () => {
                fontWeight="bold"
                mb="8px"
              >
-               The Location of Your Property
+                List the Amenities of You provide
              </Text>
              <Text
                fontSize={["16px", "16px", "16px", "16px", "20px"]}
                color="gray.600"
              >
-               Enter the address of your property to show it on the map.
+                Look though the list of amenities and select the ones that apply to your property
              </Text>
 
         <Box flexWrap="wrap" gap="16px" mt="50px">
