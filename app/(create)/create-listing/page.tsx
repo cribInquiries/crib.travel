@@ -178,6 +178,7 @@ const Page = () => {
 
             transition: "all 0.3s",
           }}
+          
         >
           Next
         </Box>

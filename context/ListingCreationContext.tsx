@@ -59,9 +59,9 @@ interface ListingCreationContextType {
   setPackageDiscounts: React.Dispatch<
     React.SetStateAction<Array<{ packs: number | ""; discount: number | "" }>>
   >;
-  rules: { title: string; icon: JSX.Element }[];
+  rules: { title: string; }[];
   setRules: React.Dispatch<
-    React.SetStateAction<{ title: string; icon: JSX.Element }[]>
+    React.SetStateAction<{ title: string }[]>
   >;
   recommendations: Array<{
     id: number;
