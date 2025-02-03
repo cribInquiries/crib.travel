@@ -85,7 +85,7 @@ const OfficeAmenities = ({
         color="gray.600"
         mt={"16px"}
       >
-        Choose Amenities for Bedroom
+        Choose Amenities for your Office
       </Text>
       <Box
         display="flex"

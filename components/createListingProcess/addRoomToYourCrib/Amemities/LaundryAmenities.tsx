@@ -82,7 +82,7 @@ const LaundryAmenities = ({
               color="gray.600"
               mt={"16px"}
             >
-              Choose Amenities for Bedroom
+              Choose Amenities for Laundry Room
             </Text>
             <Box
               display="flex"

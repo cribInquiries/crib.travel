@@ -49,9 +49,9 @@ const ListingDetails = () => {
         Enter the details of your property here.
       </Text>
 
-      <div className="space-y-4">
+      <Box   mt={"50px"}>
         {/* Title Input */}
-        <div>
+        <Box mt={"16px"}>
           <label className="text-sm font-medium text-gray-700">Title</label>
           <Input
             variant="subtle"
@@ -71,10 +71,10 @@ const ListingDetails = () => {
             onChange={(e) => setTitle(e.target.value)}
             className="mt-1 w-full border-gray-300 focus:border-gray-500 focus:ring focus:ring-gray-200 rounded-md"
           />
-        </div>
+        </Box>
 
         {/* Description Input */}
-        <div>
+        <Box mt={"16px"}>
           <label className="text-sm font-medium text-gray-700">
             Description
           </label>
@@ -96,7 +96,7 @@ const ListingDetails = () => {
             className="mt-1 w-full border-gray-300 focus:border-gray-500 focus:ring focus:ring-gray-200 rounded-md"
             rows={4}
           />
-        </div>
+        </Box>
 
         {/* AI Generate Button */}
         <Button mt={5}
@@ -118,7 +118,7 @@ const ListingDetails = () => {
               transition: "all 0.3s",
             }}
               >Generate with AI</Button>
-      </div>
+      </Box>
     </Box>
   );
 };

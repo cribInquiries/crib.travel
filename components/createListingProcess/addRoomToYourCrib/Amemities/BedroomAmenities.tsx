@@ -94,8 +94,20 @@ const BedroomAmenities = ({
       <Box
         display="flex"
         flexWrap="wrap"
-        alignItems={{ base: "center", lg: "start" }}
-        justifyContent={{ base: "center", lg: "start" }}
+        alignItems={{
+          base: "center",
+          sm: "center",
+          md: "center",
+          lg: "start",
+          xl: "start",
+        }}
+        justifyContent={{
+          base: "center",
+          sm: "center",
+          md: "center",
+          lg: "start",
+          xl: "start",
+        }}
         gap="16px"
         mt={"16px"}
       >
@@ -123,6 +135,7 @@ const BedroomAmenities = ({
               lg: "155px",
               xl: "155px",
             }}
+            height="120px"
             transition="all 0.3s ease-in-out"
             _hover={{
               transform: "scale(1.05)",
@@ -165,7 +178,7 @@ const BedroomAmenities = ({
               Add Ensuite
             </Text>
           </AccordionItemTrigger>
-          <AccordionItemContent >
+          <AccordionItemContent>
             <Box
               display="flex"
               flexWrap="wrap"
@@ -175,50 +188,56 @@ const BedroomAmenities = ({
               p="12px"
             >
               {ensuites.map((ensuite) => (
-         <Box
-         key={ensuite.value}
-         as="button"
-         onClick={() => toggleEnsuiteSelection(ensuite.value)}
-         className="animate__animated animate__fadeIn"
-         p="18px"
-         display="flex"
-         flexDirection="column"
-         alignItems="center"
-         justifyContent="center"
-         borderRadius="8px"
-         borderColor={
-           chooseAmenitiesEnsuite.includes(ensuite.value) ? "blue.400" : "gray.300"
-         }
-         borderWidth="1px"
-         bg={
-           chooseAmenitiesEnsuite.includes(ensuite.value) ? "blue.50" : "white"
-         }
-         width={{
-           base: "125px",
-           sm: "155px",
-           md: "155px",
-           lg: "155px",
-           xl: "155px",
-         }}
-         transition="all 0.3s ease-in-out"
-         _hover={{
-           transform: "scale(1.05)",
-           bg: "blue.50",
-           borderColor: "blue.400",
-         }}
-         fontWeight={
-           chooseAmenitiesEnsuite.includes(ensuite.value) ? "semibold" : "normal"
-         }
-       >
-         <ensuite.icon
-           size={24}
-           style={{ marginBottom: "12px", color: "black" }}
-         />
-         <Text fontSize="sm" textAlign="center" color="black">
-           {ensuite.label}
-         </Text>
-       </Box>
-       
+                <Box
+                  key={ensuite.value}
+                  as="button"
+                  onClick={() => toggleEnsuiteSelection(ensuite.value)}
+                  className="animate__animated animate__fadeIn"
+                  p="18px"
+                  display="flex"
+                  flexDirection="column"
+                  alignItems="center"
+                  justifyContent="center"
+                  borderRadius="8px"
+                  borderColor={
+                    chooseAmenitiesEnsuite.includes(ensuite.value)
+                      ? "blue.400"
+                      : "gray.300"
+                  }
+                  borderWidth="1px"
+                  bg={
+                    chooseAmenitiesEnsuite.includes(ensuite.value)
+                      ? "blue.50"
+                      : "white"
+                  }
+                  width={{
+                    base: "125px",
+                    sm: "155px",
+                    md: "155px",
+                    lg: "155px",
+                    xl: "155px",
+                  }}
+                  height="120px"
+                  transition="all 0.3s ease-in-out"
+                  _hover={{
+                    transform: "scale(1.05)",
+                    bg: "blue.50",
+                    borderColor: "blue.400",
+                  }}
+                  fontWeight={
+                    chooseAmenitiesEnsuite.includes(ensuite.value)
+                      ? "semibold"
+                      : "normal"
+                  }
+                >
+                  <ensuite.icon
+                    size={24}
+                    style={{ marginBottom: "12px", color: "black" }}
+                  />
+                  <Text fontSize="sm" textAlign="center" color="black">
+                    {ensuite.label}
+                  </Text>
+                </Box>
               ))}
             </Box>
           </AccordionItemContent>

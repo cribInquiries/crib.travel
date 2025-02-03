@@ -270,7 +270,7 @@ const AddRooms = () => {
                     transition: "all 0.3s",
                   }}
                 >
-                  Remove Room
+                  Add Room
                 </Box>
               </Card.Footer>
             </Card.Root>

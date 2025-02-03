@@ -59,6 +59,8 @@ interface SelectRoomTypeProps {
 const SelectRoomType = ({ roomType, setRoomType }: SelectRoomTypeProps) => {
   return (
     <>
+
+    
       <Box
         display="flex"
         flexWrap="wrap"
@@ -68,12 +70,7 @@ const SelectRoomType = ({ roomType, setRoomType }: SelectRoomTypeProps) => {
         mt={"16px"}
       >
         {" "}
-        <Text
-          fontSize={["16px", "16px", "16px", "16px", "20px"]}
-          color="gray.600"
-        >
-         Select Room Type
-        </Text>
+  
         <Box
           display="flex"
           flexWrap="wrap"

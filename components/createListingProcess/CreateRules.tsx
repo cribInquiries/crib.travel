@@ -37,81 +37,22 @@ import {
   Volume2,
   PartyPopper,
   Brush,
+  X,
 } from "lucide-react";
-
-const predefinedRules = [
-  {
-    id: 1,
-    title: "No Smoking",
-    icon: <Cigarette className="w-6 h-6 text-gray-700" />,
-  },
-  { id: 2, title: "No Pets", icon: <Dog className="w-6 h-6 text-gray-700" /> },
-  {
-    id: 3,
-    title: "Emergency Only",
-    icon: <AlertTriangle className="w-6 h-6 text-gray-700" />,
-  },
-  {
-    id: 4,
-    title: "No Loud Music",
-    icon: <Volume2 className="w-6 h-6 text-gray-700" />,
-  },
-  {
-    id: 5,
-    title: "No Parties",
-    icon: <PartyPopper className="w-6 h-6 text-gray-700" />,
-  },
-  {
-    id: 6,
-    title: "Clean After Use",
-    icon: <Brush className="w-6 h-6 text-gray-700" />,
-  },
-];
-
-const availableIcons = createListCollection({
-  items: [
-    { value: "Cigarette", icon: <Cigarette className="w-5 h-5" /> },
-    { value: "Dog", icon: <Dog className="w-5 h-5" /> },
-    { value: "AlertTriangle", icon: <AlertTriangle className="w-5 h-5" /> },
-    { value: "Volume2", icon: <Volume2 className="w-5 h-5" /> },
-    { value: "PartyPopper", icon: <PartyPopper className="w-5 h-5" /> },
-    { value: "Brush", icon: <Brush className="w-5 h-5" /> },
-  ],
-});
 
 const CreateRules = () => {
   const { rules, setRules } = useListingCreationContext();
   const [customRule, setCustomRule] = useState<string>("");
-  const [selectedIcon, setSelectedIcon] = useState<string>("");
-
-  const addPredefinedRule = (rule: { title: string; icon: JSX.Element }) => {
-    setRules((prev) => [...prev, rule]);
-    toaster.create({
-      title: "Rule added.",
-      description: `${rule.title} has been added to the rules.`,
-      type: "success",
-      duration: 3000,
-    });
-  };
 
   const addCustomRule = () => {
-    const selectedIconData = availableIcons.items.find(
-      (icon: { value: string }) => icon.value === selectedIcon,
-    );
-    if (customRule && selectedIconData) {
-      setRules((prev) => [
-        ...prev,
-        { title: customRule, icon: selectedIconData.icon },
-      ]);
+    if (customRule) {
+      setRules((prev) => [...prev, { title: customRule }]);
       setCustomRule("");
-      setSelectedIcon("");
-      toaster.create({
-        title: "Custom rule added.",
-        description: `${customRule} has been added to the rules.`,
-        type: "success",
-        duration: 3000,
-      });
     }
+  };
+
+  const deleteRoom = (index: number) => {
+    setRules((prevRooms) => prevRooms.filter((_, i) => i !== index));
   };
 
   return (
@@ -145,37 +86,7 @@ const CreateRules = () => {
       {/* <Toaster /> */}
 
       {/* Predefined Rules */}
-      <Box mb={6} mt={6}>
-        <Flex wrap="wrap" gap={4}>
-          {predefinedRules.map((rule) => (
-            <Box
-              shadow={"none"}
-              border="1px solid"
-              borderColor={"gray.300"}
-              p={4}
-              w={"200px"}
-              key={rule.id}
-              borderRadius="md"
-              cursor="pointer"
-              _hover={{
-               
-                color: "white",
-
-                transition: "all 0.3s",
-              }}
-              transition="background 0.2s"
-              onClick={() => addPredefinedRule(rule)}
-            >
-              <Box display="flex" flexDirection="column" alignItems="center">
-                <Box mb={2}>{rule.icon}</Box>
-                <Text fontSize="sm" fontWeight="medium" color="gray.700">
-                  {rule.title}
-                </Text>
-              </Box>
-            </Box>
-          ))}
-        </Flex>
-      </Box>
+      <Box mb={6} mt={6}></Box>
 
       {/* Custom Rule Section */}
       <Box mb={6}>
@@ -196,43 +107,28 @@ const CreateRules = () => {
             placeholder="Enter custom rule"
             value={customRule}
             onChange={(e) => setCustomRule(e.target.value)}
-            flex={1}
+
           />
 
-          <SelectRoot
-            size="sm"
-            width="320px"
-            variant="outline"
-            collection={availableIcons}
-            value={[selectedIcon]}
-            onValueChange={(selected) => setSelectedIcon(selected.value[0])}
-          >
-            <SelectTrigger
-              height="50px"
-              w={"100%"}
-              rounded={"md"}
-              textAlign={"center"}
-              border="1px solid #E2E8F0"
-            >
-              <SelectValueText placeholder="Select Icon" textAlign={"center"} />
-            </SelectTrigger>
-            <SelectContent>
-              {availableIcons.items.map(
-                (option: { value: string; icon: JSX.Element }) => (
-                  <SelectItem key={option.value} item={option}>
-                    <HStack gap={2}>
-                      {option.icon} <Text>{option.value}</Text>
-                    </HStack>
-                  </SelectItem>
-                ),
-              )}
-            </SelectContent>
-          </SelectRoot>
-
           <Button
+            transition="all 0.3s"
+            as="button"
+            w={"100px"}
+            bg={"white"}
+            h={"50px"}
+            p={2}
+            color={"black"}
+            border="1px solid"
+            borderRadius="8px"
+            borderColor={"gray.300"}
+            _hover={{
+              bg: "black",
+              color: "white",
+
+              transition: "all 0.3s",
+            }}
             colorScheme="blue"
             onClick={addCustomRule}
-            disabled={!customRule || !selectedIcon}
           >
             Add Rule
           </Button>
@@ -250,25 +146,28 @@ const CreateRules = () => {
           <HStack flexWrap={"wrap"} gap={3} align="stretch">
             {rules.map((rule, index) => (
               <Box
-              shadow={"none"}
-              border="1px solid"
-              borderColor={"gray.300"}
-              p={4}
-              w={"200px"}
-              key={index}
-              borderRadius="md"
-              cursor="pointer"
-              _hover={{
-               
-                color: "white",
+                shadow={"none"}
+                border="1px solid"
+                borderColor={"gray.300"}
+                p={4}
+                w={"200px"}
+                key={index}
+                borderRadius="md"
+                cursor="pointer"
+                _hover={{
+                 
 
-                transition: "all 0.3s",
-              }}
-              transition="background 0.2s"
+                  transition: "all 0.3s",
+                }}
+                transition="background 0.2s"
+      
+               
               >
-                <Box display="flex" flexDirection="column" alignItems="center">
-                  <Box mb={2}>{rule.icon}</Box>
-                  <Text fontSize="sm" fontWeight="medium" color="gray.700">
+                <Box  onClick={() => deleteRoom(index)} cursor="pointer">
+                  <X size={20} />
+                </Box>
+                <Box mt={2} display="flex" flexDirection="column" alignItems="left">
+                  <Text fontSize="md" fontWeight="medium">
                     {rule.title}
                   </Text>
                 </Box>

@@ -116,13 +116,13 @@ const ValueAddedPacks = () => {
           fontWeight="bold"
           mb="8px"
         >
-          The Location of Your Property
+          Value Added Packs
         </Text>
         <Text
           fontSize={["16px", "16px", "16px", "16px", "20px"]}
           color="gray.600"
         >
-          Enter the address of your property to show it on the map.
+          Select a value added pack to add to your listing.
         </Text>
 
         <Box
@@ -142,16 +142,20 @@ const ValueAddedPacks = () => {
               {/* Optional Image Placeholder */}
 
               <Card.Body gap={4}>
-                <Text fontSize="xl" fontWeight="semibold">
+                <Text fontSize="2xl" fontWeight="semibold">
                   {pack.title}
                 </Text>
 
                 {/* Room Amenities */}
                 <Box>
-                  <Heading as="h4" size="sm" mb={2}>
+                  <Heading
+                    textStyle="2xl"
+                    fontWeight="medium"
+                    letterSpacing="tight"
+                  >
                     ${pack.price}
                   </Heading>
-                  <Stack direction="row" flexWrap="wrap" gap={2}>
+                  <Stack direction="row" flexWrap="wrap" gap={2} mt={3}>
                     <Text fontSize="sm" color="gray.500">
                       {pack.description}
                     </Text>
@@ -255,13 +259,25 @@ const ValueAddedPacks = () => {
         >
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>
+              <DialogTitle fontSize="xl" fontWeight="semibold">
                 {currentPack ? "Edit Pack" : "Add New Pack"}
               </DialogTitle>
             </DialogHeader>
             <DialogBody>
               <Box display="flex" flexDirection="column" gap={3}>
                 <Input
+                  variant="subtle"
+                  textIndent={2}
+                  autoFocus
+                  type="text"
+                  width="100%"
+                  height="50px"
+                  border="1px solid #E2E8F0"
+                  _focus={{
+                    border: "1px solid #E2E8F0", // Keeps the border color unchanged
+                    boxShadow: "none", // Removes the default blue glow
+                    outline: "none", // Ensures no additional focus outline
+                  }}
                   placeholder="Pack Title"
                   value={newPack.title}
                   onChange={(e) =>
@@ -269,6 +285,18 @@ const ValueAddedPacks = () => {
                   }
                 />
                 <Input
+                  variant="subtle"
+                  textIndent={2}
+                  autoFocus
+                  type="text"
+                  width="100%"
+                  height="50px"
+                  border="1px solid #E2E8F0"
+                  _focus={{
+                    border: "1px solid #E2E8F0", // Keeps the border color unchanged
+                    boxShadow: "none", // Removes the default blue glow
+                    outline: "none", // Ensures no additional focus outline
+                  }}
                   type="number"
                   placeholder="Price"
                   value={newPack.price}
@@ -277,6 +305,17 @@ const ValueAddedPacks = () => {
                   }
                 />
                 <Textarea
+                  variant="subtle"
+                  textIndent={2}
+                  autoFocus
+                  width="100%"
+                  height="50px"
+                  border="1px solid #E2E8F0"
+                  _focus={{
+                    border: "1px solid #E2E8F0", // Keeps the border color unchanged
+                    boxShadow: "none", // Removes the default blue glow
+                    outline: "none", // Ensures no additional focus outline
+                  }}
                   placeholder="Description"
                   value={newPack.description}
                   onChange={(e) =>
@@ -284,6 +323,18 @@ const ValueAddedPacks = () => {
                   }
                 />
                 <Input
+                  variant="subtle"
+                  textIndent={2}
+                  autoFocus
+                  type="text"
+                  width="100%"
+                  height="50px"
+                  border="1px solid #E2E8F0"
+                  _focus={{
+                    border: "1px solid #E2E8F0", // Keeps the border color unchanged
+                    boxShadow: "none", // Removes the default blue glow
+                    outline: "none", // Ensures no additional focus outline
+                  }}
                   placeholder="Items (comma-separated)"
                   value={newPack.items}
                   onChange={(e) =>
@@ -292,16 +343,50 @@ const ValueAddedPacks = () => {
                 />
               </Box>
             </DialogBody>
-            <DialogFooter>
+            <DialogFooter display={"flex"} justifyContent={"center"} w={"100%"}>
               <DialogActionTrigger asChild>
                 <Button
+                  transition="all 0.3s"
+                  as="button"
+                  w={"225px"}
+                  bg={"white"}
+                  p={4}
+                  color={"black"}
+                  border="1px solid"
+                  borderRadius="8px"
+                  borderColor={"gray.300"}
+                  _hover={{
+                    bg: "black",
+                    color: "white",
+
+                    transition: "all 0.3s",
+                  }}
                   variant="outline"
                   onClick={() => setIsDialogOpen(false)}
                 >
                   Cancel
                 </Button>
               </DialogActionTrigger>
-              <Button colorScheme="blue" onClick={handleSavePack}>
+              <Button
+                transition="all 0.3s"
+                as="button"
+                w={"225px"}
+                bg={"white"}
+                p={4}
+                color={"black"}
+                border="1px solid"
+                borderRadius="8px"
+                borderColor={"gray.300"}
+                _hover={{
+                  bg: "black",
+                  color: "white",
+
+                  transition: "all 0.3s",
+                }}
+                variant="outline"
+                colorScheme="blue"
+                onClick={handleSavePack}
+              >
                 Save Pack
               </Button>
             </DialogFooter>
