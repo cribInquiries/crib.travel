@@ -156,11 +156,15 @@ const AvailabilityCalendar: React.FC = () => {
         </Tabs.List>
 
         {/* CALENDAR TAB */}
-        <Tabs.Content
-          value="calendar"
-   
-        >
-          <h3 className="text-lg font-medium text-center mb-4">January 2025</h3>
+        <Tabs.Content value="calendar">
+          <Text
+            fontSize={["24px", "24px", "24px", "30px", "36px"]}
+            fontWeight="semibold"
+            mb="16px"
+            textAlign={"center"}
+          >
+            January
+          </Text>
           <div className="flex items-center justify-center">
             <Button variant="ghost">
               <ChevronLeft />
@@ -174,18 +178,31 @@ const AvailabilityCalendar: React.FC = () => {
               {prices.map((price, index) => {
                 const isSelected = selectedDates.includes(index + 1);
                 return (
-                  <div
+                  <Box
+                    as="button"
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    justifyContent="center"
+                    borderRadius="8px"
+                    width={"100%"}
+                    height="100px"
+                    border="1px solid"
                     key={index}
-                    className={`border p-2 rounded-md cursor-pointer transition ${
-                      isSelected
-                        ? "bg-gray-200 text-gray-500 font-bold"
-                        : "bg-white hover:bg-blue-300"
-                    }`}
+                    borderColor={isSelected ? "blue.400" : "gray.300"}
+                    bg={isSelected ? "blue.50" : "white"}
                     onClick={() => toggleDateSelection(index + 1)}
+                    transition="all 0.3s ease-in-out"
+                    _hover={{
+                      transform: "scale(1.05)",
+                      bg: "blue.50",
+                      borderColor: "blue.400",
+                    }}
+                    fontWeight={isSelected ? "semibold" : "normal"}
                   >
                     <p>{index + 1}</p>
                     <p className="text-sm font-semibold">${price}</p>
-                  </div>
+                  </Box>
                 );
               })}
             </div>
@@ -198,9 +215,10 @@ const AvailabilityCalendar: React.FC = () => {
             <DialogRoot open={isDialogOpen}>
               <DialogTrigger asChild>
                 <Button
-                  transition="all 0.3s"
                   as="button"
+                  w={"300px"}
                   bg={"white"}
+                  h={"50px"}
                   p={2}
                   color={"black"}
                   border="1px solid"
@@ -212,14 +230,13 @@ const AvailabilityCalendar: React.FC = () => {
 
                     transition: "all 0.3s",
                   }}
-                  w={"300px"}
                   disabled={selectedDates.length === 0}
                   onClick={() => setIsDialogOpen(true)}
                 >
                   Edit Selected Dates
                 </Button>
               </DialogTrigger>
-              <DialogContent className="bg-white rounded-md shadow-md p-4 max-w-md">
+              <DialogContent>
                 <DialogHeader>
                   <DialogTitle>Edit Selected Dates</DialogTitle>
                 </DialogHeader>
@@ -254,10 +271,10 @@ const AvailabilityCalendar: React.FC = () => {
             </DialogRoot>
 
             <Button
-              transition="all 0.3s"
               as="button"
               w={"300px"}
               bg={"white"}
+              h={"50px"}
               p={2}
               color={"black"}
               border="1px solid"
@@ -269,7 +286,6 @@ const AvailabilityCalendar: React.FC = () => {
 
                 transition: "all 0.3s",
               }}
-              variant="outline"
               disabled={selectedDates.length === 0}
               onClick={clearSelection}
             >
@@ -309,13 +325,73 @@ const AvailabilityCalendar: React.FC = () => {
         <Tabs.Content value="settings" className="mt-4">
           <h3 className="text-lg font-medium mb-4">Pricing Settings</h3>
           <div className="space-y-3">
-            <Input  type="number" placeholder="Default Daily Rate ($)" />
-            <Input type="number" placeholder="Default Weekend Rate (%)" />
             <Input
+              variant="subtle"
+              textIndent={2}
+              autoFocus
+              width="100%"
+              height="50px"
+              border="1px solid #E2E8F0"
+              _focus={{
+                border: "1px solid #E2E8F0", // Keeps the border color unchanged
+                boxShadow: "none", // Removes the default blue glow
+                outline: "none", // Ensures no additional focus outline
+              }}
+              placeholder="Enter custom rule"
+              type="number"
+              placeholder="Default Daily Rate ($)"
+            />
+            <Input
+              variant="subtle"
+              textIndent={2}
+              autoFocus
+              width="100%"
+              height="50px"
+              border="1px solid #E2E8F0"
+              _focus={{
+                border: "1px solid #E2E8F0", // Keeps the border color unchanged
+                boxShadow: "none", // Removes the default blue glow
+                outline: "none", // Ensures no additional focus outline
+              }}
+              type="number"
+              placeholder="Default Weekend Rate (%)"
+            />
+            <Input
+              variant="subtle"
+              textIndent={2}
+              autoFocus
+              width="100%"
+              height="50px"
+              border="1px solid #E2E8F0"
+              _focus={{
+                border: "1px solid #E2E8F0", // Keeps the border color unchanged
+                boxShadow: "none", // Removes the default blue glow
+                outline: "none", // Ensures no additional focus outline
+              }}
               type="text"
               placeholder="Blackout Dates (e.g., 2025-01-01, 2025-01-02)"
             />
-            <Button>Save Settings</Button>
+            <Button
+              transition="all 0.3s"
+              as="button"
+              w={"200px"}
+              bg={"white"}
+              h={"50px"}
+              p={2}
+              color={"black"}
+              border="1px solid"
+              borderRadius="8px"
+              borderColor={"gray.300"}
+              _hover={{
+                bg: "black",
+                color: "white",
+
+                transition: "all 0.3s",
+              }}
+              colorScheme="blue"
+            >
+              Save Settings
+            </Button>
           </div>
         </Tabs.Content>
       </Tabs.Root>
