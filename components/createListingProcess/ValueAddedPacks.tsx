@@ -166,7 +166,7 @@ const ValueAddedPacks = () => {
                     </Text>
                   </Stack>
                 </Box>
-
+ 
                 {/* Ensuite Amenities */}
               </Card.Body>
 
