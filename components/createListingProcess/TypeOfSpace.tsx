@@ -98,6 +98,7 @@ const TypeOfSpace = () => {
             {propertyTypes.map((property) => (
               <Box
               as={"button"}
+               borderRadius="32px"
                 p={4}
                 key={property.value}
                 onClick={() => setSelectedProperty(property.value)}
@@ -106,7 +107,7 @@ const TypeOfSpace = () => {
                 flexDirection="column"
                 alignItems="center"
                 justifyContent="center"
-                borderRadius="md"
+         
                 bg={selectedProperty === property.value ? "blue.50" : "white"}
                 width={"100%"}
                 height="200px"

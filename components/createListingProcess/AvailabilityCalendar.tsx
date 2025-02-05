@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import { useListingCreationContext } from "@/context/ListingCreationContext";
-
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Bar } from "react-chartjs-2";
 import {
@@ -16,7 +15,6 @@ import {
 } from "chart.js";
 
 import { Box, Button, Input, Text } from "@chakra-ui/react";
-
 import {
   DialogContent,
   DialogHeader,
@@ -24,6 +22,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/chakra-snippets/dialog";
+import { Tabs } from "@chakra-ui/react";
 
 // Register Chart.js components
 ChartJS.register(
@@ -35,9 +34,23 @@ ChartJS.register(
   Legend,
 );
 
-// NEW import from Chakra’s updated Tabs API
-// (this gives you Tabs.Root, Tabs.List, Tabs.Trigger, Tabs.Content, etc.)
-import { Tabs } from "@chakra-ui/react";
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+const getDaysInMonth = (year: number, month: number) =>
+  new Date(year, month + 1, 0).getDate();
 
 const AvailabilityCalendar: React.FC = () => {
   const {
@@ -55,38 +68,46 @@ const AvailabilityCalendar: React.FC = () => {
 
   const [value, setValue] = useState<string | null>("calendar");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
+  const [currentDate, setCurrentDate] = useState(new Date().getDate());
 
-  // Generate random prices on mount
-  // Generate prices for the Calendar once
+  // Generate random prices per month
   useEffect(() => {
-    const generatedPrices = [...Array(31)].map(() =>
+    const daysInMonth = getDaysInMonth(currentYear, currentMonth);
+    const generatedPrices = Array.from({ length: daysInMonth }, () =>
       Math.floor(Math.random() * (500 - 100) + 100),
     );
     setPrices(generatedPrices);
-  }, [setPrices]);
+  }, [currentYear, currentMonth, setPrices]);
 
-  // EXAMPLE: Simulate loading insights data whenever "insights" tab is selected
+  // Simulate loading insights when switching to insights tab
   useEffect(() => {
     if (value === "insights") {
       setLoadingInsights(true);
-      // Simulate a 2-second async fetch
-      const timeoutId = setTimeout(() => {
-        // Example data
+      setTimeout(() => {
         setInsights({
-          labels: ["January", "February", "March", "April"],
-          revenue: [1500, 2000, 2200, 1800],
-          occupancy: [70, 75, 80, 65], // Example occupancy data
+          labels: months,
+          revenue: Array.from({ length: 12 }, () =>
+            Math.floor(Math.random() * (3000 - 1500) + 1500),
+          ),
+          occupancy: Array.from({ length: 12 }, () =>
+            Math.floor(Math.random() * (90 - 50) + 50),
+          ),
         });
         setLoadingInsights(false);
       }, 2000);
-
-      // Clean up if the component unmounts or the tab changes
-      return () => clearTimeout(timeoutId);
     }
   }, [value, setLoadingInsights, setInsights]);
 
   // Toggle selected day
   const toggleDateSelection = (day: number) => {
+    const today = new Date();
+    const selectedDate = new Date(currentYear, currentMonth, day);
+
+    // Prevent selecting past dates
+    if (selectedDate < today) return;
+
     setSelectedDates((prev) =>
       prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day],
     );
@@ -97,7 +118,7 @@ const AvailabilityCalendar: React.FC = () => {
     setSelectedDates([]);
   };
 
-  // Save rates for selected days
+  // Save edited rates
   const saveEditedRates = () => {
     if (editRate !== "") {
       const updatedPrices = [...prices];
@@ -109,13 +130,22 @@ const AvailabilityCalendar: React.FC = () => {
     }
   };
 
+  // Navigate Months
+  const prevMonth = () => {
+    setCurrentMonth((prev) => (prev === 0 ? 11 : prev - 1));
+    setCurrentYear((prev) => (currentMonth === 0 ? prev - 1 : prev));
+  };
+
+  const nextMonth = () => {
+    setCurrentMonth((prev) => (prev === 11 ? 0 : prev + 1));
+    setCurrentYear((prev) => (currentMonth === 11 ? prev + 1 : prev));
+  };
+
   return (
     <Box
-      shadow={"md"}
-      rounded={"lg"}
-      p={8}
+      rounded="lg"
+      p={0}
       mb={8}
-      className="animate__animated animate__fadeIn"
       textAlign={{
         base: "center",
         sm: "center",
@@ -124,59 +154,110 @@ const AvailabilityCalendar: React.FC = () => {
         xl: "start",
       }}
     >
-      <Text
-        fontSize={["24px", "24px", "24px", "30px", "36px"]}
-        fontWeight="bold"
-        mb="8px"
-      >
-        The Location of Your Property
+      <Text fontSize={["24px", "30px", "36px"]} fontWeight="bold" mb="8px">
+        Organize availability
       </Text>
-      <Text
-        fontSize={["16px", "16px", "16px", "16px", "20px"]}
-        color="gray.600"
-      >
+      <Text fontSize={["16px", "20px"]} color="gray.600">
         Enter the address of your property to show it on the map.
       </Text>
-      {/* New Chakra Tabs */}
+
       <Tabs.Root
+        variant={"enclosed"}
+        mt="50px"
         value={value}
         onValueChange={(details) => setValue(details.value)}
-        defaultValue={"calendar"}
+        defaultValue="calendar"
+        borderRadius="lg"
       >
         <Tabs.List
-          display={"flex"}
-          justifyContent={"start"}
-          alignContent={"start"}
-          w={"100%"}
-          gap={"50px"}
+          display="flex"
+          justifyContent="start"
+          w="100%"
+          gap="20px"
+          borderColor="gray.200"
         >
-          <Tabs.Trigger value="calendar">Calendar</Tabs.Trigger>
-          <Tabs.Trigger value="insights">Insights</Tabs.Trigger>
-          <Tabs.Trigger value="settings">Settings</Tabs.Trigger>
+          <Tabs.Trigger
+            value="calendar"
+            px="4"
+            py="2"
+            borderRadius="md"
+            fontWeight="medium"
+            _selected={{
+              bg: "gray.500",
+              color: "white",
+              boxShadow: "md",
+            }}
+          >
+            Calendar
+          </Tabs.Trigger>
+          <Tabs.Trigger
+            value="insights"
+            px="4"
+            py="2"
+            borderRadius="md"
+            fontWeight="medium"
+            _selected={{
+              bg: "gray.500",
+              color: "white",
+              boxShadow: "md",
+            }}
+          >
+            Insights
+          </Tabs.Trigger>
+          <Tabs.Trigger
+            value="settings"
+            px="4"
+            py="2"
+            borderRadius="md"
+            fontWeight="medium"
+            _selected={{
+              bg: "gray.500",
+              color: "white",
+              boxShadow: "md",
+            }}
+          >
+            Settings
+          </Tabs.Trigger>
         </Tabs.List>
 
-        {/* CALENDAR TAB */}
         <Tabs.Content value="calendar">
-          <Text
-            fontSize={["24px", "24px", "24px", "30px", "36px"]}
-            fontWeight="semibold"
-            mb="16px"
-            textAlign={"center"}
-          >
-            January
-          </Text>
-          <div className="flex items-center justify-center">
-            <Button variant="ghost">
+          <Box display="flex" justifyContent="space-between">
+            <Button variant="ghost" onClick={prevMonth}>
               <ChevronLeft />
             </Button>
-            <div className="grid grid-cols-7 gap-2 w-full  text-center">
+            <Text
+              fontSize={["24px", "30px", "36px"]}
+              fontWeight="semibold"
+              mb="16px"
+            >
+              {months[currentMonth]} {currentYear}
+            </Text>
+            <Button variant="ghost" onClick={nextMonth}>
+              <ChevronRight />
+            </Button>
+          </Box>
+
+          <div className="flex items-center justify-center">
+            <div className="grid grid-cols-7 gap-2 w-full text-center">
               {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
                 <p key={day} className="font-bold">
                   {day}
                 </p>
               ))}
               {prices.map((price, index) => {
-                const isSelected = selectedDates.includes(index + 1);
+                const day = index + 1;
+                const today = new Date();
+                const selectedDate = new Date(currentYear, currentMonth, day);
+                const isPast =
+                  selectedDate <
+                  new Date(
+                    today.getFullYear(),
+                    today.getMonth(),
+                    today.getDate(),
+                  );
+
+                const isSelected = selectedDates.includes(day);
+
                 return (
                   <Box
                     as="button"
@@ -184,31 +265,36 @@ const AvailabilityCalendar: React.FC = () => {
                     flexDirection="column"
                     alignItems="center"
                     justifyContent="center"
-                    borderRadius="8px"
-                    width={"100%"}
+                    borderRadius="16px"
+                    width="100%"
                     height="100px"
                     border="1px solid"
                     key={index}
-                    borderColor={isSelected ? "blue.400" : "gray.300"}
-                    bg={isSelected ? "blue.50" : "white"}
-                    onClick={() => toggleDateSelection(index + 1)}
+                    borderColor={
+                      isSelected ? "blue.400" : isPast ? "gray.300" : "gray.300"
+                    }
+                    bg={isSelected ? "blue.50" : isPast ? "gray.100" : "white"}
+                    color={isPast ? "gray.500" : "black"}
+                    onClick={() => !isPast && toggleDateSelection(day)} // Prevent past date clicks
+                    cursor={isPast ? "not-allowed" : "pointer"} // Change cursor for past dates
                     transition="all 0.3s ease-in-out"
-                    _hover={{
-                      transform: "scale(1.05)",
-                      bg: "blue.50",
-                      borderColor: "blue.400",
-                    }}
+                    _hover={
+                      isPast
+                        ? {}
+                        : {
+                            transform: "scale(1.05)",
+                            bg: "blue.50",
+                            borderColor: "blue.400",
+                          }
+                    }
                     fontWeight={isSelected ? "semibold" : "normal"}
                   >
-                    <p>{index + 1}</p>
+                    <p>{day}</p>
                     <p className="text-sm font-semibold">${price}</p>
                   </Box>
                 );
               })}
             </div>
-            <Button variant="ghost">
-              <ChevronRight />
-            </Button>
           </div>
 
           <div className="flex justify-center gap-4 mt-4">
@@ -222,7 +308,7 @@ const AvailabilityCalendar: React.FC = () => {
                   p={2}
                   color={"black"}
                   border="1px solid"
-                  borderRadius="8px"
+                  borderRadius="16px"
                   borderColor={"gray.300"}
                   _hover={{
                     bg: "black",
@@ -278,7 +364,7 @@ const AvailabilityCalendar: React.FC = () => {
               p={2}
               color={"black"}
               border="1px solid"
-              borderRadius="8px"
+             borderRadius="16px"
               borderColor={"gray.300"}
               _hover={{
                 bg: "black",
@@ -296,7 +382,9 @@ const AvailabilityCalendar: React.FC = () => {
 
         {/* INSIGHTS TAB */}
         <Tabs.Content value="insights" className="mt-4">
-          <h3 className="text-lg font-medium mb-4">Revenue Insights</h3>
+          <Text fontSize={["16px", "20px"]} color="gray.600" mb={2}>
+            Revenue Insights
+          </Text>
           {loadingInsights ? (
             <p>Loading insights...</p>
           ) : (
@@ -323,7 +411,9 @@ const AvailabilityCalendar: React.FC = () => {
 
         {/* SETTINGS TAB */}
         <Tabs.Content value="settings" className="mt-4">
-          <h3 className="text-lg font-medium mb-4">Pricing Settings</h3>
+          <Text fontSize={["16px", "20px"]} color="gray.600" mb={2}>
+            Pricing Settings
+          </Text>
           <div className="space-y-3">
             <Input
               variant="subtle"
@@ -337,7 +427,6 @@ const AvailabilityCalendar: React.FC = () => {
                 boxShadow: "none", // Removes the default blue glow
                 outline: "none", // Ensures no additional focus outline
               }}
-              placeholder="Enter custom rule"
               type="number"
               placeholder="Default Daily Rate ($)"
             />
@@ -380,7 +469,7 @@ const AvailabilityCalendar: React.FC = () => {
               p={2}
               color={"black"}
               border="1px solid"
-              borderRadius="8px"
+              borderRadius="32px"
               borderColor={"gray.300"}
               _hover={{
                 bg: "black",

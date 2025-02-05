@@ -85,12 +85,14 @@ const AddressOfProperty = () => {
               lg: "center",
               xl: "center",
             }}
+            
           >
             <iframe
+            
               src={mapUrl}
               width="100%"
               height="400px"
-              style={{ border: 0, borderRadius: "15px" }}
+              style={{ border: 0, borderRadius: "32px" }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"

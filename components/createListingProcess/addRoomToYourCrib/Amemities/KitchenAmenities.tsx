@@ -115,7 +115,7 @@ const KitchenAmenities = ({
                  flexDirection="column"
                  alignItems="center"
                  justifyContent="center"
-                 borderRadius="8px"
+                 borderRadius="32px"
                  borderColor={
                    chooseAmenities.includes(property.value) ? "blue.400" : "gray.300"
                  }
@@ -160,7 +160,7 @@ const KitchenAmenities = ({
                    bg={"white"}
                    color={"black"}
                    border="1px solid"
-                   borderRadius="8px"
+                   borderRadius="32px"
                    borderColor={"gray.300"}
                    _hover={{
                      bg: "black",
@@ -190,7 +190,7 @@ const KitchenAmenities = ({
               flexDirection="column"
               alignItems="center"
               justifyContent="center"
-              borderRadius="8px"
+              borderRadius="32px"
               borderColor={
                 chooseAmenitiesEnsuite.includes(ensuite.value) ? "blue.400" : "gray.300"
               }

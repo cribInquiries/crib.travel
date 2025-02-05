@@ -97,14 +97,31 @@ const UploadPhotos = () => {
       ),
     );
   };
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+
+    if (!event.dataTransfer.files) return;
+
+    const files = Array.from(event.dataTransfer.files);
+    const newFiles = files.map((file, index) => ({
+      file,
+      tag: "Other",
+      description: "",
+      isFavorite: false,
+      order: imageDetails.length + index + 1,
+    }));
+
+    setUploadedFiles((prev) => [...prev, ...files].slice(0, 50));
+    setImageDetails((prev) => [...prev, ...newFiles].slice(0, 50));
+  };
 
   return (
     <>
       <Box
-      rounded={"lg"}
-      // shadow={"md"}
-      p={0}
-      mb={8}
+        rounded={"lg"}
+        // shadow={"md"}
+        p={0}
+        mb={8}
         className="animate__animated animate__fadeIn"
         textAlign={{
           base: "center",
@@ -119,7 +136,7 @@ const UploadPhotos = () => {
           fontWeight="bold"
           mb="8px"
         >
-         Upload Photos
+          Upload Photos
         </Text>
         <Text
           fontSize={["16px", "16px", "16px", "16px", "20px"]}
@@ -128,38 +145,47 @@ const UploadPhotos = () => {
           Upload up to 50 photos of your property.
         </Text>
 
-        <Box
-          p="1.5rem"
-          margin="2rem auto"
-          backgroundColor="white"
-          borderRadius="lg"
-          boxShadow="md"
-        >
-          <Flex justify="space-between" align="center">
-            <label htmlFor="file-upload">
-              <Button
-                as="span"
-                w={"300px"}
-                variant="subtle"
-                p={4}
-                h={"60px"}
-                bg={"white"}
-                color={"black"}
-                border="1px solid"
-                borderColor={"gray.300"}
-                borderRadius="8px"
-                cursor="pointer"
-                transition="all 0.3s ease-in-out"
-                _hover={{
-                  bg: "black",
-                  color: "white",
+        <Box mt={"50px"} backgroundColor="white" borderRadius="lg">
+          <Flex justify="space-between" align="start" direction="column">
+            {/* Drop Zone */}
+            <Box
+              w="100%"
+              h="250px"
+              border="2px dashed gray"
+              borderRadius="16px"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              textAlign="center"
+              p={4}
+              cursor="pointer"
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={handleDrop}
+            >
+              <label htmlFor="file-upload">
+                <Button
+                  as="span"
+                  variant="subtle"
+                  p={4}
+                  bg={"white"}
+                  color={"black"}
+                  border="1px solid"
+                  borderColor={"gray.300"}
+                  borderRadius="32px"
+                  cursor="pointer"
+                  transition="all 0.3s ease-in-out"
+                  _hover={{
+                    bg: "black",
+                    color: "white",
+                    transition: "all 0.3s",
+                  }}
+                >
+                  Drag & Drop or Click to Upload
+                </Button>
+              </label>
+            </Box>
 
-                  transition: "all 0.3s",
-                }}
-              >
-                Upload Photos
-              </Button>
-            </label>
+            {/* Hidden Input */}
             <Input
               id="file-upload"
               type="file"
@@ -168,19 +194,26 @@ const UploadPhotos = () => {
               onChange={handleFileUpload}
               display="none"
             />
-            <Text color="gray.600">
+
+            {/* Upload Status */}
+            <Text
+              color="gray.600"
+              fontSize={["16px", "16px", "16px", "16px", "20px"]}
+              mt={2}
+            >
               {uploadedFiles.length} / 50 photos uploaded
             </Text>
           </Flex>
 
           {/* Uploaded Images */}
-          <Stack direction="row" flexWrap="wrap" gap={2} mt={3} overflow="auto">
+          <Stack direction="row" flexWrap="wrap" gap={4} mt={"16px"} overflow="auto">
             {uploadedFiles.map((file, index) =>
               file instanceof File ? (
                 <Box
+
                   key={index}
                   backgroundColor="white"
-                  borderRadius="lg"
+                  borderRadius="32px"
                   overflow="hidden"
                   width="300px"
                   position="relative"
@@ -204,19 +237,28 @@ const UploadPhotos = () => {
                     />
 
                     <IconButton
+                      m={1}
                       onClick={() => handleRemoveImage(index)}
                       variant="ghost"
                       size="sm"
                       position="absolute"
                       top="8px"
                       right="8px"
+                      bg={"white"}
+                      shadow={"md"}
+                      borderRadius={"50%"}
+                      _hover={{
+                        bg: "black",
+                        color: "white",
+                        transition: "all 0.3s",
+                      }}
                     >
                       <XIcon />
                     </IconButton>
                   </Box>
 
                   <Box p={4}>
-                    <Text fontWeight="bold" mb={2}>
+                    <Text fontWeight="semibold" my={2}>
                       Select Tag
                     </Text>
                     {/* ✅ FIXED Chakra UI Select Component */}
@@ -249,7 +291,7 @@ const UploadPhotos = () => {
                       </SelectContent>
                     </SelectRoot>
 
-                    <Text fontWeight="bold" mt={2}>
+                    <Text fontWeight="semibold" my={2} >
                       Add Description
                     </Text>
                     <Textarea
@@ -260,7 +302,7 @@ const UploadPhotos = () => {
                       variant="subtle"
                       textIndent={2}
                       autoFocus
-                      placeholder="Enter your address"
+                      placeholder="Enter your description"
                       width="100%"
                       height="50px"
                       border="1px solid #E2E8F0"
@@ -270,7 +312,7 @@ const UploadPhotos = () => {
                         outline: "none", // Ensures no additional focus outline
                       }}
                     />
-                    <Text fontWeight="bold" mt={2}>
+                    <Text fontWeight="semibold" my={2}>
                       Set Order
                     </Text>
                     <Input
@@ -285,7 +327,6 @@ const UploadPhotos = () => {
                       textIndent={2}
                       autoFocus
                       width="100%"
-                    
                       border="1px solid #E2E8F0"
                       _focus={{
                         border: "1px solid #E2E8F0", // Keeps the border color unchanged
@@ -299,7 +340,7 @@ const UploadPhotos = () => {
             )}
           </Stack>
 
-          <Box
+          {/* <Box
             mt={5}
             transition="all 0.3s"
             as="button"
@@ -308,7 +349,7 @@ const UploadPhotos = () => {
             p={4}
             color={"black"}
             border="1px solid"
-            borderRadius="8px"
+            borderRadius="32px"
             borderColor={"gray.300"}
             onClick={() => {
               console.log(imageDetails);
@@ -321,7 +362,7 @@ const UploadPhotos = () => {
             }}
           >
             Save
-          </Box>
+          </Box> */}
         </Box>
       </Box>
     </>

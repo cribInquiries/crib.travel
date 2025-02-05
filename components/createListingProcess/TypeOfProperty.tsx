@@ -131,7 +131,7 @@ const TypeOfProperty = () => {
             flexDirection="column"
             alignItems="center"
             justifyContent="center"
-            borderRadius="8px"
+            borderRadius="32px"
             width={{
               base: "125px",
               sm: "155px",

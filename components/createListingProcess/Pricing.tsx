@@ -88,6 +88,11 @@ const Pricing: React.FC = () => {
     setAdvancedDiscounts(updatedDiscounts);
   };
 
+  const removePackageDiscount = (index: number) => {
+    const updatedDiscounts = packageDiscounts.filter((_, i) => i !== index);
+    setPackageDiscounts(updatedDiscounts);
+  };
+
   const updatePackageDiscount = (
     index: number,
     field: keyof PackageDiscount,
@@ -101,7 +106,7 @@ const Pricing: React.FC = () => {
   const addAdvancedDiscount = () => {
     setAdvancedDiscounts([
       ...advancedDiscounts,
-      { rule: "", discount: 0, daysBefore: "" },
+      { rule: "", discount: "", daysBefore: "" },
     ]);
   };
 
@@ -127,18 +132,18 @@ const Pricing: React.FC = () => {
 
   return (
     <Box
-    rounded={"lg"}
-    // shadow={"md"}
-    p={0}
-    mb={8}
-    className="animate__animated animate__fadeIn"
-    textAlign={{
-      base: "center",
-      sm: "center",
-      md: "center",
-      lg: "start",
-      xl: "start",
-    }}
+      rounded={"lg"}
+      // shadow={"md"}
+      p={0}
+      mb={8}
+      className="animate__animated animate__fadeIn"
+      textAlign={{
+        base: "center",
+        sm: "center",
+        md: "center",
+        lg: "start",
+        xl: "start",
+      }}
     >
       <Text
         fontSize={["24px", "24px", "24px", "30px", "36px"]}
@@ -156,7 +161,13 @@ const Pricing: React.FC = () => {
 
       {/* Base Price */}
       <Box mt={"50px"}>
-        <label className="text-md font-medium">Base Price</label>
+        <Text
+          fontSize={["16px", "16px", "16px", "16px", "20px"]}
+          color="gray.600"
+          mb={2}
+        >
+          Base Price
+        </Text>
         <Input
           type="number"
           placeholder="Base Price ($)"
@@ -216,7 +227,13 @@ const Pricing: React.FC = () => {
 
       {/* Seasonal Pricing */}
       <Box mt={"16px"}>
-        <label className="text-md font-medium">Seasonal Pricing</label>
+        <Text
+          fontSize={["16px", "16px", "16px", "16px", "20px"]}
+          color="gray.600"
+          mb={2}
+        >
+          Seasonal Pricing
+        </Text>
         <Input
           type="number"
           placeholder="Seasonal Adjustment (%)"
@@ -261,34 +278,55 @@ const Pricing: React.FC = () => {
 
       {/* Package Discounts */}
       <Box mt={"16px"}>
-        <label className="text-md font-medium">Package Discounts</label>
+        <Text
+          fontSize={["16px", "16px", "16px", "16px", "20px"]}
+          color="gray.600"
+          mb={2}
+        >
+          Package Discounts
+        </Text>
         <Box className="space-y-3 mt-3">
           {packageDiscounts.map((discount, index) => (
-            <Box key={index} className="flex gap-2">
+            <Box key={index} className=" rounded-md p-2 " bg={"gray.200"}>
+              <Box mt={2} display={"flex"} w={"100%"} justifyContent={"end"}>
+                {" "}
+                <Input
+                  color={"black"}
+                  border={"1px solid #E2E8F0"}
+                  bg={"#F4F4F5"}
+                  type="number"
+                  placeholder="Packs"
+                  value={discount.packs}
+                  onChange={(e) =>
+                    updatePackageDiscount(
+                      index,
+                      "packs",
+                      Number(e.target.value) || "",
+                    )
+                  }
+                  mb={2}
+                  variant="subtle"
+                  textIndent={2}
+                  autoFocus
+                  width="100%"
+                  _focus={{
+                    border: "1px solid #E2E8F0", // Keeps the border color unchanged
+                    boxShadow: "none", // Removes the default blue glow
+                    outline: "none", // Ensures no additional focus outline
+                  }}
+                />
+                <Button
+                  className="mb-2"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => removePackageDiscount(index)}
+                >
+                  <X className="w-5 h-5 text-red-600" />
+                </Button>
+              </Box>
+
               <Input
-                type="number"
-                placeholder="Packs"
-                value={discount.packs}
-                onChange={(e) =>
-                  updatePackageDiscount(
-                    index,
-                    "packs",
-                    Number(e.target.value) || "",
-                  )
-                }
-                mb={4}
-                variant="subtle"
-                textIndent={2}
-                autoFocus
-                width="100%"
-                border="1px solid #E2E8F0"
-                _focus={{
-                  border: "1px solid #E2E8F0", // Keeps the border color unchanged
-                  boxShadow: "none", // Removes the default blue glow
-                  outline: "none", // Ensures no additional focus outline
-                }}
-              />
-              <Input
+                color={"black"}
                 type="number"
                 placeholder="Discount (%)"
                 value={discount.discount}
@@ -299,7 +337,7 @@ const Pricing: React.FC = () => {
                     Number(e.target.value) || "",
                   )
                 }
-                mb={4}
+                mb={2}
                 variant="subtle"
                 textIndent={2}
                 autoFocus
@@ -313,17 +351,16 @@ const Pricing: React.FC = () => {
               />
             </Box>
           ))}
-          <Button
-            as="span"
+          <Box
+            as="button"
             w={"100%"}
-            variant="subtle"
             p={4}
             h={"60px"}
             bg={"white"}
             color={"black"}
             border="1px solid"
             borderColor={"gray.300"}
-            borderRadius="8px"
+            borderRadius="16px"
             cursor="pointer"
             transition="all 0.3s ease-in-out"
             _hover={{
@@ -335,27 +372,39 @@ const Pricing: React.FC = () => {
             onClick={addPackageDiscount}
           >
             Add Package Discount
-          </Button>
+          </Box>
         </Box>
       </Box>
 
       {/* Advanced Discounts */}
       <Box mt={"16px"}>
-        <label className="text-md font-medium">Advanced Discounts</label>
+        <Text
+          fontSize={["16px", "16px", "16px", "16px", "20px"]}
+          color="gray.600"
+          mb={2}
+        >
+          Advanced Discounts
+        </Text>
         <Box className="space-y-3 mt-3">
           {advancedDiscounts.map((discount, index) => (
-            <Box key={index} className="p-4 bg-gray-100 rounded-md shadow-sm">
-              <Box className="flex items-center justify-between">
+            <Box key={index} className=" rounded-md p-2 " bg={"gray.200"}>
+              <Box mt={2} display={"flex"} w={"100%"} justifyContent={"end"}>
                 <SelectRoot
+                  mb={2}
+                  border={"1px solid #E2E8F0"}
+                  bg={"#F4F4F5"}
+                  borderRadius={"6px"}
                   collection={discountTypes}
                   value={discount.rule ? [discount.rule] : []}
                   onValueChange={(selected) =>
                     updateAdvancedDiscount(index, "rule", selected.value[0])
                   }
-                  className="mt-2"
                 >
                   <SelectTrigger>
-                    <SelectValueText placeholder="Select  Discount Type" />
+                    <SelectValueText
+                      textIndent={2}
+                      placeholder="Select  Discount Type"
+                    />
                   </SelectTrigger>
                   <SelectContent>
                     {discountTypes.items.map((option) => (
@@ -366,6 +415,7 @@ const Pricing: React.FC = () => {
                   </SelectContent>
                 </SelectRoot>
                 <Button
+                  className="mb-2"
                   variant="ghost"
                   size="sm"
                   onClick={() => removeAdvancedDiscount(index)}
@@ -384,7 +434,7 @@ const Pricing: React.FC = () => {
                     Number(e.target.value) || "",
                   )
                 }
-                mb={4}
+                mb={2}
                 variant="subtle"
                 textIndent={2}
                 autoFocus
@@ -423,17 +473,16 @@ const Pricing: React.FC = () => {
               )}
             </Box>
           ))}
-          <Button
-            as="span"
+          <Box
+            as="button"
             w={"100%"}
-            variant="subtle"
             p={4}
             h={"60px"}
             bg={"white"}
             color={"black"}
             border="1px solid"
             borderColor={"gray.300"}
-            borderRadius="8px"
+            borderRadius="16px"
             cursor="pointer"
             transition="all 0.3s ease-in-out"
             _hover={{
@@ -445,7 +494,7 @@ const Pricing: React.FC = () => {
             onClick={addAdvancedDiscount}
           >
             Add Discount Rule
-          </Button>
+          </Box>
         </Box>
       </Box>
     </Box>

@@ -134,6 +134,7 @@ const ValueAddedPacks = () => {
         >
           {packs.map((pack) => (
             <Card.Root
+              borderRadius="32px"
               key={pack.id}
               w={"400px"}
               border={"1px solid lightgray"}
@@ -156,14 +157,12 @@ const ValueAddedPacks = () => {
                     ${pack.price}
                   </Heading>
                   <Stack direction="row" flexWrap="wrap" gap={2} mt={3}>
-                    <Text fontSize="sm" color="gray.500">
+                    <Text fontSize="md" color="gray.500">
                       {pack.description}
                     </Text>
                     {/*  <Box>Items:</Box>{" "} */}
                   </Stack>
-                  <Text fontSize="md" >
-                    Items:
-                    </Text>
+                  <Text fontSize="md"fontWeight={"semibold"}>Items:</Text>
                   <Stack direction="row" flexWrap="wrap" gap={2} mt={3}>
                     {" "}
                     {pack.items.map((item, index) => (
@@ -193,7 +192,7 @@ const ValueAddedPacks = () => {
                   p={2}
                   color={"black"}
                   border="1px solid"
-                  borderRadius="8px"
+                  borderRadius="16px"
                   borderColor={"gray.300"}
                   onClick={() =>
                     setPacks((prevPacks) =>
@@ -218,7 +217,7 @@ const ValueAddedPacks = () => {
                   p={2}
                   color={"black"}
                   border="1px solid"
-                  borderRadius="8px"
+                 borderRadius="16px"
                   borderColor={"gray.300"}
                   onClick={() => handleOpenEditDialog(pack)}
                   _hover={{
@@ -249,7 +248,7 @@ const ValueAddedPacks = () => {
                 p={2}
                 color={"black"}
                 border="1px solid"
-                borderRadius="8px"
+                borderRadius="16px"
                 borderColor={"gray.300"}
                 onClick={handleOpenAddDialog}
                 _hover={{
@@ -367,7 +366,7 @@ const ValueAddedPacks = () => {
                   p={4}
                   color={"black"}
                   border="1px solid"
-                  borderRadius="8px"
+                  borderRadius="32px"
                   borderColor={"gray.300"}
                   _hover={{
                     bg: "black",
@@ -389,7 +388,7 @@ const ValueAddedPacks = () => {
                 p={4}
                 color={"black"}
                 border="1px solid"
-                borderRadius="8px"
+                borderRadius="32px"
                 borderColor={"gray.300"}
                 _hover={{
                   bg: "black",

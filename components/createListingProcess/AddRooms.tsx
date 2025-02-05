@@ -53,7 +53,7 @@ const AddRooms = () => {
 
   const next = () => {
     if (!roomType) {
-      alert("Canot gp back Please select a Room type.");
+      alert("Canot go back Please select a Room type.");
     }
     if (addRoomProgress === 25) {
       // Set addRoomProgress to 20 if selectedProperty is filled
@@ -189,10 +189,11 @@ const AddRooms = () => {
               w={"400px"}
               border={"1px solid lightgray"}
               overflow="hidden"
+              borderRadius={"16px"}
             >
               {/* Optional Image Placeholder */}
 
-              <Card.Body gap={4}>
+              <Card.Body gap={4} >
                 <Text fontSize="xl" fontWeight="semibold">
                   {roomType} : {generatedRoomName}
                 </Text>
@@ -265,7 +266,7 @@ const AddRooms = () => {
                   p={2}
                   color={"black"}
                   border="1px solid"
-                  borderRadius="8px"
+                  borderRadius="16px"
                   borderColor={"gray.300"}
                   onClick={addRoom}
                   _hover={{
@@ -350,7 +351,7 @@ const AddRooms = () => {
                 base: "100%",
                 sm: "75%",
                 md: "75%",
-                lg: "50%",
+                lg: "100%",
                 xl: "100%",
               }}
               height="100%"
@@ -453,7 +454,7 @@ const AddRooms = () => {
               bg={"white"}
               color={"black"}
               border="1px solid"
-              borderRadius="8px"
+              borderRadius="16px"
               borderColor={"gray.300"}
               onClick={Previous}
               _hover={{
@@ -475,7 +476,7 @@ const AddRooms = () => {
               p={4}
               color={"black"}
               border="1px solid"
-              borderRadius="8px"
+              borderRadius="16px"
               borderColor={"gray.300"}
               onClick={next}
               _hover={{
@@ -519,7 +520,7 @@ const AddRooms = () => {
                         bg={"white"}
                         color={"black"}
                         border="1px solid"
-                        borderRadius="8px"
+                        borderRadius="32px"
                         borderColor={"gray.300"}
                         display={"flex"}
                         gap={4}
@@ -545,6 +546,7 @@ const AddRooms = () => {
 
                     <AccordionItemContent>
                       <Card.Root
+                       borderRadius={"16px"}
                         w={"400px"}
                         border={"1px solid lightgray"}
                         overflow="hidden"
@@ -626,7 +628,7 @@ const AddRooms = () => {
                             p={2}
                             color={"black"}
                             border="1px solid"
-                            borderRadius="8px"
+                            borderRadius="32px"
                             borderColor={"gray.300"}
                             onClick={() => deleteRoom(index)}
                             _hover={{

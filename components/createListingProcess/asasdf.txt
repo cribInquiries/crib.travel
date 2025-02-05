@@ -145,7 +145,7 @@ const UploadPhotos = () => {
                 p={4}
                 color={"black"}
                 border="1px solid"
-                borderRadius="8px"
+                borderRadius="32px"
                 borderColor={"gray.300"}
                 _hover={{
                   bg: "black",
@@ -276,7 +276,7 @@ const UploadPhotos = () => {
             p={4}
             color={"black"}
             border="1px solid"
-            borderRadius="8px"
+            borderRadius="32px"
             borderColor={"gray.300"}
             onClick={() => console.log(imageDetails)}
             _hover={{

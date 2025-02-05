@@ -206,7 +206,7 @@ const Amenities = () => {
           {/* Container for amenity options */}
           <Box
             pl={4}
-            maxHeight="500px"
+            maxHeight="550px"
             overflow="auto"
             display="flex"
             flexWrap="wrap"
@@ -258,7 +258,7 @@ const Amenities = () => {
                           flexDirection="column"
                           alignItems="center"
                           justifyContent="center"
-                          borderRadius="8px"
+                          borderRadius="32px"
                           width={{
                             base: "125px",
                             sm: "155px",
@@ -339,9 +339,8 @@ const Amenities = () => {
               w={"50px"}
               h={"50px"}
               _hover={{
-                bg: "gray.200",
+                bg: "black",
                 color: "white",
-
                 transition: "all 0.3s",
               }}
             >

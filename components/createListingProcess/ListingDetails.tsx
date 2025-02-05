@@ -15,6 +15,7 @@ import {
   Flex,
   Textarea,
 } from "@chakra-ui/react";
+import { Sparkles } from "lucide-react";
 
 const ListingDetails = () => {
   const { title, setTitle, description, setDescription } =
@@ -22,18 +23,18 @@ const ListingDetails = () => {
 
   return (
     <Box
-    rounded={"lg"}
-    // shadow={"md"}
-    p={0}
-    mb={8}
-    className="animate__animated animate__fadeIn"
-    textAlign={{
-      base: "center",
-      sm: "center",
-      md: "center",
-      lg: "start",
-      xl: "start",
-    }}
+      rounded={"lg"}
+      // shadow={"md"}
+      p={0}
+      mb={8}
+      className="animate__animated animate__fadeIn"
+      textAlign={{
+        base: "center",
+        sm: "center",
+        md: "center",
+        lg: "start",
+        xl: "start",
+      }}
     >
       <Text
         fontSize={["24px", "24px", "24px", "30px", "36px"]}
@@ -49,10 +50,16 @@ const ListingDetails = () => {
         Enter the details of your property here.
       </Text>
 
-      <Box   mt={"50px"}>
+      <Box mt={"50px"}>
         {/* Title Input */}
         <Box mt={"16px"}>
-          <label className="text-sm font-medium text-gray-700">Title</label>
+          <Text
+            fontSize={["16px", "16px", "16px", "16px", "20px"]}
+            color="gray.600"
+            mb={2}
+          >
+            Title
+          </Text>
           <Input
             variant="subtle"
             textIndent={2}
@@ -75,9 +82,13 @@ const ListingDetails = () => {
 
         {/* Description Input */}
         <Box mt={"16px"}>
-          <label className="text-sm font-medium text-gray-700">
+          <Text
+            fontSize={["16px", "16px", "16px", "16px", "20px"]}
+            color="gray.600"
+            mb={2}
+          >
             Description
-          </label>
+          </Text>
           <Textarea
             variant="subtle"
             textIndent={2}
@@ -99,25 +110,41 @@ const ListingDetails = () => {
         </Box>
 
         {/* AI Generate Button */}
-        <Button mt={5}
+        <Box
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={{
+            base: "center",
+            sm: "center",
+            md: "start",
+            lg: "start",
+            xl: "start",
+          }}
+        >
+          <Box
+            mt={"16px"}
+            display={"flex"}
+            alignItems={"center"}
+            justifyContent={"center"}
+            gap={"8px"}
             transition="all 0.3s"
             as="button"
-            w={"300px"}
-            h={"50px"}
+            w={"200px"}
             bg={"white"}
-            p={4}
+            h={"auto"}
+            p={"16px"}
+            rounded={"full"}
             color={"black"}
             border="1px solid"
-            borderRadius="8px"
             borderColor={"gray.300"}
-        
             _hover={{
               bg: "black",
               color: "white",
-
-              transition: "all 0.3s",
             }}
-              >Generate with AI</Button>
+          >
+            <Sparkles /> Generate with AI
+          </Box>
+        </Box>
       </Box>
     </Box>
   );

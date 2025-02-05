@@ -107,7 +107,7 @@ const BathroomAmenities = ({
             flexDirection="column"
             alignItems="center"
             justifyContent="center"
-            borderRadius="8px"
+            borderRadius="32px"
             borderColor={
               chooseAmenities.includes(property.value) ? "blue.400" : "gray.300"
             }
@@ -150,7 +150,7 @@ const BathroomAmenities = ({
               alignItems={"center"}
               justifyContent={"space-between"}
               transition="all 0.3s"
-              as="button"
+          
               w={"125px"}
               bg={"white"}
               h={"auto"}
@@ -161,7 +161,7 @@ const BathroomAmenities = ({
           
               borderColor={"gray.300"}
              
-              borderRadius="8px"
+              borderRadius="32px"
          
               _hover={{
                 bg: "black",
@@ -191,7 +191,7 @@ const BathroomAmenities = ({
                   flexDirection="column"
                   alignItems="center"
                   justifyContent="center"
-                  borderRadius="8px"
+                  borderRadius="32px"
                   borderColor={
                     chooseAmenitiesEnsuite.includes(ensuite.value)
                       ? "blue.400"
