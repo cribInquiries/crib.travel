@@ -87,7 +87,7 @@ const BedroomAmenities = ({
       <Text
         fontSize={["16px", "16px", "16px", "16px", "20px"]}
         color="gray.600"
-        mt={"16px"}
+        mt={"50px"}
       >
         Choose Amenities for Bedroom
       </Text>
@@ -250,12 +250,12 @@ const BedroomAmenities = ({
           {chooseAmenities.length > 0 ? (
             chooseAmenities.map((item, index) => (
               <Box
-                key={index}
-                border={"1px solid lightgray"}
-                bg={"gray.50"}
-                p={2}
-                px={3}
-                rounded={"xl"}
+              key={index}
+              border={"1px solid lightgray"}
+              bg={"gray.50"}
+              p={2}
+              px={3}
+              rounded={"xl"}
               >
                 {propertyTypes.find((prop) => prop.value === item)?.label ||
                   item}

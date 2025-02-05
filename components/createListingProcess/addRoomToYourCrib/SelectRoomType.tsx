@@ -59,18 +59,38 @@ interface SelectRoomTypeProps {
 const SelectRoomType = ({ roomType, setRoomType }: SelectRoomTypeProps) => {
   return (
     <>
-
-    
       <Box
         display="flex"
         flexWrap="wrap"
         alignItems="start"
         justifyContent="start"
         gap="16px"
-        mt={"16px"}
+        mt={"50px"}
       >
-        {" "}
-  
+        <Text
+          display="flex"
+          flexWrap="wrap"
+          gap="16px"
+      w={["100%", "100%", "100%", "100%", "100%"]}
+          alignItems={{
+            base: "center",
+            sm: "center",
+            md: "center",
+            lg: "start",
+            xl: "start",
+          }}
+          justifyContent={{
+            base: "center",
+            sm: "center",
+            md: "center",
+            lg: "start",
+            xl: "start",
+          }}
+          fontSize={["16px", "16px", "16px", "16px", "20px"]}
+          color="gray.600"
+        >
+          Choose a room type
+        </Text>{" "}
         <Box
           display="flex"
           flexWrap="wrap"

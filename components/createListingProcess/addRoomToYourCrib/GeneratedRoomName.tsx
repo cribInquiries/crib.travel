@@ -19,7 +19,7 @@ const GeneratedRoomName = ({
       <Text
         fontSize={["16px", "16px", "16px", "16px", "20px"]}
         color="gray.600"
-        mt={"16px"}
+        mt={"50px"}
       >
       This name is automatically generated based on the room type and amenities.
       </Text>
@@ -36,6 +36,7 @@ const GeneratedRoomName = ({
       {/* Generated Room Name Input */}
 
       <Input
+      mt={"16px"}
         variant="subtle"
         textIndent={2}
         autoFocus

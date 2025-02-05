@@ -18,6 +18,7 @@ import {
   Fan,
   Sofa,
   Shirt,
+  ChevronDown,
 } from "lucide-react";
 import { IconToiletPaper } from "@tabler/icons-react";
 
@@ -83,7 +84,7 @@ const BathroomAmenities = ({
       <Text
         fontSize={["16px", "16px", "16px", "16px", "20px"]}
         color="gray.600"
-        mt={"16px"}
+        mt={"50px"}
       >
         Choose Amenities for Bathroom
       </Text>
@@ -144,22 +145,31 @@ const BathroomAmenities = ({
       <AccordionRoot collapsible>
         <AccordionItem value={""}>
           <AccordionItemTrigger>
-            <Text
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              justifyContent={"space-between"}
               transition="all 0.3s"
-              w={"155px"}
-              p={4}
+              as="button"
+              w={"125px"}
               bg={"white"}
+              h={"auto"}
+              p={4}
+              rounded={"full"}
               color={"black"}
               border="1px solid"
-              borderRadius="8px"
+          
               borderColor={"gray.300"}
+             
+              borderRadius="8px"
+         
               _hover={{
                 bg: "black",
                 color: "white",
               }}
             >
-              Add Ensuite
-            </Text>
+              Ensuite <ChevronDown  />
+            </Box>
           </AccordionItemTrigger>
           <AccordionItemContent>
             <Box

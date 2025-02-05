@@ -83,7 +83,7 @@ const OfficeAmenities = ({
 <Text
         fontSize={["16px", "16px", "16px", "16px", "20px"]}
         color="gray.600"
-        mt={"16px"}
+        mt={"50px"}
       >
         Choose Amenities for your Office
       </Text>

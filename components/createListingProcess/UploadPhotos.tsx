@@ -101,10 +101,10 @@ const UploadPhotos = () => {
   return (
     <>
       <Box
-        shadow={"md"}
-        rounded={"lg"}
-        p={8}
-        mb={8}
+      rounded={"lg"}
+      // shadow={"md"}
+      p={0}
+      mb={8}
         className="animate__animated animate__fadeIn"
         textAlign={{
           base: "center",

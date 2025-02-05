@@ -16,7 +16,7 @@ import {
   HStack,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import { X } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown, X } from "lucide-react";
 import SelectRoomType from "./addRoomToYourCrib/SelectRoomType";
 import ChooseAmenities from "./addRoomToYourCrib/ChooseAmenities";
 import GeneratedRoomName from "./addRoomToYourCrib/GeneratedRoomName";
@@ -121,6 +121,14 @@ const AddRooms = () => {
     setAddRoomProgress(25);
   };
 
+  // const roomsNavItems = [
+  //   { icon: Home, label: "Property Type", progress: 10 },
+  //   { icon: Lock, label: "Privacy", progress: 20 },
+  //   { icon: MapPin, label: "Location", progress: 30 },
+  //   { icon: Bed, label: "Rooms", progress: 40 },
+
+  // ];
+
   const render = () => {
     if (addRoomProgress === 25) {
       return (
@@ -161,17 +169,15 @@ const AddRooms = () => {
     if (addRoomProgress === 100) {
       return (
         <>
-
-
-   <Text
-        fontSize={["16px", "16px", "16px", "16px", "20px"]}
-        color="gray.600"
-        mt={"16px"}
- textAlign={"center"}
- w={"100%"}
-      >
-    Review your and confirm your rooms
-      </Text>
+          <Text
+            fontSize={["16px", "16px", "16px", "16px", "20px"]}
+            color="gray.600"
+            mt={"50px"}
+            textAlign={"center"}
+            w={"100%"}
+          >
+            Review your and confirm your rooms
+          </Text>
 
           <Box
             width="100%"
@@ -179,7 +185,6 @@ const AddRooms = () => {
             justifyContent="center"
             alignItems="center"
           >
-        
             <Card.Root
               w={"400px"}
               border={"1px solid lightgray"}
@@ -283,9 +288,9 @@ const AddRooms = () => {
   return (
     <>
       <Box
-        shadow={"md"}
         rounded={"lg"}
-        p={8}
+        // shadow={"md"}
+        p={0}
         mb={8}
         className="animate__animated animate__fadeIn"
         textAlign={{
@@ -301,13 +306,13 @@ const AddRooms = () => {
           fontWeight="bold"
           mb="8px"
         >
-          What type of property are you listing?
+          What type of rooms are you listing?
         </Text>
         <Text
           fontSize={["16px", "16px", "16px", "16px", "20px"]}
           color="gray.600"
         >
-          Choose the category that best describes your property.
+          Choose the category that best describes your rooms.
         </Text>
 
         <Box
@@ -356,14 +361,75 @@ const AddRooms = () => {
                 direction="row"
                 width="100%"
                 height="100%"
+                transition={"all 0.3s"}
               >
-                <Text fontSize="sm">Select Room Type</Text>
-                <Text fontSize="sm">Choose Amenities</Text>
-                <Text fontSize="sm">Review Generated Name</Text>
-                <Text fontSize="sm">Review and Add</Text>
+                <Box
+                  bg={"gray.700"}
+                  w={"100%"}
+                  h={"10px"}
+                  textAlign={"center"}
+                  borderRadius={"3px"}
+                >
+                  {" "}
+                  <Text
+                    fontSize={["16px", "16px", "16px", "16px", "20px"]}
+                    color="gray.600"
+                    mt={4}
+                  >
+                    Room Type
+                  </Text>
+                </Box>
+                <Box
+                  bg={addRoomProgress >= 50 ? "gray.700" : "gray.200"}
+                  w={"100%"}
+                  h={"10px"}
+                  textAlign={"center"}
+                  borderRadius={"3px"}
+                  transition={"all 0.3s"}
+                >
+                  {" "}
+                  <Text
+                    fontSize={["16px", "16px", "16px", "16px", "20px"]}
+                    color="gray.600"
+                    mt={4}
+                  >
+                    Amenities
+                  </Text>
+                </Box>
+                <Box
+                  bg={addRoomProgress >=  75 ? "gray.700" : "gray.200"}
+                  w={"100%"}
+                  h={"10px"}
+                  textAlign={"center"}
+                  borderRadius={"3px"}
+                  transition={"all 0.3s"}
+                >
+                  <Text
+                    fontSize={["16px", "16px", "16px", "16px", "20px"]}
+                    color="gray.600"
+                    mt={4}
+                  >
+                    Generated Name
+                  </Text>
+                </Box>
+                <Box
+                  bg={addRoomProgress >=  100 ? "gray.700" : "gray.200"}
+                  w={"100%"}
+                  h={"10px"}
+                  textAlign={"center"}
+                  borderRadius={"3px"}
+                  transition={"all 0.3s"}
+                >
+                  {" "}
+                  <Text
+                    fontSize={["16px", "16px", "16px", "16px", "20px"]}
+                    color="gray.600"
+                    mt={4}
+                  >
+                    Review
+                  </Text>
+                </Box>
               </Stack>
-
-              <Progress value={addRoomProgress} />
             </Stack>
           </Stack>
 
@@ -377,9 +443,12 @@ const AddRooms = () => {
             justifyContent="space-between"
           >
             <Box
+              display={"flex"}
+              alignItems={"center"}
+              justifyContent={"center"}
               transition="all 0.3s"
               as="button"
-              w={"300px"}
+              w={"auto"}
               p={4}
               bg={"white"}
               color={"black"}
@@ -388,16 +457,20 @@ const AddRooms = () => {
               borderColor={"gray.300"}
               onClick={Previous}
               _hover={{
-                bg: "black",
+                bg: "gray.200",
                 color: "white",
+                transition: "all 0.3s",
               }}
             >
-              Previous
+              <ArrowLeft size={24} color={"black"} />
             </Box>
             <Box
+              display={"flex"}
+              alignItems={"center"}
+              justifyContent={"center"}
               transition="all 0.3s"
               as="button"
-              w={"300px"}
+              w={"auto"}
               bg={"white"}
               p={4}
               color={"black"}
@@ -406,13 +479,13 @@ const AddRooms = () => {
               borderColor={"gray.300"}
               onClick={next}
               _hover={{
-                bg: "black",
+                bg: "gray.200",
                 color: "white",
 
                 transition: "all 0.3s",
               }}
             >
-              Next
+              <ArrowRight size={24} color={"black"} />
             </Box>
           </Box>
 
@@ -437,25 +510,39 @@ const AddRooms = () => {
             >
               {addedRooms.map((room, index) => (
                 <AccordionRoot collapsible key={index} w={"400px"}>
-                  <AccordionItem value={`item-${index}`}>
+                  <AccordionItem value={`item-${index}`} >
+                  
                     <AccordionItemTrigger mb={1}>
-                      <Text
+                      <Box
                         transition="all 0.3s"
-                        w={"400px"}
                         p={4}
                         bg={"white"}
                         color={"black"}
                         border="1px solid"
                         borderRadius="8px"
                         borderColor={"gray.300"}
-                        _hover={{
-                          bg: "black",
-                          color: "white",
-                        }}
+                        display={"flex"}
+                        gap={4}
+                        justifyContent={"space-between"}
+                        w={"100%"}
                       >
-                        {room.roomType} : {room.generatedRoomName}
-                      </Text>
+          
+                     
+                        <Text
+                          transition="all 0.3s"
+                          color={"black"}
+                          borderColor={"gray.300"}
+                        >
+                          { room.roomType}:  {room.generatedRoomName && room.generatedRoomName.length > 20
+                            ? `${room.generatedRoomName.slice(0, 17)}...`
+                            : room.generatedRoomName}
+                        </Text>
+
+                                  
+                        <ChevronDown />{" "}
+                      </Box>
                     </AccordionItemTrigger>
+
                     <AccordionItemContent>
                       <Card.Root
                         w={"400px"}

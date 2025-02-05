@@ -127,18 +127,18 @@ const Pricing: React.FC = () => {
 
   return (
     <Box
-      shadow={"md"}
-      rounded={"lg"}
-      p={8}
-      mb={8}
-      className="animate__animated animate__fadeIn"
-      textAlign={{
-        base: "center",
-        sm: "center",
-        md: "center",
-        lg: "start",
-        xl: "start",
-      }}
+    rounded={"lg"}
+    // shadow={"md"}
+    p={0}
+    mb={8}
+    className="animate__animated animate__fadeIn"
+    textAlign={{
+      base: "center",
+      sm: "center",
+      md: "center",
+      lg: "start",
+      xl: "start",
+    }}
     >
       <Text
         fontSize={["24px", "24px", "24px", "30px", "36px"]}

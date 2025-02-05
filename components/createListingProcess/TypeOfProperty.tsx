@@ -72,9 +72,9 @@ const TypeOfProperty = () => {
 
   return (
     <Box
-      shadow={"md"}
       rounded={"lg"}
-      p={8}
+      // shadow={"md"}
+      p={0}
       mb={8}
       className="animate__animated animate__fadeIn"
       textAlign={{
@@ -92,7 +92,10 @@ const TypeOfProperty = () => {
       >
         What type of property are you listing?
       </Text>
-      <Text fontSize={["16px", "16px", "16px", "16px", "20px"]} color="gray.600">
+      <Text
+        fontSize={["16px", "16px", "16px", "16px", "20px"]}
+        color="gray.600"
+      >
         Choose the category that best describes your property.
       </Text>
 
@@ -137,7 +140,7 @@ const TypeOfProperty = () => {
               xl: "155px",
             }}
             height="120px"
-                border="1px solid"
+            border="1px solid"
             borderColor={
               property.value === selectedProperty ? "blue.400" : "gray.300"
             }

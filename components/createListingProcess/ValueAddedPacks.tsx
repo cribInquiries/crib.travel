@@ -98,9 +98,9 @@ const ValueAddedPacks = () => {
   return (
     <>
       <Box
-        shadow={"md"}
         rounded={"lg"}
-        p={8}
+        // shadow={"md"}
+        p={0}
         mb={8}
         className="animate__animated animate__fadeIn"
         textAlign={{
@@ -159,11 +159,25 @@ const ValueAddedPacks = () => {
                     <Text fontSize="sm" color="gray.500">
                       {pack.description}
                     </Text>
-                    <Text fontSize="sm" color="gray.700" mt={2}>
-                      <strong>Items:</strong>{" "}
-                      {pack.items.slice(0, 3).join(", ")}
-                      {pack.items.length > 3 && " ..."}
+                    {/*  <Box>Items:</Box>{" "} */}
+                  </Stack>
+                  <Text fontSize="md" >
+                    Items:
                     </Text>
+                  <Stack direction="row" flexWrap="wrap" gap={2} mt={3}>
+                    {" "}
+                    {pack.items.map((item, index) => (
+                      <Box
+                        key={index}
+                        border={"1px solid lightgray"}
+                        bg={"gray.50"}
+                        p={2}
+                        px={3}
+                        rounded={"xl"}
+                      >
+                        {item}
+                      </Box>
+                    ))}
                   </Stack>
                 </Box>
 

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Box, Stack, Text, Flex, Group } from "@chakra-ui/react";
+import { Box, Stack, Text, Flex, Group, HStack } from "@chakra-ui/react";
 import { Progress } from "@/components/ui/progress";
 import {
   Home,
@@ -15,6 +15,8 @@ import {
   DollarSign,
   Calendar,
   ClipboardList,
+  ArrowRight,
+  ArrowLeft,
 } from "lucide-react";
 
 import { useListingCreationContext } from "@/context/ListingCreationContext";
@@ -30,7 +32,6 @@ import Pricing from "@/components/createListingProcess/Pricing";
 import AvailabilityCalendar from "@/components/createListingProcess/AvailabilityCalendar";
 import CreateRules from "@/components/createListingProcess/CreateRules";
 import Summary from "@/components/createListingProcess/Summary";
-
 
 const Page = () => {
   const { addedRooms } = useListingCreationContext();
@@ -86,49 +87,110 @@ const Page = () => {
     { icon: ClipboardList, label: "Summary", progress: 130 },
   ];
 
+  const progressSplitBar = [
+    { icon: Home, label: "Property Type", progress: 10 },
+    { icon: Lock, label: "Privacy", progress: 20 },
+    { icon: MapPin, label: "Location", progress: 30 },
+    { icon: Bed, label: "Rooms", progress: 40 },
+    { icon: Grid, label: "Amenities", progress: 50 },
+    { icon: Image, label: "Photos", progress: 60 },
+    { icon: Camera, label: "Photo Tour", progress: 70 },
+    { icon: Package, label: "Perks", progress: 80 },
+    { icon: FileText, label: "Details", progress: 90 },
+    { icon: FileText, label: "Rules", progress: 100 },
+    { icon: DollarSign, label: "Pricing", progress: 110 },
+    { icon: Calendar, label: "Availability", progress: 120 },
+    { icon: ClipboardList, label: "Summary", progress: 130 },
+  ];
+
   return (
-    <Box px={4} py={6}>
+    <Box py={6}>
       {/* Progress Bar */}
 
       <Flex justify="center" px={{ base: "5%", lg: "10%", xl: "10%" }}>
-        <Box p={4} px={10} borderRadius="md" mb={6} shadow={"md"} w={"100%"}>
+        <Box mb={"50px"} w={"100%"}>
+          <Box
+            display={"flex"}
+            justifyContent={"space-between"}
+            gap={"5px"}
+            mb={"20px"}
+          >
+            {navItems.map((item, index) => {
+              return (
+                <Box
+                  key={index}
+                  w={"100%"}
+                  h={"10px"}
+                  bg={"gray.200"}
+                  borderRadius={"3px"}
+                  transition="all 0.3s"
+                  _hover={{ bg: "black" }}
+                  zIndex={1}
+                  onClick={() => setProgress(item.progress)}
+                  cursor="pointer"
+                  position="relative"
+                  bgColor={progress >= item.progress ? "gray.700" : "gray.200"}
+                ></Box>
+              );
+            })}
+          </Box>
           {/* Navigation Items */}
-          <Box position="relative">
-            <Flex wrap="wrap" justify="space-between">
+          <Box position="relative" w="100%" display={{ base: "none", md: "block" }}>
+            <HStack
+              alignItems="center"
+              justifyContent="center"
+              cursor="pointer"
+              w={"100%"}
+            >
               {navItems.map((item, index) => {
                 const Icon = item.icon;
-                const isActive = progress >= item.progress;
+                const isDoneDoing = progress >= item.progress;
+                const isActive = progress === item.progress;
                 return (
-                  <Flex
+                  <HStack
                     key={index}
-                    direction="column"
-                    align="center"
-                    zIndex={1}
+                    alignItems="center"
+                    justifyContent="center"
+                    cursor="pointer"
+                    w={"100%"}
                   >
-                    <Box
-                      display="flex"
+                    <HStack
+                      key={index}
                       alignItems="center"
                       justifyContent="center"
-                      w="48px"
-                      h="48px"
-                      borderRadius="full"
-                      bg={isActive ? "white" : "gray.200"}
-                      shadow={isActive ? "md" : "none"}
+                      cursor="pointer"
+                      onClick={() => setProgress(item.progress)}
+                      position="relative"
                       transition="all 0.3s"
+                      _hover={{ color: "black" }}
+                      zIndex={1}
                     >
-                      <Icon size={24} color={isActive ? "black" : "gray"} />
-                    </Box>
-                    <Text
+                      <Box
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        w={{ base: "18px", sm: "35px", md: "45px",  lg: "58px", xl: "58px" }}
+                        h={{ base: "18px", sm: "35px", md: "45px",  lg: "58px", xl: "58px" }}
+                        borderRadius="full"
+                        bg={isDoneDoing ? "white" : "gray.200"}
+                        shadow={isActive ? "xl" : "none"}
+                        border={isActive ? "2px solid gray" : isDoneDoing ? "1px solid gray" : "none"}
+                        transition="all 0.3s"
+                      >
+                        <Icon size={24} color={isDoneDoing ? "black" : "gray"} />
+                      </Box>
+                      {/* <Text
                       fontSize="sm"
                       mt={2}
                       color={isActive ? "black" : "gray.500"}
                     >
                       {item.label}
-                    </Text>
-                  </Flex>
+                    </Text> */}
+                    </HStack>
+                  </HStack>
                 );
               })}
-            </Flex>
+            </HStack>
           </Box>
         </Box>
       </Flex>
@@ -140,47 +202,56 @@ const Page = () => {
         justify="space-between"
         mx="auto"
         px={{ base: "5%", lg: "10%", xl: "10%" }}
-        gap={{ base: "4%", md: "50%" }}
         transition="all 0.3s"
       >
         <Box
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"center"}
           transition="all 0.3s"
           as="button"
-          w={"100%"}
-          p={4}
+          w={"auto"}
+          h={"auto"}
+          p={8}
           bg={"white"}
           color={"black"}
           border="1px solid"
-          borderRadius="8px"
+          rounded={"full"}
           borderColor={"gray.300"}
           onClick={previous}
           _hover={{
-            bg: "black",
+            bg: "gray.200",
             color: "white",
           }}
+          visibility={progress === 10 ? "hidden" : "visible"}
         >
-          Previous
+          <ArrowLeft size={24} color={"black"} />
         </Box>
         <Box
+          visibility={progress === 130 ? "hidden" : "visible"}
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"center"}
           transition="all 0.3s"
           as="button"
-          w={"100%"}
+          w={"auto"}
           bg={"white"}
-          p={4}
+          h={"auto"}
+          p={8}
+          rounded={"full"}
           color={"black"}
           border="1px solid"
-          borderRadius="8px"
+      
           borderColor={"gray.300"}
           onClick={next}
           _hover={{
-            bg: "black",
+            bg: "gray.200",
             color: "white",
 
             transition: "all 0.3s",
           }}
-          
         >
-          Next
+          <ArrowRight size={24} color={"black"} />
         </Box>
       </Flex>
     </Box>
@@ -188,5 +259,3 @@ const Page = () => {
 };
 
 export default Page;
-
-

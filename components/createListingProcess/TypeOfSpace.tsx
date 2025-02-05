@@ -38,10 +38,11 @@ const TypeOfSpace = () => {
   return (
     <>
       <Box
-        shadow={"md"}
-        rounded={"lg"}
-        p={8}
-        mb={8}
+       
+       rounded={"lg"}
+       // shadow={"md"}
+       p={0}
+       mb={8}
         className="animate__animated animate__fadeIn"
         textAlign={{
           base: "center",
@@ -88,11 +89,11 @@ const TypeOfSpace = () => {
             flexWrap={{
               base: "wrap",
               sm: "wrap",
-              md: "wrap",
+              md: "nowrap",
               lg: "nowrap",
               xl: "nowrap",
             }}
-            gap={8}
+            gap={4}
           >
             {propertyTypes.map((property) => (
               <Box
@@ -107,13 +108,7 @@ const TypeOfSpace = () => {
                 justifyContent="center"
                 borderRadius="md"
                 bg={selectedProperty === property.value ? "blue.50" : "white"}
-                width={{
-                  base: "125px",
-                  sm: "155px",
-                  md: "155px",
-                  lg: "155px",
-                  xl: "100%",
-                }}
+                width={"100%"}
                 height="200px"
                 borderWidth="1px"
                 borderColor={

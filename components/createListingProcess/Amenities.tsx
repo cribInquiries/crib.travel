@@ -40,6 +40,7 @@ import {
   Joystick,
   Search,
   Plus,
+  PlusIcon,
 } from "lucide-react";
 
 const Amenities = () => {
@@ -154,32 +155,33 @@ const Amenities = () => {
   return (
     <>
       <Box
-             shadow={"md"}
-             rounded={"lg"}
-             p={8}
-             mb={8}
-             className="animate__animated animate__fadeIn"
-             textAlign={{
-               base: "center",
-               sm: "center",
-               md: "center",
-               lg: "start",
-               xl: "start",
-             }}
-           >
-             <Text
-               fontSize={["24px", "24px", "24px", "30px", "36px"]}
-               fontWeight="bold"
-               mb="8px"
-             >
-                List the Amenities of You provide
-             </Text>
-             <Text
-               fontSize={["16px", "16px", "16px", "16px", "20px"]}
-               color="gray.600"
-             >
-                Look though the list of amenities and select the ones that apply to your property
-             </Text>
+        //  shadow={"md"}
+        rounded={"lg"}
+        p={0}
+        mb={8}
+        className="animate__animated animate__fadeIn"
+        textAlign={{
+          base: "center",
+          sm: "center",
+          md: "center",
+          lg: "start",
+          xl: "start",
+        }}
+      >
+        <Text
+          fontSize={["24px", "24px", "24px", "30px", "36px"]}
+          fontWeight="bold"
+          mb="8px"
+        >
+          List the Amenities of You provide
+        </Text>
+        <Text
+          fontSize={["16px", "16px", "16px", "16px", "20px"]}
+          color="gray.600"
+        >
+          Look though the list of amenities and select the ones that apply to
+          your property
+        </Text>
 
         <Box flexWrap="wrap" gap="16px" mt="50px">
           <Input
@@ -203,7 +205,8 @@ const Amenities = () => {
 
           {/* Container for amenity options */}
           <Box
-            maxHeight="350px"
+            pl={4}
+            maxHeight="500px"
             overflow="auto"
             display="flex"
             flexWrap="wrap"
@@ -226,9 +229,13 @@ const Amenities = () => {
             {filteredCategories.map((category) =>
               category.amenities.length > 0 ? (
                 <Box key={category.name} mb={4} width="100%">
-                  <Heading as="h3" size="md" mb={2}>
+                  <Text
+                    mb={4}
+                    fontSize={["16px", "16px", "16px", "16px", "20px"]}
+                    color="gray.600"
+                  >
                     {category.name}
-                  </Heading>
+                  </Text>
 
                   <Box
                     display="flex"
@@ -269,9 +276,10 @@ const Amenities = () => {
                             bg: "blue.50",
                             borderColor: "blue.400",
                           }}
+                          fontWeight={isSelected ? "semibold" : "normal"}
                         >
                           <Icon as={amenity.icon} boxSize={6} color="black" />
-                          <Text fontSize="sm" mt="8px" fontWeight="medium">
+                          <Text fontSize="sm" mt="8px">
                             {amenity.label}
                           </Text>
                         </Box>
@@ -319,9 +327,26 @@ const Amenities = () => {
                 outline: "none", // Ensures no additional focus outline
               }}
             />
-            <Button colorScheme="blue" onClick={handleAddCustomAmenity}>
-              Add
-            </Button>
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              justifyContent={"center"}
+              as={Button}
+              onClick={handleAddCustomAmenity}
+              borderColor={"gray.300"}
+              bg={"white"}
+              border={"1px solid #E2E8F0"}
+              w={"50px"}
+              h={"50px"}
+              _hover={{
+                bg: "gray.200",
+                color: "white",
+
+                transition: "all 0.3s",
+              }}
+            >
+              <PlusIcon />
+            </Box>
           </Stack>
         </Box>
       </Box>

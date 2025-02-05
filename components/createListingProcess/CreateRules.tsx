@@ -38,6 +38,7 @@ import {
   PartyPopper,
   Brush,
   X,
+  PlusIcon,
 } from "lucide-react";
 
 const CreateRules = () => {
@@ -107,39 +108,39 @@ const CreateRules = () => {
             placeholder="Enter custom rule"
             value={customRule}
             onChange={(e) => setCustomRule(e.target.value)}
-
           />
 
-          <Button
-            transition="all 0.3s"
-            as="button"
-            w={"100px"}
-            bg={"white"}
-            h={"50px"}
-            p={2}
-            color={"black"}
-            border="1px solid"
-            borderRadius="8px"
+          <Box
+            display={"flex"}
+            alignItems={"center"}
+            justifyContent={"center"}
+            as={Button}
+            onClick={addCustomRule}
             borderColor={"gray.300"}
+            bg={"white"}
+            border={"1px solid #E2E8F0"}
+            w={"50px"}
+            h={"50px"}
             _hover={{
-              bg: "black",
+              bg: "gray.200",
               color: "white",
 
               transition: "all 0.3s",
             }}
-            colorScheme="blue"
-            onClick={addCustomRule}
           >
-            Add Rule
-          </Button>
+            <PlusIcon />
+          </Box>
         </HStack>
       </Box>
 
       {/* Added Rules */}
-      <Box>
-        <Heading as="h3" size="lg" mb={3}>
+      <Box > 
+        <Text mb={2}
+          fontSize={["16px", "16px", "16px", "16px", "20px"]}
+          color="gray.600"
+        >
           Added Rules
-        </Heading>
+        </Text>
         {rules.length === 0 ? (
           <Text color="gray.500">No rules added yet.</Text>
         ) : (
@@ -155,18 +156,19 @@ const CreateRules = () => {
                 borderRadius="md"
                 cursor="pointer"
                 _hover={{
-                 
-
                   transition: "all 0.3s",
                 }}
                 transition="background 0.2s"
-      
-               
               >
-                <Box  onClick={() => deleteRoom(index)} cursor="pointer">
+                <Box onClick={() => deleteRoom(index)} cursor="pointer">
                   <X size={20} />
                 </Box>
-                <Box mt={2} display="flex" flexDirection="column" alignItems="left">
+                <Box
+                  mt={2}
+                  display="flex"
+                  flexDirection="column"
+                  alignItems="left"
+                >
                   <Text fontSize="md" fontWeight="medium">
                     {rule.title}
                   </Text>
