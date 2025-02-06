@@ -301,7 +301,7 @@ const ValueAddedPacks = () => {
                   variant="subtle"
                   textIndent={2}
                   autoFocus
-                  type="text"
+          
                   width="100%"
                   height="50px"
                   border="1px solid #E2E8F0"

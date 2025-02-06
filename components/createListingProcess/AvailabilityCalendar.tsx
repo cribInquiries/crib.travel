@@ -14,7 +14,16 @@ import {
   Legend,
 } from "chart.js";
 
-import { Box, Button, Input, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  DialogActionTrigger,
+  DialogBody,
+  DialogCloseTrigger,
+  DialogFooter,
+  Input,
+  Text,
+} from "@chakra-ui/react";
 import {
   DialogContent,
   DialogHeader,
@@ -220,7 +229,7 @@ const AvailabilityCalendar: React.FC = () => {
           </Tabs.Trigger>
         </Tabs.List>
 
-        <Tabs.Content value="calendar">
+        <Tabs.Content mt={"16px"} value="calendar">
           <Box display="flex" justifyContent="space-between">
             <Button variant="ghost" onClick={prevMonth}>
               <ChevronLeft />
@@ -249,7 +258,7 @@ const AvailabilityCalendar: React.FC = () => {
                 const today = new Date();
                 const selectedDate = new Date(currentYear, currentMonth, day);
                 const isPast =
-                  selectedDate <
+                  selectedDate <=
                   new Date(
                     today.getFullYear(),
                     today.getMonth(),
@@ -297,14 +306,18 @@ const AvailabilityCalendar: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex justify-center gap-4 mt-4">
-            <DialogRoot open={isDialogOpen}>
+          <Box textAlign="center" mt={6}>
+            <DialogRoot
+              open={isDialogOpen}
+              onOpenChange={(details) => setIsDialogOpen(details.open)}
+            >
               <DialogTrigger asChild>
                 <Button
+                  transition="all 0.3s"
                   as="button"
-                  w={"300px"}
-                  bg={"white"}
+                  w={"100%"}
                   h={"50px"}
+                  bg={"white"}
                   p={2}
                   color={"black"}
                   border="1px solid"
@@ -319,22 +332,67 @@ const AvailabilityCalendar: React.FC = () => {
                   disabled={selectedDates.length === 0}
                   onClick={() => setIsDialogOpen(true)}
                 >
-                  Edit Selected Dates
+                  Chnage Rates
                 </Button>
               </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Edit Selected Dates</DialogTitle>
-                </DialogHeader>
-                <Input
-                  type="number"
-                  placeholder="Set New Rate ($)"
-                  value={editRate}
-                  onChange={(e) => setEditRate(Number(e.target.value) || "")}
-                  className="mt-2"
-                />
-                <div className="flex justify-end gap-2 mt-4">
+            </DialogRoot>
+          </Box>
+          {/* Add New Pack Button */}
+
+          {/* New Dialog Component */}
+          <DialogRoot
+            open={isDialogOpen}
+            onOpenChange={(details) => setIsDialogOpen(details.open)}
+          >
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle fontSize="xl" fontWeight="semibold">
+                  Add New Pack
+                </DialogTitle>
+              </DialogHeader>
+              <DialogBody>
+                <Box display="flex" flexDirection="column" gap={3}>
+                  <Input
+                    value={editRate}
+                    onChange={(e) => setEditRate(Number(e.target.value) || "")}
+                    variant="subtle"
+                    textIndent={2}
+                    autoFocus
+                    type="number"
+                    width="100%"
+                    height="50px"
+                    border="1px solid #E2E8F0"
+                    _focus={{
+                      border: "1px solid #E2E8F0", // Keeps the border color unchanged
+                      boxShadow: "none", // Removes the default blue glow
+                      outline: "none", // Ensures no additional focus outline
+                    }}
+                    placeholder="Items (comma-separated)"
+                  />
+                </Box>
+              </DialogBody>
+              <DialogFooter
+                display={"flex"}
+                justifyContent={"center"}
+                w={"100%"}
+              >
+                <DialogActionTrigger asChild>
                   <Button
+                    transition="all 0.3s"
+                    as="button"
+                    w={"225px"}
+                    bg={"white"}
+                    p={4}
+                    color={"black"}
+                    border="1px solid"
+                    borderRadius="32px"
+                    borderColor={"gray.300"}
+                    _hover={{
+                      bg: "black",
+                      color: "white",
+
+                      transition: "all 0.3s",
+                    }}
                     variant="outline"
                     onClick={() => {
                       setIsDialogOpen(false);
@@ -343,45 +401,41 @@ const AvailabilityCalendar: React.FC = () => {
                   >
                     Cancel
                   </Button>
-                  <Button
-                    disabled={editRate === ""}
-                    onClick={() => {
-                      saveEditedRates();
-                      setIsDialogOpen(false);
-                    }}
-                  >
-                    Save
-                  </Button>
-                </div>
-              </DialogContent>
-            </DialogRoot>
+                </DialogActionTrigger>
+                <Button
+                  transition="all 0.3s"
+                  as="button"
+                  w={"225px"}
+                  bg={"white"}
+                  p={4}
+                  color={"black"}
+                  border="1px solid"
+                  borderRadius="32px"
+                  borderColor={"gray.300"}
+                  _hover={{
+                    bg: "black",
+                    color: "white",
 
-            <Button
-              as="button"
-              w={"300px"}
-              bg={"white"}
-              h={"50px"}
-              p={2}
-              color={"black"}
-              border="1px solid"
-             borderRadius="16px"
-              borderColor={"gray.300"}
-              _hover={{
-                bg: "black",
-                color: "white",
-
-                transition: "all 0.3s",
-              }}
-              disabled={selectedDates.length === 0}
-              onClick={clearSelection}
-            >
-              Clear Selection
-            </Button>
-          </div>
+                    transition: "all 0.3s",
+                  }}
+                  variant="outline"
+                  colorScheme="blue"
+                  disabled={editRate === ""}
+                  onClick={() => {
+                    saveEditedRates();
+                    setIsDialogOpen(false);
+                  }}
+                >
+                  Save Pack
+                </Button>
+              </DialogFooter>
+              <DialogCloseTrigger />
+            </DialogContent>
+          </DialogRoot>
         </Tabs.Content>
 
         {/* INSIGHTS TAB */}
-        <Tabs.Content value="insights" className="mt-4">
+        <Tabs.Content mt={"16px"} value="insights" className="mt-4">
           <Text fontSize={["16px", "20px"]} color="gray.600" mb={2}>
             Revenue Insights
           </Text>
@@ -410,7 +464,7 @@ const AvailabilityCalendar: React.FC = () => {
         </Tabs.Content>
 
         {/* SETTINGS TAB */}
-        <Tabs.Content value="settings" className="mt-4">
+        <Tabs.Content mt={"16px"} value="settings" className="mt-4">
           <Text fontSize={["16px", "20px"]} color="gray.600" mb={2}>
             Pricing Settings
           </Text>

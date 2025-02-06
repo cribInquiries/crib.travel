@@ -71,14 +71,13 @@ const Hero = () => {
         flexDirection={"column"}
         justifyContent={"center"}
         alignItems={"center"}
-  fontSize={{
-    base: "34px",
-    sm: "40px",
-    md: "40px",
-    lg: "76px",
-    xl: "76px",
-
-  }}
+        fontSize={{
+          base: "34px",
+          sm: "40px",
+          md: "40px",
+          lg: "76px",
+          xl: "76px",
+        }}
         fontWeight={{ base: "400", sm: "400", md: "400", lg: "400", xl: "400" }}
       >
         <Box color={"#222222"} fontWeight={"600"} width={"70%"}>
