@@ -39,7 +39,101 @@ import {
   Share2,
 } from "lucide-react";
 
-const AboutSummary = () => {
+// A reusable component for a pack card with its own quantity state and functions.
+const PackCard = ({ title, description, price }) => {
+  const [quantity, setQuantity] = useState(1);
+
+  // Function to increment the pack quantity
+  const increment = () => {
+    setQuantity((prev) => prev + 1);
+  };
+
+  // Function to decrement the pack quantity (ensuring at least 1 is selected)
+  const decrement = () => {
+    setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
+  };
+  
+
+  return (
+    <Box
+      w={"480px"}
+      h={"350px"}
+      bg={"white"}
+      shadow={"md"}
+      borderRadius={"16px"}
+      display={"flex"}
+      flexDir={"column"}
+      alignItems={"start"}
+      justifyContent={"start"}
+    >
+      <Box
+        w={"100%"}
+        h={"500px"}
+        bg={"gray.100"}
+        borderRadius={"16px"}
+        borderBottomRadius={"0px"}
+      ></Box>
+
+      <Box p={4} w={"100%"} h={"100%"}>
+        <HStack align={"center"} gap={2}>
+          <Package />
+          <Text fontWeight={"semibold"} fontSize={"18px"}>
+            {title}
+          </Text>
+        </HStack>
+        <Box mt={2}>
+          <Text fontSize={"16px"} color={"gray.600"}>
+            {description}
+          </Text>
+        </Box>
+      </Box>
+
+      <HStack
+        p={4}
+        w={"100%"}
+        gap={2}
+        mt={8}
+        align={"center"}
+        justify={"space-between"}
+      >
+        <Text fontWeight={"semibold"} fontSize={"32px"}>
+          ${price}
+        </Text>
+        <HStack>
+          <Box
+            as={"button"}
+            p={1}
+            border={"1px solid lightgray"}
+            rounded={"6px"}
+            onClick={increment}
+          >
+            <Plus />
+          </Box>
+          <Box
+            as={"button"}
+            p={1}
+            rounded={"6px"}
+            fontWeight={"semibold"}
+            fontSize={"18px"}
+          >
+            {quantity}
+          </Box>
+          <Box
+            as={"button"}
+            p={1}
+            border={"1px solid lightgray"}
+            rounded={"6px"}
+            onClick={decrement}
+          >
+            <Minus />
+          </Box>
+        </HStack>
+      </HStack>
+    </Box>
+  );
+};
+
+const AboutSummary: React.FC<AboutSummaryProps> = ({ selectedDates, guestData }) => {
   const {
     title,
     description,
@@ -52,6 +146,7 @@ const AboutSummary = () => {
     imageDetails,
     rules,
   } = useListingCreationContext();
+
   return (
     <>
       <Box>
@@ -67,17 +162,20 @@ const AboutSummary = () => {
         </Text>
         <HStack></HStack>
       </Box>
+
       <HStack gap={4} mt={"16px"} w={"100%"} justify={"space-between"}>
         <HStack gap={3}>
           <Box as={Users} boxSize={6} color="gray.600" />
-          <VStack gap={0} justify={"start"} align={"start"}>
-            <Text fontWeight={"semibold"}>{addedRooms.length || 0} guests</Text>
+          <VStack gap={0} align={"start"}>
+            <Text fontWeight={"semibold"}>
+              {addedRooms.length || 0} guests
+            </Text>
             <Text color="gray.600">Max occupancy</Text>
           </VStack>
         </HStack>
         <HStack gap={3}>
           <Box as={Bed} boxSize={6} color="gray.600" />
-          <VStack gap={0} justify={"start"} align={"start"}>
+          <VStack gap={0} align={"start"}>
             <Text fontWeight={"semibold"}>
               {addedRooms.length || 0} Bedroom
             </Text>
@@ -86,7 +184,7 @@ const AboutSummary = () => {
         </HStack>
         <HStack gap={3}>
           <Box as={Bath} boxSize={6} color="gray.600" />
-          <VStack gap={0} justify={"start"} align={"start"}>
+          <VStack gap={0} align={"start"}>
             <Text fontWeight={"semibold"}>
               {addedRooms.length || 0} Bathroom
             </Text>
@@ -95,16 +193,20 @@ const AboutSummary = () => {
         </HStack>
         <HStack gap={3}>
           <Box as={Home} boxSize={6} color="gray.600" />
-          <VStack gap={0} justify={"start"} align={"start"}>
-            <Text fontWeight={"semibold"}>{addedRooms.length || 0} Villa</Text>
+          <VStack gap={0} align={"start"}>
+            <Text fontWeight={"semibold"}>
+              {addedRooms.length || 0} Villa
+            </Text>
             <Text color="gray.600">Property type</Text>
           </VStack>
         </HStack>
       </HStack>
 
       <Box w={"100%"} bg={"lightgray"} h={"1px"} my={"32px"} />
+
+      {/* Awards & Recognition */}
       <Box>
-        <Text fontSize={["24px", "24px", "24px"]} fontWeight="bold" my="24px">
+        <Text fontSize={"24px"} fontWeight="bold" my="24px">
           Awards & Recognition
         </Text>
 
@@ -121,12 +223,11 @@ const AboutSummary = () => {
             bg={"purple.100"}
             borderRadius={"16px"}
             display={"flex"}
+            flexDir={"column"}
             alignItems={"center"}
             justifyContent={"center"}
-            flexDir={"column"}
           >
-            {" "}
-            <Award size={"32px"} color="#A855F7" />{" "}
+            <Award size={"32px"} color="#A855F7" />
             <Text mt={"8px"} fontWeight={"semibold"} fontSize={"18px"}>
               Crib Overlord
             </Text>
@@ -140,12 +241,11 @@ const AboutSummary = () => {
             bg={"red.100"}
             borderRadius={"16px"}
             display={"flex"}
+            flexDir={"column"}
             alignItems={"center"}
             justifyContent={"center"}
-            flexDir={"column"}
           >
-            {" "}
-            <Heart size={"32px"} color="red" />{" "}
+            <Heart size={"32px"} color="red" />
             <Text mt={"8px"} fontWeight={"semibold"} fontSize={"18px"}>
               Guests' Favorite
             </Text>
@@ -159,12 +259,11 @@ const AboutSummary = () => {
             bg={"green.100"}
             borderRadius={"16px"}
             display={"flex"}
+            flexDir={"column"}
             alignItems={"center"}
             justifyContent={"center"}
-            flexDir={"column"}
           >
-            {" "}
-            <TrendingUp size={"32px"} color="#22C55E" />{" "}
+            <TrendingUp size={"32px"} color="#22C55E" />
             <Text mt={"8px"} fontWeight={"semibold"} fontSize={"18px"}>
               High Demand
             </Text>
@@ -178,12 +277,11 @@ const AboutSummary = () => {
             bg={"blue.100"}
             borderRadius={"16px"}
             display={"flex"}
+            flexDir={"column"}
             alignItems={"center"}
             justifyContent={"center"}
-            flexDir={"column"}
           >
-            {" "}
-            <Star size={"32px"} color="#3B82F6" />{" "}
+            <Star size={"32px"} color="#3B82F6" />
             <Text mt={"8px"} fontWeight={"semibold"} fontSize={"18px"}>
               Top Rated
             </Text>
@@ -195,6 +293,8 @@ const AboutSummary = () => {
       </Box>
 
       <Box w={"100%"} bg={"lightgray"} h={"1px"} my={"32px"} />
+
+      {/* Host Information */}
       <Box
         w={"100%"}
         h={"100%"}
@@ -205,9 +305,8 @@ const AboutSummary = () => {
       >
         <HStack gap={2}>
           <Box p={8} borderRadius={"full"} bg={"gray.200"}></Box>
-          <VStack gap={0} justify={"start"} align={"start"}>
+          <VStack gap={0} align={"start"}>
             <HStack w={"100%"} justify={"center"} align={"center"} gap={4}>
-              {" "}
               <Text fontWeight={"semibold"} fontSize={"24px"}>
                 Emma
               </Text>
@@ -230,37 +329,27 @@ const AboutSummary = () => {
                 </Box>
               </Box>
             </HStack>
-
             <Text color={"gray.600"}>Joined in 2018</Text>
           </VStack>
         </HStack>
         <HStack mt={4} w={"100%"}>
-          <VStack gap={0} justify={"start"} align={"start"} w={"100%"}>
+          <VStack align={"start"} w={"100%"}>
             <Text fontWeight={"semibold"} fontSize={"16px"}>
               100% response rate
             </Text>
             <Text color={"gray.600"}>Responds within an hour</Text>
           </VStack>
-
-          <VStack gap={0} justify={"start"} align={"start"} w={"100%"}>
-            <Box
-              display={"flex"}
-              gap={2}
-              justifyContent={"center"}
-              alignItems={"center"}
-            >
-              {" "}
+          <VStack align={"start"} w={"100%"}>
+            <HStack gap={2} justify={"center"} align={"center"}>
               <Text fontWeight={"semibold"} fontSize={"16px"}>
                 4.9
               </Text>
               <Star size={"18px"} color="orange" />
-            </Box>
-
+            </HStack>
             <Text color={"gray.600"}>186 reviews</Text>
           </VStack>
         </HStack>
-
-        <Box gap={0} w={"100%"} mt={4}>
+        <Box w={"100%"} mt={4}>
           <Text fontSize={"16px"}>
             Hi, I'm Emma! I'm a passionate traveler and love to share the beauty
             of Malibu with guests from around the world. As a local, I can
@@ -268,7 +357,6 @@ const AboutSummary = () => {
             gems in the area.
           </Text>
         </Box>
-
         <Box
           as={"button"}
           gap={2}
@@ -281,386 +369,82 @@ const AboutSummary = () => {
           justifyContent={"center"}
           alignItems={"center"}
           transition={"all 0.3s"}
-          _hover={{
-            bg: "gray.700",
-            color: "black",
-          }}
+          _hover={{ bg: "gray.700", color: "black" }}
         >
           <MessageCircle color="white" size={"18px"} />
           <Text color={"white"} fontWeight={"semibold"} fontSize={"14px"}>
-            {" "}
             Contact Host
           </Text>
         </Box>
       </Box>
 
+      {/* Enhance Your Stay with Packs Section */}
       <Box>
-        <Text fontSize={["24px", "24px", "24px"]} fontWeight="bold" my="24px">
+        <Text fontSize={"24px"} fontWeight="bold" my="24px">
           Enhance Your Stay with Packs
         </Text>
-
         <HStack
           w={"100%"}
-          h={"100%"}
           justify={"space-between"}
           align={"start"}
           flexWrap={{ base: "wrap", md: "wrap" }}
           gap={4}
         >
-          <Box
-            w={"480px"}
-            h={"350px"}
-            bg={"white"}
-            shadow={"md"}
-            borderRadius={"16px"}
-            display={"flex"}
-            alignItems={"start"}
-            justifyContent={"start"}
-            flexDir={"column"}
-          >
-            <Box
-              w={"100%"}
-              h={"500px"}
-              bg={"gray.100"}
-              borderRadius={"16px"}
-              borderBottomRadius={"0px"}
-            ></Box>
-
-            <Box p={4} w={"100%"} h={"100%"}>
-              <Box
-                display={"flex"}
-                justifyContent={"start"}
-                alignItems={"center"}
-                gap={2}
-              >
-                <Package />
-                <Text fontWeight={"semibold"} fontSize={"18px"}>
-                  Beach Essentials
-                </Text>
-              </Box>
-              <Box display={"flex"} flexDir={"row"} gap={0.5} mt={2}>
-                <Text fontSize={"16px"} color={"gray.600"}>
-                  Beach towels, Umbrellas, Snorkeling Gear, Cooler, Beach
-                  towels, Umbrellas, Snorkeling Gear, Cooler
-                </Text>
-              </Box>
-            </Box>
-            <HStack
-              p={4}
-              w={"100%"}
-              gap={2}
-              mt={8}
-              alignItems={"center"}
-              justify={"space-between"}
-            >
-              <Text fontWeight={"semibold"} fontSize={"32px"}>
-                $50
-              </Text>
-              <HStack>
-                <Box
-                  as={"button"}
-                  p={1}
-                  border={"1px solid lightgray"}
-                  rounded={"6px"}
-                >
-                  <Plus />
-                </Box>
-                <Box
-                  as={"button"}
-                  p={1}
-                  rounded={"6px"}
-                  fontWeight={"semibold"}
-                  fontSize={"18px"}
-                >
-                  1
-                </Box>
-                <Box
-                  as={"button"}
-                  p={1}
-                  border={"1px solid lightgray"}
-                  rounded={"6px"}
-                >
-                  <Minus />
-                </Box>
-              </HStack>
-            </HStack>
-          </Box>
-
-          <Box
-            w={"480px"}
-            h={"350px"}
-            bg={"white"}
-            shadow={"md"}
-            borderRadius={"16px"}
-            display={"flex"}
-            alignItems={"start"}
-            justifyContent={"start"}
-            flexDir={"column"}
-          >
-            <Box
-              w={"100%"}
-              h={"500px"}
-              bg={"gray.100"}
-              borderRadius={"16px"}
-              borderBottomRadius={"0px"}
-            ></Box>
-
-            <Box p={4} w={"100%"} h={"100%"}>
-              <Box
-                display={"flex"}
-                justifyContent={"start"}
-                alignItems={"center"}
-                gap={2}
-              >
-                <Package />
-                <Text fontWeight={"semibold"} fontSize={"18px"}>
-                  Beach Essentials
-                </Text>
-              </Box>
-              <Box display={"flex"} flexDir={"row"} gap={0.5} mt={2}>
-                <Text fontSize={"16px"} color={"gray.600"}>
-                  Beach towels, Umbrellas, Snorkeling Gear, Cooler
-                </Text>
-              </Box>
-            </Box>
-
-            <HStack
-              p={4}
-              w={"100%"}
-              gap={2}
-              mt={8}
-              alignItems={"center"}
-              justify={"space-between"}
-            >
-              <Text fontWeight={"semibold"} fontSize={"32px"}>
-                $50
-              </Text>
-              <HStack>
-                <Box
-                  as={"button"}
-                  p={1}
-                  border={"1px solid lightgray"}
-                  rounded={"6px"}
-                >
-                  <Plus />
-                </Box>
-                <Box
-                  as={"button"}
-                  p={1}
-                  rounded={"6px"}
-                  fontWeight={"semibold"}
-                  fontSize={"18px"}
-                >
-                  1
-                </Box>
-                <Box
-                  as={"button"}
-                  p={1}
-                  border={"1px solid lightgray"}
-                  rounded={"6px"}
-                >
-                  <Minus />
-                </Box>
-              </HStack>
-            </HStack>
-          </Box>
+          <PackCard
+            title="Beach Essentials"
+            description="Beach towels, Umbrellas, Snorkeling Gear, Cooler, Beach towels, Umbrellas, Snorkeling Gear, Cooler"
+            price={50}
+          />
+          <PackCard
+            title="Beach Essentials"
+            description="Beach towels, Umbrellas, Snorkeling Gear, Cooler"
+            price={50}
+          />
         </HStack>
       </Box>
+
+      {/* Unique Adventures Nearby Section */}
       <Box>
-        <Text fontSize={["24px", "24px", "24px"]} fontWeight="bold" my="24px">
+        <Text fontSize={"24px"} fontWeight="bold" my="24px">
           Unique Adventures Nearby
         </Text>
-
         <HStack
           w={"100%"}
-          h={"100%"}
           justify={"space-between"}
           align={"start"}
           flexWrap={{ base: "wrap", md: "wrap" }}
           gap={4}
         >
-          <Box
-            w={"480px"}
-            h={"350px"}
-            bg={"white"}
-            shadow={"md"}
-            borderRadius={"16px"}
-            display={"flex"}
-            alignItems={"start"}
-            justifyContent={"start"}
-            flexDir={"column"}
-          >
-            <Box
-              w={"100%"}
-              h={"500px"}
-              bg={"gray.100"}
-              borderRadius={"16px"}
-              borderBottomRadius={"0px"}
-            ></Box>
-
-            <Box p={4} w={"100%"} h={"100%"}>
-              <Box
-                display={"flex"}
-                justifyContent={"start"}
-                alignItems={"center"}
-                gap={2}
-              >
-                <Package />
-                <Text fontWeight={"semibold"} fontSize={"18px"}>
-                  Beach Essentials
-                </Text>
-              </Box>
-              <Box display={"flex"} flexDir={"row"} gap={0.5} mt={2}>
-                <Text fontSize={"16px"} color={"gray.600"}>
-                  Beach towels, Umbrellas, Snorkeling Gear, Cooler, Beach
-                  towels, Umbrellas, Snorkeling Gear, Cooler
-                </Text>
-              </Box>
-            </Box>
-            <HStack
-              p={4}
-              w={"100%"}
-              gap={2}
-              mt={8}
-              alignItems={"center"}
-              justify={"space-between"}
-            >
-              <Text fontWeight={"semibold"} fontSize={"32px"}>
-                $50
-              </Text>
-              <HStack>
-                <Box
-                  as={"button"}
-                  p={1}
-                  border={"1px solid lightgray"}
-                  rounded={"6px"}
-                >
-                  <Plus />
-                </Box>
-                <Box
-                  as={"button"}
-                  p={1}
-                  rounded={"6px"}
-                  fontWeight={"semibold"}
-                  fontSize={"18px"}
-                >
-                  1
-                </Box>
-                <Box
-                  as={"button"}
-                  p={1}
-                  border={"1px solid lightgray"}
-                  rounded={"6px"}
-                >
-                  <Minus />
-                </Box>
-              </HStack>
-            </HStack>
-          </Box>
-
-          <Box
-            w={"480px"}
-            h={"350px"}
-            bg={"white"}
-            shadow={"md"}
-            borderRadius={"16px"}
-            display={"flex"}
-            alignItems={"start"}
-            justifyContent={"start"}
-            flexDir={"column"}
-          >
-            <Box
-              w={"100%"}
-              h={"500px"}
-              bg={"gray.100"}
-              borderRadius={"16px"}
-              borderBottomRadius={"0px"}
-            ></Box>
-
-            <Box p={4} w={"100%"} h={"100%"}>
-              <Box
-                display={"flex"}
-                justifyContent={"start"}
-                alignItems={"center"}
-                gap={2}
-              >
-                <Package />
-                <Text fontWeight={"semibold"} fontSize={"18px"}>
-                  Beach Essentials
-                </Text>
-              </Box>
-              <Box display={"flex"} flexDir={"row"} gap={0.5} mt={2}>
-                <Text fontSize={"16px"} color={"gray.600"}>
-                  Beach towels, Umbrellas, Snorkeling Gear, Cooler
-                </Text>
-              </Box>
-            </Box>
-
-            <HStack
-              p={4}
-              w={"100%"}
-              gap={2}
-              mt={8}
-              alignItems={"center"}
-              justify={"space-between"}
-            >
-              <Text fontWeight={"semibold"} fontSize={"32px"}>
-                $50
-              </Text>
-              <HStack>
-                <Box
-                  as={"button"}
-                  p={1}
-                  border={"1px solid lightgray"}
-                  rounded={"6px"}
-                >
-                  <Plus />
-                </Box>
-                <Box
-                  as={"button"}
-                  p={1}
-                  rounded={"6px"}
-                  fontWeight={"semibold"}
-                  fontSize={"18px"}
-                >
-                  1
-                </Box>
-                <Box
-                  as={"button"}
-                  p={1}
-                  border={"1px solid lightgray"}
-                  rounded={"6px"}
-                >
-                  <Minus />
-                </Box>
-              </HStack>
-            </HStack>
-          </Box>
+          <PackCard
+            title="Beach Essentials"
+            description="Beach towels, Umbrellas, Snorkeling Gear, Cooler, Beach towels, Umbrellas, Snorkeling Gear, Cooler"
+            price={50}
+          />
+          <PackCard
+            title="Beach Essentials"
+            description="Beach towels, Umbrellas, Snorkeling Gear, Cooler"
+            price={50}
+          />
         </HStack>
       </Box>
+
+      {/* House Rules Section */}
       <Box>
-        <Text fontSize={["24px", "24px", "24px"]} fontWeight="bold" my="24px">
+        <Text fontSize={"24px"} fontWeight="bold" my="24px">
           House Rules
         </Text>
         <Box
           w={"100%"}
-          h={"100%"}
           border={"1px solid lightgray"}
           borderRadius={"16px"}
           p={4}
           px={6}
         >
-          <HStack
-            w={"100%"}
-            // justify={"start"}
-            // align={"start"}
-            gap={4}
-          >
-            {" "}
-            <VStack w={"100%"} align={"start"} justify={"start"} gap={6}>
+          <HStack gap={4}>
+            <VStack w={"100%"} align={"start"} gap={6}>
               <HStack gap={3}>
                 <Box as={DoorOpen} boxSize={6} color="gray.600" />
-                <VStack gap={0} justify={"start"} align={"start"}>
+                <VStack align={"start"}>
                   <Text fontWeight={"semibold"}>
                     {addedRooms.length || 0} Check-in
                   </Text>
@@ -669,7 +453,7 @@ const AboutSummary = () => {
               </HStack>
               <HStack gap={3}>
                 <Box as={CigaretteOff} boxSize={6} color="gray.600" />
-                <VStack gap={0} justify={"start"} align={"start"}>
+                <VStack align={"start"}>
                   <Text fontWeight={"semibold"}>
                     {addedRooms.length || 0} No smoking
                   </Text>
@@ -680,7 +464,7 @@ const AboutSummary = () => {
               </HStack>
               <HStack gap={3}>
                 <Box as={Music} boxSize={6} color="gray.600" />
-                <VStack gap={0} justify={"start"} align={"start"}>
+                <VStack align={"start"}>
                   <Text fontWeight={"semibold"}>
                     {addedRooms.length || 0} No parties or events
                   </Text>
@@ -690,10 +474,10 @@ const AboutSummary = () => {
                 </VStack>
               </HStack>
             </VStack>
-            <VStack w={"100%"} align={"start"} justify={"start"} gap={6}>
+            <VStack w={"100%"} align={"start"} gap={6}>
               <HStack gap={3}>
                 <Box as={Clock} boxSize={6} color="gray.600" />
-                <VStack gap={0} justify={"start"} align={"start"}>
+                <VStack align={"start"}>
                   <Text fontWeight={"semibold"}>
                     {addedRooms.length || 0} Checkout
                   </Text>
@@ -702,7 +486,7 @@ const AboutSummary = () => {
               </HStack>
               <HStack gap={3}>
                 <Box as={PawPrint} boxSize={6} color="gray.600" />
-                <VStack gap={0} justify={"start"} align={"start"}>
+                <VStack align={"start"}>
                   <Text fontWeight={"semibold"}>
                     {addedRooms.length || 0} No pets
                   </Text>
@@ -713,7 +497,7 @@ const AboutSummary = () => {
               </HStack>
               <HStack gap={3}>
                 <Box as={Moon} boxSize={6} color="gray.600" />
-                <VStack gap={0} justify={"start"} align={"start"}>
+                <VStack align={"start"}>
                   <Text fontWeight={"semibold"}>
                     {addedRooms.length || 0} Quiet hours
                   </Text>
@@ -721,7 +505,7 @@ const AboutSummary = () => {
                 </VStack>
               </HStack>
             </VStack>
-          </HStack>{" "}
+          </HStack>
           <Box mt={4} fontSize={"16px"} fontStyle="italic" color={"gray.600"}>
             Please respect these house rules to ensure a comfortable stay for
             everyone. Violation may result in additional fees or termination of

@@ -43,6 +43,8 @@ import { ChatBubbleIcon, Share1Icon } from "@radix-ui/react-icons";
 import AboutSummary from "./summaryComponents/summaryTabs/AboutSummary";
 import PaymentCard from "./summaryComponents/PaymentCard";
 import LoactionSummary from "./summaryComponents/summaryTabs/LocationSummary";
+import AmenitiesSummary from "./summaryComponents/summaryTabs/AmenitiesSummary";
+import ReviewsSummary from "./summaryComponents/summaryTabs/ReviewsSummary";
 const Summary = () => {
   const {
     title,
@@ -200,6 +202,7 @@ const Summary = () => {
                     h={"100%"}
                     borderRadius={"16px"}
                     bg={"gray.400"}
+                    
                     _hover={{
                       scale: 1.025,
                     }}
@@ -306,13 +309,19 @@ const Summary = () => {
       {/* Image Gallery */}
 
       {/* Main Content */}
-      <Flex direction={{ base: "column", md: "row" }} gap={8}>
+      <Flex
+        direction={{ base: "column", md: "row" }}
+        gap={8}
+        align={"start"}
+        justify={"start"}
+    mt={"50px"}
+      >
         {/* Left Column */}
         <Box flex={2} mb={8}>
           <Tabs.Root
             w={"100%"}
             variant={"plain"}
-            mt="50px"
+          
             value={value}
             onValueChange={(details) => setValue(details.value)}
             defaultValue="calendar"
@@ -413,6 +422,14 @@ const Summary = () => {
             <Tabs.Content mt={"16px"} value="Location" className="mt-4">
               {" "}
               <LoactionSummary />
+            </Tabs.Content>
+
+            <Tabs.Content mt={"16px"} value="Amenities" className="mt-4">
+              <AmenitiesSummary />
+            </Tabs.Content>
+
+            <Tabs.Content mt={"16px"} value="Reviews" className="mt-4">
+              <ReviewsSummary />
             </Tabs.Content>
           </Tabs.Root>
         </Box>
