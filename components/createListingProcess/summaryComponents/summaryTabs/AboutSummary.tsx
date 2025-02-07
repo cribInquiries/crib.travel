@@ -133,20 +133,97 @@ const PackCard = ({ title, description, price }) => {
   );
 };
 
-const AboutSummary: React.FC<AboutSummaryProps> = ({ selectedDates, guestData }) => {
-  const {
+const AboutSummary = () => {
+ const {
+    season,
+        setSeason,
+        progress,
+        setProgress,
+        selectedProperty,
+        setSelectedProperty,
+        title,
+        setTitle,
+        description,
+        setDescription,
+        address,
+        setAddress,
+        mapUrl,
+        setMapUrl,
+        addedRooms,
+        setAddedRooms,
+        addRoomProgress,
+        setAddRoomProgress,
+        uploadedFiles,
+        setUploadedFiles,
+        imageDetails,
+        setImageDetails,
+        basePrice,
+        setBasePrice,
+        minPrice,
+        setMinPrice,
+        maxPrice,
+        setMaxPrice,
+        weekendAdjustment,
+        setWeekendAdjustment,
+        seasonalAdjustment,
+        setSeasonalAdjustment,
+        packageDiscounts,
+        setPackageDiscounts,
+        rules,
+        setRules,
+        recommendations,
+        setRecommendations,
+        packs,
+        setPacks,
+        selectedAmenities,
+        setSelectedAmenities,
+        customAmenity,
+        setCustomAmenity,
+        selectedTab,
+        setSelectedTab,
+        prices,
+        setPrices,
+        selectedDates,
+        setSelectedDates,
+        loadingInsights,
+        setLoadingInsights,
+        insights,
+        setInsights,
+        editDialogOpen,
+        setEditDialogOpen,
+        editRate,
+        setEditRate,
+  } = useListingCreationContext();
+  console.log({
+    season,
+    selectedProperty,
     title,
     description,
-    basePrice,
-    uploadedFiles,
-    addedRooms,
     address,
     mapUrl,
-    packs,
+    addedRooms,
+    addRoomProgress,
+    uploadedFiles,
     imageDetails,
+    basePrice,
+    minPrice,
+    maxPrice,
+    weekendAdjustment,
+    seasonalAdjustment,
+    packageDiscounts,
     rules,
-  } = useListingCreationContext();
-
+    recommendations,
+    packs,
+    selectedAmenities,
+    customAmenity,
+    selectedTab,
+    prices,
+    selectedDates,
+    loadingInsights,
+    insights,
+    editDialogOpen,
+    editRate,
+  });
   return (
     <>
       <Box>
@@ -154,11 +231,7 @@ const AboutSummary: React.FC<AboutSummaryProps> = ({ selectedDates, guestData })
           About this crib
         </Text>
         <Text fontSize={["24px", "30px", "16px"]} color={"gray.600"} mb="8px">
-          Experience the ultimate beachfront getaway in this stunning villa.
-          Enjoy breathtaking ocean views, modern amenities, and exclusive access
-          to a private beach. This newly renovated property offers a perfect
-          blend of luxury and comfort, ideal for families or groups looking for
-          a memorable coastal retreat.
+         {description}
         </Text>
         <HStack></HStack>
       </Box>
@@ -170,16 +243,16 @@ const AboutSummary: React.FC<AboutSummaryProps> = ({ selectedDates, guestData })
             <Text fontWeight={"semibold"}>
               {addedRooms.length || 0} guests
             </Text>
-            <Text color="gray.600">Max occupancy</Text>
+          
           </VStack>
         </HStack>
         <HStack gap={3}>
           <Box as={Bed} boxSize={6} color="gray.600" />
           <VStack gap={0} align={"start"}>
             <Text fontWeight={"semibold"}>
-              {addedRooms.length || 0} Bedroom
+              {addedRooms.length || 0} Rooms
             </Text>
-            <Text color="gray.600">5 beds</Text>
+           
           </VStack>
         </HStack>
         <HStack gap={3}>
@@ -188,16 +261,16 @@ const AboutSummary: React.FC<AboutSummaryProps> = ({ selectedDates, guestData })
             <Text fontWeight={"semibold"}>
               {addedRooms.length || 0} Bathroom
             </Text>
-            <Text color="gray.600">Fullbaths</Text>
+          
           </VStack>
         </HStack>
         <HStack gap={3}>
           <Box as={Home} boxSize={6} color="gray.600" />
           <VStack gap={0} align={"start"}>
             <Text fontWeight={"semibold"}>
-              {addedRooms.length || 0} Villa
+              {selectedProperty}
             </Text>
-            <Text color="gray.600">Property type</Text>
+          
           </VStack>
         </HStack>
       </HStack>
@@ -390,16 +463,14 @@ const AboutSummary: React.FC<AboutSummaryProps> = ({ selectedDates, guestData })
           flexWrap={{ base: "wrap", md: "wrap" }}
           gap={4}
         >
-          <PackCard
-            title="Beach Essentials"
-            description="Beach towels, Umbrellas, Snorkeling Gear, Cooler, Beach towels, Umbrellas, Snorkeling Gear, Cooler"
-            price={50}
-          />
-          <PackCard
-            title="Beach Essentials"
-            description="Beach towels, Umbrellas, Snorkeling Gear, Cooler"
-            price={50}
-          />
+           {packs.map((pack) => (
+      <PackCard
+        key={pack.id}
+        title={pack.title}
+        description={pack.description}
+        price={pack.price}
+      />
+    ))}
         </HStack>
       </Box>
 

@@ -47,16 +47,64 @@ import AmenitiesSummary from "./summaryComponents/summaryTabs/AmenitiesSummary";
 import ReviewsSummary from "./summaryComponents/summaryTabs/ReviewsSummary";
 const Summary = () => {
   const {
-    title,
-    description,
-    basePrice,
-    uploadedFiles,
-    addedRooms,
-    address,
-    mapUrl,
-    packs,
-    imageDetails,
-    rules,
+    season,
+        setSeason,
+        progress,
+        setProgress,
+        selectedProperty,
+        setSelectedProperty,
+        title,
+        setTitle,
+        description,
+        setDescription,
+        address,
+        setAddress,
+        mapUrl,
+        setMapUrl,
+        addedRooms,
+        setAddedRooms,
+        addRoomProgress,
+        setAddRoomProgress,
+        uploadedFiles,
+        setUploadedFiles,
+        imageDetails,
+        setImageDetails,
+        basePrice,
+        setBasePrice,
+        minPrice,
+        setMinPrice,
+        maxPrice,
+        setMaxPrice,
+        weekendAdjustment,
+        setWeekendAdjustment,
+        seasonalAdjustment,
+        setSeasonalAdjustment,
+        packageDiscounts,
+        setPackageDiscounts,
+        rules,
+        setRules,
+        recommendations,
+        setRecommendations,
+        packs,
+        setPacks,
+        selectedAmenities,
+        setSelectedAmenities,
+        customAmenity,
+        setCustomAmenity,
+        selectedTab,
+        setSelectedTab,
+        prices,
+        setPrices,
+        selectedDates,
+        setSelectedDates,
+        loadingInsights,
+        setLoadingInsights,
+        insights,
+        setInsights,
+        editDialogOpen,
+        setEditDialogOpen,
+        editRate,
+        setEditRate,
   } = useListingCreationContext();
   const [value, setValue] = useState<string | null>("About");
   return (
@@ -76,7 +124,7 @@ const Summary = () => {
 
       <Box mt={"50px"}>
         <Text fontSize={["24px", "30px", "36px"]} fontWeight="bold" mb="8px">
-          Luxury Beachfront Villa with Ocean Views
+        {title}
         </Text>
 
         <HStack w={"100%"} justify={"space-between"}>
@@ -109,8 +157,7 @@ const Summary = () => {
               fontSize={["16px", "18px"]}
               color="gray.600"
             >
-              186 reviews 123 Ocean View Drive, Malibu, California 90265, United
-              States
+         {address}
             </Box>
           </HStack>
 
@@ -155,11 +202,15 @@ const Summary = () => {
           {/* {uploadedFiles.length > 0 ? ( */}
 
           <Box
+            backgroundImage={imageDetails[0] ? `url(${URL.createObjectURL(imageDetails[0].file)})` : undefined}
+            backgroundSize="cover"
+            backgroundPosition="center"
+            backgroundRepeat="no-repeat"
             transition={"all 0.3s"}
             w={"100%"}
             h={"100%"}
             borderRadius={"16px"}
-            bg={"gray.200"}
+       
             _hover={{
               scale: 1.01,
             }}
@@ -196,13 +247,17 @@ const Summary = () => {
               <Box w={"100%"} h={"100%"} borderRadius={"16px"}>
                 <HStack w={"100%"} h={"100%"} borderRadius={"16px"}>
                   <Box
+                    backgroundImage={imageDetails[2] ? `url(${URL.createObjectURL(imageDetails[0].file)})` : undefined}
+                    backgroundSize="cover"
+                    backgroundPosition="center"
+                    backgroundRepeat="no-repeat"
                     transition={"all 0.3s"}
                     cursor={"pointer"}
                     w={"100%"}
                     h={"100%"}
                     borderRadius={"16px"}
-                    bg={"gray.400"}
-                    
+                    // bg={"gray.400"}
+
                     _hover={{
                       scale: 1.025,
                     }}
@@ -222,12 +277,16 @@ const Summary = () => {
                     </Box>
                   </Box>
                   <Box
+                    backgroundImage={imageDetails[3] ? `url(${URL.createObjectURL(imageDetails[0].file)})` : undefined}
+                    backgroundSize="cover"
+                    backgroundPosition="center"
+                    backgroundRepeat="no-repeat"
                     transition={"all 0.3s"}
                     cursor={"pointer"}
                     w={"100%"}
                     h={"100%"}
                     borderRadius={"16px"}
-                    bg={"gray.400"}
+                    // bg={"gray.400"}
                     _hover={{
                       scale: 1.025,
                     }}
@@ -251,12 +310,16 @@ const Summary = () => {
               <Box w={"100%"} h={"100%"} borderRadius={"16px"}>
                 <HStack w={"100%"} h={"100%"} borderRadius={"16px"}>
                   <Box
+                    backgroundImage={imageDetails[4] ? `url(${URL.createObjectURL(imageDetails[0].file)})` : undefined}
+                    backgroundSize="cover"
+                    backgroundPosition="center"
+                    backgroundRepeat="no-repeat"
                     transition={"all 0.3s"}
                     cursor={"pointer"}
                     w={"100%"}
                     h={"100%"}
                     borderRadius={"16px"}
-                    bg={"gray.400"}
+                    // bg={"gray.400"}
                     _hover={{
                       scale: 1.025,
                     }}
@@ -264,6 +327,7 @@ const Summary = () => {
                     {" "}
                     <Box p={2}>
                       <Box
+                      
                         width={"fit-content"}
                         border={"1px solid lightgray"}
                         bg={"gray.50"}
@@ -276,12 +340,16 @@ const Summary = () => {
                     </Box>
                   </Box>
                   <Box
+                    backgroundImage={imageDetails[5] ? `url(${URL.createObjectURL(imageDetails[0].file)})` : undefined}
+                    backgroundSize="cover"
+                    backgroundPosition="center"
+                    backgroundRepeat="no-repeat"
                     transition={"all 0.3s"}
                     cursor={"pointer"}
                     w={"100%"}
                     h={"100%"}
                     borderRadius={"16px"}
-                    bg={"gray.400"}
+                    // bg={"gray.400"}
                     _hover={{
                       scale: 1.025,
                     }}
